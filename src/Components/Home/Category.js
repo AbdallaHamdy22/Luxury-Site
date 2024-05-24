@@ -1,4 +1,4 @@
-import Image from '../Images/tst.jpg'
+import Image from '../Images/logo.jpg'
 const CategorySection = () => (
   <div className="container category-section">
     <h4>SHOP BY CATEGORIES</h4>

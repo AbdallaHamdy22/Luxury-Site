@@ -1,4 +1,4 @@
-import Image from '../Images/tst.jpg'
+import Image from '../Images/logo.jpg'
 const Footer = () => (
   <footer className="footer mt-5">
     <div className="container">

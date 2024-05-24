@@ -1,4 +1,4 @@
-import Image from '../Images/tst.jpg'
+import Image from '../Images/logo.jpg'
 
 const BrandSection = () => (
   <div className="container brand-section">
