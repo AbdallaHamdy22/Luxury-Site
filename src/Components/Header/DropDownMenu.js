@@ -1,6 +1,4 @@
-import React from 'react';
-import DropdownMenu from './DropDown';
-
+import DropdownMenu from './DropDown'
 const DropdownMenus = () => (
   <div className="bg-white border-top">
     <nav className="navbar navbar-expand-lg navbar-light bg-white">
@@ -50,5 +48,4 @@ const DropdownMenus = () => (
     </nav>
   </div>
 );
-
 export default DropdownMenus;

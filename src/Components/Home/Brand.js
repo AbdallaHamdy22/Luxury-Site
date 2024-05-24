@@ -1,14 +1,16 @@
-import React from 'react';
+import Image from '../Images/tst.jpg'
 
 const BrandSection = () => (
-  <div className="brand-section">
-    <h2>SHOP BY BRAND</h2>
-    <div className="brands">
-      <div className="brand">Brand 1</div>
-      <div className="brand">Brand 2</div>
-      <div className="brand">Brand 3</div>
+  <div className="container brand-section">
+    <h4>SHOP BY BRANDS</h4>
+    <div className="row">
+      {['Louis Vuitton', 'Hermès', 'Chanel', 'Cartier', 'Dior', 'Rolex', 'Gucci', 'All Brands'].map(brand => (
+        <div className="col-md-1 mb-4" key={brand}>
+          <img src={Image} alt={brand} />
+          <h5>{brand.toUpperCase()}</h5>
+        </div>
+      ))}
     </div>
   </div>
 );
-
 export default BrandSection;

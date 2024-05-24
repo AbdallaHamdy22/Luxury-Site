@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Navbar = () => (
   <nav className="navbar navbar-expand-lg navbar-light bg-white">
     <a className="navbar-brand" href="#">The Luxury Closet</a>
@@ -27,5 +25,4 @@ const Navbar = () => (
     </div>
   </nav>
 );
-
 export default Navbar;

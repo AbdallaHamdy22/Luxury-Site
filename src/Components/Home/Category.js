@@ -1,20 +1,35 @@
-import React from 'react';
-
+import Image from '../Images/tst.jpg'
 const CategorySection = () => (
-  <div className="category-section">
-    <div className="category">
-      <img src="category1.jpg" alt="Category 1" />
-      <h3>WOMEN</h3>
+  <div className="container category-section">
+    <h4>SHOP BY CATEGORIES</h4>
+    <div className="row">
+      <div className="col-md-4 mb-4">
+        <img src={Image} alt="Handbags" />
+        <h5>HANDBAGS</h5>
+      </div>
+      <div className="col-md-4 mb-4">
+        <img src={Image} alt="Shoes" />
+        <h5>SHOES</h5>
+      </div>
+      <div className="col-md-4 mb-4">
+        <img src={Image} alt="Watches" />
+        <h5>WATCHES</h5>
+      </div>
     </div>
-    <div className="category">
-      <img src="category2.jpg" alt="Category 2" />
-      <h3>MEN</h3>
-    </div>
-    <div className="category">
-      <img src="category3.jpg" alt="Category 3" />
-      <h3>KIDS</h3>
+    <div className="row">
+      <div className="col-md-4 mb-4">
+        <img src={Image} alt="Accessories" />
+        <h5>ACCESSORIES</h5>
+      </div>
+      <div className="col-md-4 mb-4">
+        <img src={Image} alt="Fine Jewelry" />
+        <h5>FINE JEWELRY</h5>
+      </div>
+      <div className="col-md-4 mb-4">
+        <img src={Image} alt="Clothing" />
+        <h5>CLOTHING</h5>
+      </div>
     </div>
   </div>
 );
-
 export default CategorySection;

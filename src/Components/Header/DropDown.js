@@ -1,5 +1,3 @@
-import React from 'react';
-
 const DropdownMenu = ({ id, title, sections }) => (
   <li className="nav-item dropdown">
     <a className="nav-link dropdown-toggle" href="#" id={id} role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -19,5 +17,4 @@ const DropdownMenu = ({ id, title, sections }) => (
     </div>
   </li>
 );
-
 export default DropdownMenu;
