@@ -8,7 +8,7 @@ import BrandSection from './Components/Home/Brand';
 import NewArrivalsSection from './Components/Home/NewArrival';
 import InformationSection from './Components/Home/Info';
 import Footer from './Components/Footer/Footer';
-
+//fnjfnkmf
 function App() {
   return (
     <div className="App">
