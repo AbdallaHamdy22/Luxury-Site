@@ -13,16 +13,16 @@ import Rdx from './Components/Redux/Rxd';
 const App = () => (
   <>
     <Header />
-      <Routes >
-        <Route path='/' element={ <Home/>} />
-        <Route path='/join' element={<Login />} />
-        <Route path='/shopping' element={<Shopping />} />
-        <Route path='/fav' element={<CartComponent />} />
-        <Route path='/fav' element={<Rdx />} />
-        {/* <Route path='/Items' element={ <Items/>} />
+    <Routes >
+      <Route path='/' element={<Home />} />
+      <Route path='/join' element={<Login />} />
+      <Route path='/shopping' element={<Shopping />} />
+      <Route path='/fav' element={<CartComponent />} />
+      <Route path='/fav' element={<Rdx />} />
+      {/* <Route path='/Items' element={ <Items/>} />
         <Route path='/ItemDetails/:id' element={ <ItemDetails/>} /> */}
-      <Route path='*' element={ <NotFound/>} />
-      </Routes>
+      <Route path='*' element={<NotFound />} />
+    </Routes>
     <Footer />
   </>
 );
