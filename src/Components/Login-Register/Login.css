@@ -16,22 +16,6 @@
     --card-width: calc(var(--card-height)/1.5);
 }
 
-::-webkit-scrollbar {
-    width: 15px;
-}
-
-::-webkit-scrollbar-track {
-    background: whitesmoke;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #dcdcdc;
-}
-
-body {
-    background-color: black;
-}
-
 .main_container2 {
     display: none;
 }
@@ -81,7 +65,7 @@ body {
     animation: spin 2.5s linear infinite;
 }
 
-.Login_form h2 {
+.main_container1 .Login_form h2 {
     pointer-events: none;
     margin: 0 0 30px;
     padding-top: 10px;
@@ -89,7 +73,7 @@ body {
     text-align: center;
 }
 
-.inputs {
+.main_container1 .inputs {
     width: 300px;
     height: 50px;
     position: relative;
@@ -106,7 +90,7 @@ body {
     background-color: black;
 }
 
-.btn {
+.lgn-btn {
     width: 150px;
     height: 40px;
     position: relative;
@@ -125,9 +109,9 @@ body {
     transition-property: box-shadow, transform;
 }
 
-.btn:hover,
-.btn:focus,
-.btn:active {
+.lgn-btn:hover,
+.lgn-btn:focus,
+.lgn-btn:active {
     transform: scale(1.1);
     box-shadow: 0 0 20px #3c67e3;
 }
@@ -160,7 +144,7 @@ body {
 
 .signup_form {
     width: 400px;
-    height: 580px;
+    height: 610px;
     position: relative;
     margin: 6% auto;
     margin-top: 30px;
@@ -204,7 +188,7 @@ body {
     background-color: black;
 }
 
-.box {
+.main_container2 .box {
     width: 325px;
     height: 50px;
     font-size: medium;
@@ -263,7 +247,7 @@ body {
     margin-top: 10px;
 }
 
-h1 {
+.main_container2 h1 {
     text-align: center;
     color: #dcdcdc;
     font-size: 30px;
@@ -272,7 +256,7 @@ h1 {
 
 
 
-label {
+.main_container2 label {
     padding-top: 20px;
     margin-left: 25px;
     color: #c7d9ec;
@@ -295,14 +279,14 @@ label {
     background-color: black;
 }
 
-.btn2 {
+.reg-btn {
     width: 150px;
     height: 40px;
     position: relative;
     transition: .5s;
     margin-bottom: 5px;
     margin-left: 120px;
-    margin-top: 80px;
+    margin-top: 30px;
     color: black;
     background-color: #dcdcdc;
     font-size: 20px;
@@ -314,9 +298,9 @@ label {
     transition-property: box-shadow, transform;
 }
 
-.btn2:hover,
-.btn2:focus,
-.btn2:active {
+.reg-btn:hover,
+.reg-btn:focus,
+.reg-btn:active {
     transform: scale(1.1);
     box-shadow: 0 0 20px #3c67e3;
 }

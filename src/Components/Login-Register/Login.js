@@ -36,7 +36,7 @@ const Login = () => {
                             name="Password"
                         />
                         <br />
-                        <button class="btn" type="submit">Log in</button>
+                        <button class="lgn-btn" type="submit">Log in</button>
                     </form>
                     <br />
                     <div class="register">
@@ -105,7 +105,7 @@ const Login = () => {
                         <label for="gndrF">Female</label>
                         <input type="radio" id="gndrF" name="gender" value="Female" />
                         <br />
-                        <button class="btn2" type="submit" onclick="Validate()">
+                        <button class="reg-btn" type="submit" onclick="Validate()">
                             Sign up
                         </button>
                     </form>
