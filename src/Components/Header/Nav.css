@@ -5,10 +5,6 @@
 .navbar-nav .nav-link:last-child {
     margin-right: 0;
 }
-/* .search-bar {
-    width: 50%;
-    margin-right: 15px;
-} */
 .navbar-brand {
     font-size: 24px;
     font-family: 'Times New Roman', serif;
@@ -21,16 +17,4 @@
     color: white;
     font-weight: bold;
     margin-left: 15px;
-}
-
-.search-bar {
-    border-radius: 6px;
-    width: 100%; /* Adjust width as needed */
-    height: 100%; /* Adjust height as needed */
-    font-size: 16px; /* Adjust font size as needed */
-}
-
-.input-group-text {
-    background-color: transparent;
-    border: none;
 }

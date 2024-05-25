@@ -3,9 +3,8 @@
 }
 .new-arrivals-section img {
     width: 100%;
-    height: auto;
+    height: 250px;
 }
 .new-arrivals-section h5, .new-arrivals-section p {
     color: black;
 }
-

@@ -3,9 +3,10 @@ import './Brand.css'
 const BrandSection = () => (
   <div className="container brand-section">
     <h4>SHOP BY BRANDS</h4>
-    <div className="row">
+    <br></br>
+    <div className="row d-flex justify-content-center">
       {['Louis Vuitton', 'Hermès', 'Chanel', 'Cartier', 'Dior', 'Rolex', 'Gucci', 'All Brands'].map(brand => (
-        <div className="col-md-1 mb-4" key={brand}>
+        <div className="col-md-1 mb-4 text-center" key={brand}>
           <img src={Image} alt={brand} />
           <h5>{brand.toUpperCase()}</h5>
         </div>

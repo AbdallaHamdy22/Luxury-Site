@@ -1,4 +1,4 @@
-import Image from '../Images/logo.jpg'
+import Image from '../Images/1.png'
 import './Sale.css'
 const SaleBanner = () => (
   <div className="container sale-banner mt-5">

@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
 import './NewArrival.css'
+
 const NewArrivalsSection = () => (
   <div className="container new-arrivals-section mt-5">
     <h4>NEW ARRIVALS</h4>
+    <hr></hr>
     <div className="row">
       {[
         { name: 'Rolex', description: 'Rolex Stainless Steel Starbucks', price: '70,197 AED', link: '/ItemDetails/:1', img: require('../Images/1.png') },
@@ -12,7 +14,7 @@ const NewArrivalsSection = () => (
       ].map(item => (
         <div className="col-md-3 mb-4" key={item.name}>
           <NavLink to={item.link} style={{ textDecoration: 'none' }}>
-            <img src={item.img} alt={item.name} className="img-fluid" />
+            <img src={item.img} alt={item.name} className="img-fluid equal-image" />
             <h5>{item.name}</h5>
             <p>{item.description}</p>
             <p>{item.price}</p>
@@ -22,4 +24,5 @@ const NewArrivalsSection = () => (
     </div>
   </div>
 );
+
 export default NewArrivalsSection;
