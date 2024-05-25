@@ -47,7 +47,6 @@ const Login = () => {
                 </div>
             </div>
             <div class="main_container2">
-                <h1>Drive Your Dream Car Now!</h1>
                 <div class="signup_form">
                     <form action="Signup.php" method="post">
                         <p>Create a new account</p>
