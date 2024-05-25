@@ -1,4 +1,8 @@
-import Image from '../Images/logo.jpg'
+import React from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import Image from '../Images/logo.jpg';
+import './Footer.css'; // Make sure this path is correct and the CSS file is imported
+
 const Footer = () => (
   <footer className="footer mt-5">
     <div className="container">
@@ -31,12 +35,8 @@ const Footer = () => (
       </div>
       <div className="text-center mt-3">
         {['facebook-f', 'instagram', 'twitter', 'youtube', 'whatsapp'].map(icon => (
-          <a href="#" key={icon}><i className={`fab fa-${icon}`}></i></a>
+          <a href="#" key={icon}><i className={`fab fa-${icon} icon-spacing`}></i></a>
         ))}
-      </div>
-      <div className="text-center mt-3">
-        <a href="#"><img src={Image} alt="Google Play" style={{ width: '150px' }} /></a>
-        <a href="#"><img src={Image} alt="App Store" style={{ width: '150px' }} /></a>
       </div>
       <div className="text-center mt-3">
         <p>Novotel Dubai Al Barsha API Trio Tower Office 901 PO Box:502626</p>

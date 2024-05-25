@@ -1,0 +1,12 @@
+.category-section {
+    margin-top: 30px;
+    text-align: center;
+}
+.category-section img {
+    width: 100%;
+    height: auto;
+}
+.category-section h5 {
+    font-weight: bold;
+    margin-top: 10px;
+}

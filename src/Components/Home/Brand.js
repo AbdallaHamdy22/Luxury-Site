@@ -1,5 +1,5 @@
 import Image from '../Images/logo.jpg'
-
+import './Brand.css'
 const BrandSection = () => (
   <div className="container brand-section">
     <h4>SHOP BY BRANDS</h4>

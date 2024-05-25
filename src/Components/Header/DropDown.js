@@ -1,3 +1,4 @@
+import './DropDown.css'
 const DropdownMenu = ({ id, title, sections }) => (
   <li className="nav-item dropdown">
     <a className="nav-link dropdown-toggle" href="#" id={id} role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

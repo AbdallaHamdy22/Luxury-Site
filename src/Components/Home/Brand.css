@@ -1,0 +1,12 @@
+.brand-section {
+    margin-top: 30px;
+    text-align: center;
+}
+.brand-section img {
+    width: 100%;
+    height: auto;
+}
+.brand-section h5 {
+    font-weight: bold;
+    margin-top: 10px;
+}
