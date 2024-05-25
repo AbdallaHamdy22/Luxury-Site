@@ -48,14 +48,14 @@ const Navbar = () => (
           })}>Sign in</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/shopping" className="nav-link" style={({ isActive }) => ({
+          <NavLink to="/fav" className="nav-link" style={({ isActive }) => ({
             color: isActive ? 'white' : '',
             backgroundColor: isActive ? 'gray' : '',
             borderRadius: '8px',
           })}>Wishlist</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/favourites" className="nav-link" style={({ isActive }) => ({
+          <NavLink to="/shopping" className="nav-link" style={({ isActive }) => ({
             color: isActive ? 'white' : '',
             backgroundColor: isActive ? 'gray' : '',
             borderRadius: '8px',

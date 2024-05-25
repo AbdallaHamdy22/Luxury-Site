@@ -1,29 +1,6 @@
-const Shopping = () => {
-    <>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    <h1>Hello Shopping</h1>
-        <h1>Hello Shopping</h1>
-    </>
-}
+const Shopping = () => (
+    <div>
+        <h1>Shopping</h1>
+    </div>
+);
 export default Shopping;

@@ -7,7 +7,9 @@ import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
 import Login from './Components/Login-Register/Login';
 import Shopping from './Components/Shopping/Shopping';
-
+import NotFound from './Components/NotFound/NotFound';
+import CartComponent from './Components/favorites/Fav';
+import Rdx from './Components/Redux/Rxd';
 const App = () => (
   <>
     <Header />
@@ -15,10 +17,11 @@ const App = () => (
         <Route path='/' element={ <Home/>} />
         <Route path='/join' element={<Login />} />
         <Route path='/shopping' element={<Shopping />} />
-        {/* <Route path='/Items' element={ <Items/>} />
-        <Route path='/ItemDetails/:id' element={ <ItemDetails/>} />
         <Route path='/fav' element={<CartComponent />} />
-        <Route path="/fav" element={<Favorites />} /> */}
+        <Route path='/fav' element={<Rdx />} />
+        {/* <Route path='/Items' element={ <Items/>} />
+        <Route path='/ItemDetails/:id' element={ <ItemDetails/>} /> */}
+      <Route path='*' element={ <NotFound/>} />
       </Routes>
     <Footer />
   </>
