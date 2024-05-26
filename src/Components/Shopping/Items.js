@@ -4,6 +4,7 @@ import './Items.css';
 import { FaStar, FaShoppingCart } from 'react-icons/fa';
 import { addToFavorites, removeFromFavorites } from "../Redux/Rxd";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
 
 const products = [
     {
@@ -12,6 +13,7 @@ const products = [
         price: "38,603 AED",
         image: require("../Images/3.png"),
         label: "Recently Added",
+        types: ["Men","Kids"],
     },
     {
         id: 2,
@@ -19,6 +21,7 @@ const products = [
         price: "11,346 AED",
         image: require("../Images/2.png"),
         label: "Recently Added",
+        types: ["Women"],
     },
     {
         id: 3,
@@ -26,6 +29,7 @@ const products = [
         price: "11,346 AED",
         image: require("../Images/4.png"),
         label: "Recently Added",
+        types: ["Men", "Women"],
     },
     {
         id: 4,
@@ -33,6 +37,7 @@ const products = [
         price: "38,603 AED",
         image: require("../Images/5.png"),
         label: "Recently Added",
+        types: ["Men"],
     },
     {
         id: 5,
@@ -40,6 +45,7 @@ const products = [
         price: "11,346 AED",
         image: require("../Images/6.png"),
         label: "Recently Added",
+        types: ["Women"],
     },
     {
         id: 6,
@@ -47,11 +53,11 @@ const products = [
         price: "11,346 AED",
         image: require("../Images/7.png"),
         label: "Recently Added",
+        types: ["Men", "Women"],
     },
 ];
-
 const Items = () => {
-    const [filteredProducts, setFilteredProducts] = useState(products);
+    const [selectedCategories, setSelectedCategories] = useState([]);
     const dispatch = useDispatch();
     const [addToFavoritesSuccess, setAddToFavoritesSuccess] = useState(Array(products.length).fill(false));
     const favorites = useSelector((state) => state.favorites);
@@ -73,6 +79,23 @@ const Items = () => {
         }
     };
 
+    const handleCategoryChange = (event) => {
+        const { id, checked } = event.target;
+        setSelectedCategories((prevCategories) => {
+            if (checked) {
+                return [...prevCategories, id];
+            } else {
+                return prevCategories.filter((category) => category !== id);
+            }
+        });
+    };
+
+    const filteredProducts = selectedCategories.length > 0
+        ? products.filter((product) =>
+            product.types.some((type) => selectedCategories.includes(type))
+        )
+        : products;
+
     return (
         <div className="Itms container mt-4">
             <nav aria-label="breadcrumb">
@@ -87,20 +110,40 @@ const Items = () => {
                     <div className="mb-3">
                         <h5>Category</h5>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="menCategory" />
-                            <label className="form-check-label" htmlFor="menCategory">Men</label>
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="Men"
+                                onChange={handleCategoryChange}
+                            />
+                            <label className="form-check-label" htmlFor="Men">Men</label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="womenCategory" />
-                            <label className="form-check-label" htmlFor="womenCategory">Women</label>
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="Women"
+                                onChange={handleCategoryChange}
+                            />
+                            <label className="form-check-label" htmlFor="Women">Women</label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="kidsCategory" />
-                            <label className="form-check-label" htmlFor="kidsCategory">Kids</label>
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="Kids"
+                                onChange={handleCategoryChange}
+                            />
+                            <label className="form-check-label" htmlFor="Kids">Kids</label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="homeCategory" />
-                            <label className="form-check-label" htmlFor="homeCategory">Home</label>
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="Home"
+                                onChange={handleCategoryChange}
+                            />
+                            <label className="form-check-label" htmlFor="Home">Home</label>
                         </div>
                     </div>
                     <div className="mb-3">
@@ -150,7 +193,9 @@ const Items = () => {
                                             <FaShoppingCart />
                                         </button>
                                     </div>
+                                    <Link to={`/ItemDetails/${product.id}`} style={{ textDecoration: 'none' }}>
                                     <img src={product.image} className="card-img-top" alt={product.name} />
+                                    </Link>
                                     <div className="card-body">
                                         <p className="card-text text-danger">Price: {product.price}</p>
                                         <h5 className="card-title">{product.name}</h5>

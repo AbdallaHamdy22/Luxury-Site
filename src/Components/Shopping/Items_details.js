@@ -1,8 +1,12 @@
 import React from 'react';
 import { Container, Row, Col, Button, Breadcrumb, ListGroup, Image, Card, Tabs, Tab } from 'react-bootstrap';
 import './Items_details.css';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const ItemDetails = () => {
+  const { id } = useParams();
+  const [item, setItem] = useState([]);
   return (
     <Container className="product-detail-container mt-4">
       <Breadcrumb>
@@ -13,12 +17,12 @@ const ItemDetails = () => {
 
       <Row>
         <Col md={6}>
-          <Image src="https://example.com/rolex.jpg" fluid className="main-product-image" />
+          <Image src={require('../Images/2.png')} fluid className="main-product-image" />
           <Row className="mt-3">
-            <Col xs={3}><Image src="https://example.com/rolex1.jpg" thumbnail /></Col>
-            <Col xs={3}><Image src="https://example.com/rolex2.jpg" thumbnail /></Col>
-            <Col xs={3}><Image src="https://example.com/rolex3.jpg" thumbnail /></Col>
-            <Col xs={3}><Image src="https://example.com/rolex4.jpg" thumbnail /></Col>
+            <Col xs={3}><Image src={require('../Images/2.png')} thumbnail /></Col>
+            <Col xs={3}><Image src={require('../Images/2.png')} thumbnail /></Col>
+            <Col xs={3}><Image src={require('../Images/2.png')} thumbnail /></Col>
+            <Col xs={3}><Image src={require('../Images/2.png')} thumbnail /></Col>
           </Row>
         </Col>
         <Col md={6}>
@@ -58,7 +62,7 @@ const ItemDetails = () => {
       <Row>
         <Col md={2}>
           <Card>
-            <Card.Img variant="top" src="https://example.com/rolex-similar1.jpg" />
+            <Card.Img variant="top" src={require('../Images/8.jpeg')} />
             <Card.Body>
               <Card.Title>Rolex Datejust 36</Card.Title>
               <Card.Text>69,070 AED</Card.Text>
@@ -67,7 +71,7 @@ const ItemDetails = () => {
         </Col>
         <Col md={2}>
           <Card>
-            <Card.Img variant="top" src="https://example.com/rolex-similar2.jpg" />
+            <Card.Img variant="top" src={require('../Images/8.jpeg')} />
             <Card.Body>
               <Card.Title>Rolex Datejust President</Card.Title>
               <Card.Text>73,768 AED</Card.Text>
@@ -80,7 +84,7 @@ const ItemDetails = () => {
       <Row>
         <Col md={2}>
           <Card>
-            <Card.Img variant="top" src="https://example.com/manolo.jpg" />
+            <Card.Img variant="top" src={require('../Images/8.jpeg')}/>
             <Card.Body>
               <Card.Title>Manolo Blahnik</Card.Title>
               <Card.Text>1,518 AED</Card.Text>
@@ -89,7 +93,7 @@ const ItemDetails = () => {
         </Col>
         <Col md={2}>
           <Card>
-            <Card.Img variant="top" src="https://example.com/cartier.jpg" />
+            <Card.Img variant="top" src={require('../Images/8.jpeg')}/>
             <Card.Body>
               <Card.Title>Cartier Ring</Card.Title>
               <Card.Text>5,783 AED</Card.Text>
