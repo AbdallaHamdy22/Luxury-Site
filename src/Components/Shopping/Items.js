@@ -1,29 +1,80 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Items.css';
+import { FaStar, FaShoppingCart } from 'react-icons/fa';
+import { addToFavorites, removeFromFavorites } from "../Redux/Rxd";
+import { useDispatch, useSelector } from "react-redux";
 
 const products = [
     {
         id: 1,
         name: "Rolex Datejust Midsize Steel White Gold Silver Dial Ladies Watch 31 mm",
         price: "38,603 AED",
-        image: "image1.jpg",
+        image: require("../Images/3.png"),
         label: "Recently Added",
     },
     {
         id: 2,
         name: "Dior Multicolor Canvas Embroidered Bag",
         price: "11,346 AED",
-        image: "image2.jpg",
+        image: require("../Images/2.png"),
+        label: "Recently Added",
+    },
+    {
+        id: 3,
+        name: "Dior Multicolor Canvas Embroidered Bag",
+        price: "11,346 AED",
+        image: require("../Images/4.png"),
+        label: "Recently Added",
+    },
+    {
+        id: 4,
+        name: "Rolex Datejust Midsize Steel White Gold Silver Dial Ladies Watch 31 mm",
+        price: "38,603 AED",
+        image: require("../Images/5.png"),
+        label: "Recently Added",
+    },
+    {
+        id: 5,
+        name: "Dior Multicolor Canvas Embroidered Bag",
+        price: "11,346 AED",
+        image: require("../Images/6.png"),
+        label: "Recently Added",
+    },
+    {
+        id: 6,
+        name: "Dior Multicolor Canvas Embroidered Bag",
+        price: "11,346 AED",
+        image: require("../Images/7.png"),
         label: "Recently Added",
     },
 ];
 
 const Items = () => {
     const [filteredProducts, setFilteredProducts] = useState(products);
+    const dispatch = useDispatch();
+    const [addToFavoritesSuccess, setAddToFavoritesSuccess] = useState(Array(products.length).fill(false));
+    const favorites = useSelector((state) => state.favorites);
+
+    const isFavorite = (id) => favorites.some((item) => item.id === id);
+
+    const handleToggleFavorites = (id, name, image, index) => {
+        if (isFavorite(id)) {
+            dispatch(removeFromFavorites(id));
+        } else {
+            dispatch(addToFavorites({ id, name, image }));
+            const updatedSuccessMessages = [...addToFavoritesSuccess];
+            updatedSuccessMessages[index] = true;
+            setAddToFavoritesSuccess(updatedSuccessMessages);
+            setTimeout(() => {
+                updatedSuccessMessages[index] = false;
+                setAddToFavoritesSuccess(updatedSuccessMessages);
+            }, 3000);
+        }
+    };
 
     return (
-        <div className="container mt-4">
+        <div className="Itms container mt-4">
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><a href="/">Home</a></li>
@@ -78,15 +129,33 @@ const Items = () => {
                 </aside>
                 <main className="col-md-9">
                     <div className="row">
-                        {filteredProducts.map(product => (
+                        {filteredProducts.map((product, index) => (
                             <div key={product.id} className="col-md-4 mb-4">
                                 <div className="card h-100">
+                                    <div className="card-icons">
+                                        <button
+                                            onClick={() =>
+                                                handleToggleFavorites(
+                                                    product.id,
+                                                    product.name,
+                                                    product.image,
+                                                    index
+                                                )
+                                            }
+                                            className="favorite-button"
+                                        >
+                                            <FaStar color={isFavorite(product.id) ? "gold" : "white"} />
+                                        </button>
+                                        <button className="cart-button">
+                                            <FaShoppingCart />
+                                        </button>
+                                    </div>
                                     <img src={product.image} className="card-img-top" alt={product.name} />
                                     <div className="card-body">
+                                        <p className="card-text text-danger">Price: {product.price}</p>
                                         <h5 className="card-title">{product.name}</h5>
-                                        <p className="card-text text-danger">{product.price}</p>
                                         {product.label && (
-                                            <span className="badge bg-secondary">{product.label}</span>
+                                            <span className="badge">{product.label}</span>
                                         )}
                                     </div>
                                 </div>
