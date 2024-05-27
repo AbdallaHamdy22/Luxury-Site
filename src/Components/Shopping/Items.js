@@ -1,74 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Items.css';
 import { FaStar, FaShoppingCart } from 'react-icons/fa';
 import { addToFavorites, removeFromFavorites } from "../Redux/Rxd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const products = [
-    {
-        id: 1,
-        name: "Rolex Datejust Midsize Steel White Gold Silver Dial Ladies Watch 31 mm",
-        price: "38,603 AED",
-        image: require("../Images/3.png"),
-        label: "Recently Added",
-        types: ["Men","Kids"],
-    },
-    {
-        id: 2,
-        name: "Dior Multicolor Canvas Embroidered Bag",
-        price: "11,346 AED",
-        image: require("../Images/2.png"),
-        label: "Recently Added",
-        types: ["Women"],
-    },
-    {
-        id: 3,
-        name: "Dior Multicolor Canvas Embroidered Bag",
-        price: "11,346 AED",
-        image: require("../Images/4.png"),
-        label: "Recently Added",
-        types: ["Men", "Women"],
-    },
-    {
-        id: 4,
-        name: "Rolex Datejust Midsize Steel White Gold Silver Dial Ladies Watch 31 mm",
-        price: "38,603 AED",
-        image: require("../Images/5.png"),
-        label: "Recently Added",
-        types: ["Men"],
-    },
-    {
-        id: 5,
-        name: "Dior Multicolor Canvas Embroidered Bag",
-        price: "11,346 AED",
-        image: require("../Images/6.png"),
-        label: "Recently Added",
-        types: ["Women"],
-    },
-    {
-        id: 6,
-        name: "Dior Multicolor Canvas Embroidered Bag",
-        price: "11,346 AED",
-        image: require("../Images/7.png"),
-        label: "Recently Added",
-        types: ["Men", "Women"],
-    },
-];
 const Items = () => {
+    const [addToFavoritesSuccess, setAddToFavoritesSuccess] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const dispatch = useDispatch();
-    const [addToFavoritesSuccess, setAddToFavoritesSuccess] = useState(Array(products.length).fill(false));
-    const favorites = useSelector((state) => state.favorites);
-
+    const [products, setProducts] = useState([]);
     const isFavorite = (id) => favorites.some((item) => item.id === id);
+    const favorites = useSelector((state) => state.favorites);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        axios.get('http://localhost/backend/')
+            .then(response => response.data)
+            .then(data => {
+                setProducts(data);
+                setAddToFavoritesSuccess(Array(data.length).fill(false));
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    }, []);
 
-    const handleToggleFavorites = (id, name, image, index) => {
+    const handleToggleFavorites = (id, index) => {
         if (isFavorite(id)) {
             dispatch(removeFromFavorites(id));
         } else {
-            dispatch(addToFavorites({ id, name, image }));
+            dispatch(addToFavorites({ id }));
             const updatedSuccessMessages = [...addToFavoritesSuccess];
             updatedSuccessMessages[index] = true;
             setAddToFavoritesSuccess(updatedSuccessMessages);
@@ -173,34 +133,32 @@ const Items = () => {
                 <main className="col-md-9">
                     <div className="row">
                         {filteredProducts.map((product, index) => (
-                            <div key={product.id} className="col-md-4 mb-4">
+                            <div key={product.idproducts} className="col-md-4 mb-4">
                                 <div className="card h-100">
                                     <div className="card-icons">
                                         <button
                                             onClick={() =>
                                                 handleToggleFavorites(
-                                                    product.id,
-                                                    product.name,
-                                                    product.image,
+                                                    product.idproducts,
                                                     index
                                                 )
                                             }
                                             className="favorite-button"
                                         >
-                                            <FaStar color={isFavorite(product.id) ? "gold" : "white"} />
+                                            <FaStar color={isFavorite(product.idproducts) ? "gold" : "white"} />
                                         </button>
                                         <button className="cart-button">
                                             <FaShoppingCart />
                                         </button>
                                     </div>
-                                    <Link to={`/ItemDetails/${product.id}`} style={{ textDecoration: 'none' }}>
-                                    <img src={product.image} className="card-img-top" alt={product.name} />
+                                    <Link to={`/ItemDetails/${product.idproducts}`} style={{ textDecoration: 'none' }}>
+                                        <img src={product.productImg} className="card-img-top" alt={product.productName} />
                                     </Link>
                                     <div className="card-body">
-                                        <p className="card-text text-danger">Price: {product.price}</p>
-                                        <h5 className="card-title">{product.name}</h5>
-                                        {product.label && (
-                                            <span className="badge">{product.label}</span>
+                                        <p className="card-text text-danger">Price: {product.productPrice}</p>
+                                        <h5 className="card-title">{product.productName}</h5>
+                                        {product.productLable && (
+                                            <span className="badge">{product.productLable}</span>
                                         )}
                                     </div>
                                 </div>
