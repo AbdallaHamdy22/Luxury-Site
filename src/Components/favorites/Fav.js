@@ -42,7 +42,7 @@ const CartComponent = () => {
             <div className="card text-white small-card">
               <Link to={'/ItemDetails/' + product.productsId}>
                 <img
-                  src={`${product.productImg}`}
+                  src={`${product.productImg[0]}`}
                   className="card-img-top"
                   alt={product.productName}
                 />
