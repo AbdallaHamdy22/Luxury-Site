@@ -10,16 +10,23 @@ import axios from 'axios';
 const Items = () => {
     const [addToFavoritesSuccess, setAddToFavoritesSuccess] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedBrands, setSelectedBrands] = useState([]);
     const [products, setProducts] = useState([]);
-    const isFavorite = (id) => favorites.some((item) => item.id === id);
-    const favorites = useSelector((state) => state.favorites);
+    const favorites = useSelector((state) => state.favorites || []);
     const dispatch = useDispatch();
+
+    const isFavorite = (id) => favorites.some((item) => item.id === id);
+
     useEffect(() => {
         axios.get('http://localhost/backend/')
-            .then(response => response.data)
-            .then(data => {
-                setProducts(data);
-                setAddToFavoritesSuccess(Array(data.length).fill(false));
+            .then(response => {
+                const data = response.data;
+                if (Array.isArray(data)) {
+                    setProducts(data);
+                    setAddToFavoritesSuccess(Array(data.length).fill(false));
+                } else {
+                    console.error('Expected array but got:', data);
+                }
             })
             .catch(error => console.error('Error fetching products:', error));
     }, []);
@@ -50,11 +57,24 @@ const Items = () => {
         });
     };
 
-    const filteredProducts = selectedCategories.length > 0
-        ? products.filter((product) =>
-            product.types.some((type) => selectedCategories.includes(type))
-        )
-        : products;
+    const handleBrandChange = (event) => {
+        const { id, checked } = event.target;
+        setSelectedBrands((prevBrands) => {
+            if (checked) {
+                return [...prevBrands, id];
+            } else {
+                return prevBrands.filter((brand) => brand !== id);
+            }
+        });
+    };
+
+    const filteredProducts = products.filter((product) => {
+        const categoryMatch = selectedCategories.length === 0 || 
+            (product.productCategory && product.productCategory.some((type) => selectedCategories.includes(type)));
+        const brandMatch = selectedBrands.length === 0 ||
+            (product.productBrand && product.productBrand.some((type) => selectedBrands.includes(type)));
+        return categoryMatch && brandMatch;
+    });
 
     return (
         <div className="Itms container mt-4">
@@ -66,7 +86,7 @@ const Items = () => {
             </nav>
             <div className="row">
                 <aside className="col-md-3">
-                    <h4>Filter by</h4>
+                    <h3>Filter by</h3>
                     <div className="mb-3">
                         <h5>Category</h5>
                         <div className="form-check">
@@ -109,53 +129,53 @@ const Items = () => {
                     <div className="mb-3">
                         <h5>Brands</h5>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="rolexBrand" />
-                            <label className="form-check-label" htmlFor="rolexBrand">Rolex</label>
+                            <input className="form-check-input" type="checkbox" id="Rolex" onChange={handleBrandChange}/>
+                            <label className="form-check-label" htmlFor="Rolex">Rolex</label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="diorBrand" />
-                            <label className="form-check-label" htmlFor="diorBrand">Dior</label>
+                            <input className="form-check-input" type="checkbox" id="Dior" onChange={handleBrandChange} />
+                            <label className="form-check-label" htmlFor="Dior">Dior</label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="cartierBrand" />
-                            <label className="form-check-label" htmlFor="cartierBrand">Cartier</label>
+                            <input className="form-check-input" type="checkbox" id="Cartier" onChange={handleBrandChange} />
+                            <label className="form-check-label" htmlFor="Cartier">Cartier</label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="chanelBrand" />
-                            <label className="form-check-label" htmlFor="chanelBrand">Chanel</label>
+                            <input className="form-check-input" type="checkbox" id="Chanel" onChange={handleBrandChange} />
+                            <label className="form-check-label" htmlFor="Chanel">Chanel</label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="dgBrand" />
-                            <label className="form-check-label" htmlFor="dgBrand">Dolce & Gabbana</label>
+                            <input className="form-check-input" type="checkbox" id="Dolce & Gabbana" onChange={handleBrandChange} />
+                            <label className="form-check-label" htmlFor="Dolce & Gabbana">Dolce & Gabbana</label>
                         </div>
                     </div>
                 </aside>
                 <main className="col-md-9">
                     <div className="row">
-                        {filteredProducts.map((product, index) => (
-                            <div key={product.idproducts} className="col-md-4 mb-4">
+                        {filteredProducts && filteredProducts.map((product, index) => (
+                            <div key={product.productsId} className="col-md-4 mb-4">
                                 <div className="card h-100">
                                     <div className="card-icons">
                                         <button
                                             onClick={() =>
                                                 handleToggleFavorites(
-                                                    product.idproducts,
+                                                    product.productsId,
                                                     index
                                                 )
                                             }
                                             className="favorite-button"
                                         >
-                                            <FaStar color={isFavorite(product.idproducts) ? "gold" : "white"} />
+                                            <FaStar color={isFavorite(product.productsId) ? "gold" : "white"} />
                                         </button>
                                         <button className="cart-button">
                                             <FaShoppingCart />
                                         </button>
                                     </div>
-                                    <Link to={`/ItemDetails/${product.idproducts}`} style={{ textDecoration: 'none' }}>
-                                        <img src={product.productImg} className="card-img-top" alt={product.productName} />
+                                    <Link to={`/ItemDetails/${product.productsId}`} style={{ textDecoration: 'none' }}>
+                                        <img src={product.productImg[0]} className="card-img-top" alt={product.productName} />
                                     </Link>
                                     <div className="card-body">
-                                        <p className="card-text text-danger">Price: {product.productPrice}</p>
+                                        <p className="card-text text-danger">Price: {product.productPrice} AED</p>
                                         <h5 className="card-title">{product.productName}</h5>
                                         {product.productLable && (
                                             <span className="badge">{product.productLable}</span>
@@ -167,9 +187,9 @@ const Items = () => {
                     </div>
                     <nav aria-label="Page navigation example">
                         <ul className="pagination justify-content-center">
-                            <li className="page-item"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li>
+                            <li className="page-item"><a className="page-link" href="/Items">1</a></li>
+                            <li className="page-item"><a className="page-link" href="/Items">2</a></li>
+                            <li className="page-item"><a className="page-link" href="/Items">3</a></li>
                         </ul>
                     </nav>
                 </main>

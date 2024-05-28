@@ -1,7 +1,9 @@
 .product-detail-container {
     padding: 20px;
   }
-  
+  .product-detail-container .imgs{
+    cursor: pointer;
+  }
   .main-product-image {
     max-width: 100%;
     height: auto;
@@ -22,5 +24,27 @@
   
   .ml-2 {
     margin-left: 0.5rem;
+  }
+  
+  .scroll-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+  }
+  
+  .scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scroll-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
   

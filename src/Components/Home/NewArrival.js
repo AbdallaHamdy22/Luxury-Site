@@ -7,10 +7,10 @@ const NewArrivalsSection = () => (
     <hr></hr>
     <div className="row">
       {[
-        { name: 'Rolex', description: 'Rolex Stainless Steel Starbucks', price: '70,197 AED', link: '/ItemDetails/:1', img: require('../Images/1.png') },
-        { name: 'Chanel', description: 'Chanel Navy Blue Leather Mini Boy', price: '15,361 AED', link: '/ItemDetails/:2', img: require('../Images/2.png') },
-        { name: 'Dior', description: 'Dior Burgundy Python Large Lady', price: '14,418 AED', link: '/ItemDetails/:3', img: require('../Images/3.png') },
-        { name: 'Bvlgari', description: 'Bvlgari Pendant Necklace', price: '12,629 AED', link: '/ItemDetails/:4', img: require('../Images/4.png') },
+        { name: 'Rolex', description: 'Rolex Stainless Steel Starbucks', price: '70,197 AED', link: '/ItemDetails/:1', img: "/Images/1.png" },
+        { name: 'Chanel', description: 'Chanel Navy Blue Leather Mini Boy', price: '15,361 AED', link: '/ItemDetails/:2', img: "/Images/2.png" },
+        { name: 'Dior', description: 'Dior Burgundy Python Large Lady', price: '14,418 AED', link: '/ItemDetails/:3', img: "/Images/3.png" },
+        { name: 'Bvlgari', description: 'Bvlgari Pendant Necklace', price: '12,629 AED', link: '/ItemDetails/:4', img: "/Images/4.png" },
       ].map(item => (
         <div className="col-md-3 mb-4" key={item.name}>
           <NavLink to={item.link} style={{ textDecoration: 'none' }}>

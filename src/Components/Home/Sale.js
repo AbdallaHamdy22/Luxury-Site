@@ -1,4 +1,3 @@
-import Image from '../Images/1.png'
 import './Sale.css'
 const SaleBanner = () => (
   <div className="container sale-banner mt-5">
@@ -13,7 +12,7 @@ const SaleBanner = () => (
         </div>
       </div>
       <div className="col-lg-6">
-        <img src={Image} alt="Sale Image" className="img-fluid" />
+        <img src={"/Images/1.png"} alt="Sale Image" className="img-fluid" />
       </div>
     </div>
   </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import Image from '../Images/logo.jpg';
-import './Footer.css'; // Make sure this path is correct and the CSS file is imported
+import './Footer.css';
 
 const Footer = () => (
   <footer className="footer mt-5">
