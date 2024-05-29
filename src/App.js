@@ -8,8 +8,10 @@ import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
 import Login from './Components/Login-Register/Login';
 import NotFound from './Components/NotFound/NotFound';
-import CartComponent from './Components/favorites/Fav';
-import Rdx from './Components/Redux/Rxd';
+import FavComponent from './Components/Favorites/Fav';
+import CartComponent from './Components/Cart/Cart';
+import RdxFav from './Components/Redux/RDXFav';
+import RdxCart from './Components/Redux/RDXCart';
 import Items from './Components/Shopping/Items';
 import ItemDetails from './Components/Shopping/Items_details';
 
@@ -19,8 +21,10 @@ const App = () => (
     <Routes >
       <Route path='/' element={<Home />} />
       <Route path='/join' element={<Login />} />
-      <Route path='/fav' element={<CartComponent />} />
-      <Route path='/fav' element={<Rdx />} />
+      <Route path='/fav' element={<FavComponent />} />
+      <Route path='/fav' element={<RdxFav />} />
+      <Route path='/cart' element={<CartComponent />} />
+      <Route path='/cart' element={<RdxCart />} />
       <Route path='/Items' element={ <Items/>} />
       <Route path='/ItemDetails/:id' element={ <ItemDetails/>} />
       <Route path='*' element={<NotFound />} />

@@ -6,6 +6,13 @@ const DropdownMenus = () => (
       <div className="collapse navbar-collapse justify-content-center" id="navbarNav2">
         <ul className="navbar-nav">
           <DropdownMenu
+            id="allDropdown"
+            title="ALL"
+            sections={[
+              {link:'Items', header: 'All products',items: ['Shoulder Bags', 'Totes Bags', 'Clutches', 'Hobos Bags', 'Satchel Bags', 'Women Wallets', 'Exotic Bags', 'Everyday Bags', 'Evening Bags', 'Women Backpacks', 'Women Briefcases', 'Women Suitcases', 'Women Belt Bags', 'All Bags >']},
+            ]}
+          />
+          <DropdownMenu
             id="womenDropdown"
             title="WOMEN"
             sections={[

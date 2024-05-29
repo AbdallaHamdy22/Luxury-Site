@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaSearch, FaUser, FaHeart, FaShoppingBag } from 'react-icons/fa'; // Import icons
+import { FaSearch, FaUser, FaHeart, FaShoppingBag } from 'react-icons/fa';
 import './Nav.css';
 
 const Navbar = () => (
@@ -20,11 +20,11 @@ const Navbar = () => (
       </form>
       <ul className="navbar-nav">
         <li className="nav-item">
-          <NavLink to="/join" className="nav-link" style={({ isActive }) => ({
+          <NavLink to="/cart" className="nav-link" style={({ isActive }) => ({
             color: isActive ? 'white' : '',
             backgroundColor: isActive ? 'gray' : '',
             borderRadius: '8px',
-          })}><FaUser /> Sign in</NavLink>
+          })}><FaShoppingBag /> Bag</NavLink>
         </li>
         <li className="nav-item">
           <NavLink to="/fav" className="nav-link" style={({ isActive }) => ({
@@ -34,11 +34,11 @@ const Navbar = () => (
           })}><FaHeart /> Wishlist</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/Items" className="nav-link" style={({ isActive }) => ({
+          <NavLink to="/join" className="nav-link" style={({ isActive }) => ({
             color: isActive ? 'white' : '',
             backgroundColor: isActive ? 'gray' : '',
             borderRadius: '8px',
-          })}><FaShoppingBag /> Bag</NavLink>
+          })}><FaUser /> Sign in</NavLink>
         </li>
         <li className="nav-item">
           <button className="btn sell-now-btn">SELL NOW</button>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Items.css';
 import { FaStar, FaShoppingCart } from 'react-icons/fa';
-import { addToFavorites, removeFromFavorites } from "../Redux/Rxd";
+import { addToFavorites, removeFromFavorites } from "../Redux/RDXFav";
+import { addToCart, removeFromCart } from "../Redux/RDXCart";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -13,9 +14,11 @@ const Items = () => {
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [products, setProducts] = useState([]);
     const favorites = useSelector((state) => state.favorites || []);
+    const cart = useSelector((state) => state.cart || []);
     const dispatch = useDispatch();
 
     const isFavorite = (id) => favorites.some((item) => item.id === id);
+    const isInCart = (id) => cart.some((item) => item.id === id);
 
     useEffect(() => {
         axios.get('http://localhost/backend/')
@@ -43,6 +46,14 @@ const Items = () => {
                 updatedSuccessMessages[index] = false;
                 setAddToFavoritesSuccess(updatedSuccessMessages);
             }, 3000);
+        }
+    };
+
+    const handleToggleCart = (id) => {
+        if (isInCart(id)) {
+            dispatch(removeFromCart(id));
+        } else {
+            dispatch(addToCart({ id }));
         }
     };
 
@@ -167,8 +178,11 @@ const Items = () => {
                                         >
                                             <FaStar color={isFavorite(product.productsId) ? "gold" : "white"} />
                                         </button>
-                                        <button className="cart-button">
-                                            <FaShoppingCart />
+                                        <button
+                                            onClick={() => handleToggleCart(product.productsId)}
+                                            className="cart-button"
+                                        >
+                                            <FaShoppingCart color={isInCart(product.productsId) ? "blue" : "white"} />
                                         </button>
                                     </div>
                                     <Link to={`/ItemDetails/${product.productsId}`} style={{ textDecoration: 'none' }}>

@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromFavorites } from "../Redux/Rxd";
+import { removeFromFavorites } from "../Redux/RDXFav";
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import './Fav.css';
 
-const CartComponent = () => {
+const FavComponent = () => {
   const favorites = useSelector((state) => state.favorites);
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
@@ -33,10 +33,17 @@ const CartComponent = () => {
   };
 
   const isFavorite = (id) => favorites.some((item) => item.id === id);
-
-  return (
-    <>
+  if (favorites.length === 0) {
+    return (
       <div className="Fav row">
+        <h2>Shopping Favouries</h2>
+        <p>You don't have favourites yet!</p>
+      </div>
+    );
+  }
+  return (
+    <div className="Fav row">
+      <h2>Shopping Favouries</h2>
         {products.map((product) => (
           <div className="col-sm-6 col-md-4" key={product.productsId}>
             <div className="card text-white small-card">
@@ -50,7 +57,6 @@ const CartComponent = () => {
               <div className="card-body">
                 <div className="text-center">
                   <h5 className="card-title">{product.productName}</h5>
-                  <span className="glyphicon glyphicon-heart-empty"></span>
                 </div>
               </div>
               <button
@@ -66,9 +72,8 @@ const CartComponent = () => {
             </div>
           </div>
         ))}
-      </div>
-    </>
+    </div>
   );
 };
 
-export default CartComponent;
+export default FavComponent;
