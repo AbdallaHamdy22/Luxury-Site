@@ -16,13 +16,13 @@ const ItemDetails = () => {
     axios.get('http://localhost/backend/')
       .then(response => {
         const data = response.data;
-        const currentItem = data.find(product => product.productsId === Number(id));
+        const currentItem = data.find(product => product.ProductID === Number(id));
 
         if (currentItem) {
           setItem(currentItem);
           const similar = data.filter(product => 
-            (product.productCategory[0] === currentItem.productCategory[0] || product.productBrand[0] === currentItem.productBrand[0]) && 
-            product.productsId !== Number(id)
+            (product.CategoireID[0] === currentItem.CategoireID[0] || product.BrandID[0] === currentItem.BrandID[0]) && 
+            product.ProductID !== Number(id)
           );
           setSimilarProducts(similar);
         } else {
@@ -47,16 +47,16 @@ const ItemDetails = () => {
       <Breadcrumb>
         <Breadcrumb.Item href="/" style={{ textDecoration: 'none' }}>Home</Breadcrumb.Item>
         <Breadcrumb.Item href={`/ItemDetails/${id}`} style={{ textDecoration: 'none' }}>
-          {item.productCategory && item.productCategory[0]}'s Watches
+          {item.CategoireID && item.CategoireID[0]}'s Watches
         </Breadcrumb.Item>
-        <Breadcrumb.Item active>{item.productBrand}</Breadcrumb.Item>
+        <Breadcrumb.Item active>{item.BrandID}</Breadcrumb.Item>
       </Breadcrumb>
 
       <Row>
         <Col md={6}>
-          <Image src={item.productImg && item.productImg[selectedImageIndex]} fluid className="main-product-image" />
+          <Image src={item.Image && item.Image[selectedImageIndex]} fluid className="main-product-image" />
           <Row className="mt-3">
-            {item.productImg && item.productImg.map((img, index) => (
+            {item.Image && item.Image.map((img, index) => (
               <Col xs={3} key={index} onClick={() => handleClickThumbnail(index)}>
                 <Image src={img} thumbnail className='imgs'/>
               </Col>
@@ -64,8 +64,8 @@ const ItemDetails = () => {
           </Row>
         </Col>
         <Col md={6}>
-          <h1>{item.productName}</h1>
-          <p className="price">Price: <strong>{item.productPrice} AED</strong></p>
+          <h1>{item.Name}</h1>
+          <p className="price">Price: <strong>{item.Price} AED</strong></p>
           <Button variant="primary" className="mb-3">Buy Now</Button>
           <Button variant="secondary" className="mb-3 ml-2">Add to Bag</Button>
 
@@ -102,12 +102,12 @@ const ItemDetails = () => {
         <div className="scroll-container" ref={scrollRef}>
           <Row className="flex-nowrap">
             {similarProducts.map(product => (
-              <Col md={2} key={product.productsId}>
+              <Col md={2} key={product.ProductID}>
                 <Card>
-                  <Card.Img variant="top" src={product.productImg[0]} />
+                  <Card.Img variant="top" src={product.Image[0]} />
                   <Card.Body>
-                    <Card.Title>{product.productName}</Card.Title>
-                    <Card.Text>{product.productPrice} AED</Card.Text>
+                    <Card.Title>{product.Name}</Card.Title>
+                    <Card.Text>{product.Price} AED</Card.Text>
                   </Card.Body>
                 </Card>
               </Col>

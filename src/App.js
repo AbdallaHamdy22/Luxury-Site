@@ -14,12 +14,13 @@ import RdxFav from './Components/Redux/RDXFav';
 import RdxCart from './Components/Redux/RDXCart';
 import Items from './Components/Shopping/Items';
 import ItemDetails from './Components/Shopping/Items_details';
-
+import Sell from './Components/Sell/Sell'
 const App = () => (
   <>
     <Header />
     <Routes >
       <Route path='/' element={<Home />} />
+      <Route path='/sell' element={<Sell />} />
       <Route path='/join' element={<Login />} />
       <Route path='/fav' element={<FavComponent />} />
       <Route path='/fav' element={<RdxFav />} />

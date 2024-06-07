@@ -41,7 +41,9 @@ const Navbar = () => (
           })}><FaUser /> Sign in</NavLink>
         </li>
         <li className="nav-item">
+          <NavLink to="/Sell" className="nav-link">
           <button className="btn sell-now-btn">SELL NOW</button>
+          </NavLink>
         </li>
       </ul>
     </div>
