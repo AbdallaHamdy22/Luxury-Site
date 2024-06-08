@@ -11,12 +11,12 @@ const FavComponent = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost/backend/')
+    axios.get('http://localhost/backend//getitems.php')
         .then(response => {
             const data = response.data;
             if (Array.isArray(data)) {
                 const favoriteProducts = data.filter(product =>
-                    favorites.some(fav => fav.id === product.productsId)
+                    favorites.some(fav => fav.id === product.ProductID)
                 );
                 setProducts(favoriteProducts);
             } else {
@@ -35,32 +35,32 @@ const FavComponent = () => {
   const isFavorite = (id) => favorites.some((item) => item.id === id);
   if (favorites.length === 0) {
     return (
-      <div className="Fav row">
+      <div className="Fav container mt-4 row">
         <h2>Shopping Favouries</h2>
         <p>You don't have favourites yet!</p>
       </div>
     );
   }
   return (
-    <div className="Fav row">
+    <div className="Fav container mt-4 row">
       <h2>Shopping Favouries</h2>
         {products.map((product) => (
-          <div className="col-sm-6 col-md-4" key={product.productsId}>
+          <div className="col-sm-6 col-md-4" key={product.ProductID}>
             <div className="card text-white small-card">
-              <Link to={'/ItemDetails/' + product.productsId}>
+              <Link to={'/ItemDetails/' + product.ProductID}>
                 <img
-                  src={`${product.productImg[0]}`}
+                  src={`${product.Image[0]}`}
                   className="card-img-top"
-                  alt={product.productName}
+                  alt={product.Name}
                 />
               </Link>
               <div className="card-body">
                 <div className="text-center">
-                  <h5 className="card-title">{product.productName}</h5>
+                  <h5 className="card-title">{product.Name}</h5>
                 </div>
               </div>
               <button
-                onClick={() => handleToggleFavorites(product.productsId)}
+                onClick={() => handleToggleFavorites(product.ProductID)}
                 className="btn"
                 style={{
                   backgroundColor: 'white',

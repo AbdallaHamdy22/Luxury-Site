@@ -16,7 +16,7 @@ const Login = () => {
             <div class="main_container1">
                 <div class="Login_form">
                     <form action="Login.php" method="post">
-                        <h2>Log in</h2>
+                        <h2>Sign in</h2>
                         <input
                             placeholder="   Email adress or phone number"
                             type="text"

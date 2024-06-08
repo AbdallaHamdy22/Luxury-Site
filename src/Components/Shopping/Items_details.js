@@ -13,7 +13,7 @@ const ItemDetails = () => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    axios.get('http://localhost/backend/')
+    axios.get('http://localhost/backend//getitems.php')
       .then(response => {
         const data = response.data;
         const currentItem = data.find(product => product.ProductID === Number(id));
