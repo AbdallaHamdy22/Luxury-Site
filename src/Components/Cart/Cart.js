@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart } from '../Redux/RDXCart';
+import ProductCard from '../Card/Card';
 
 const Cart = () => {
-    const cart = useSelector((state) => state.cart);
+    const cart = useSelector((state) => state.cart.items);
     const dispatch = useDispatch();
 
     return (
@@ -14,18 +15,11 @@ const Cart = () => {
             ) : (
                 <div className="row">
                     {cart.map((item) => (
-                        <div key={item.id} className="col-md-4 mb-4">
-                            <div className="card h-100">
-                                <div className="card-body">
-                                    <h5 className="card-title">{item.id}</h5>
-                                    <button
-                                        onClick={() => dispatch(removeFromCart(item.id))}
-                                        className="btn btn-danger"
-                                    >
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
+                        <div key={item.ProductID} >
+                            <ProductCard key={item.ProductID} product={item} />
+                            <button onClick={() => dispatch(removeFromCart({ id: item.ProductID }))} className="btn btn-danger">
+                                Remove From Cart
+                            </button>
                         </div>
                     ))}
                 </div>
