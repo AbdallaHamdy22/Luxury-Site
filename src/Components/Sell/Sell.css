@@ -4,31 +4,32 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .sell-header {
     text-align: center;
     margin-bottom: 20px;
-    font-size: 2em;
+    font-size: 2.5em;
     color: #333;
 }
 
 .sell-form {
     display: flex;
     flex-direction: column;
+    gap: 20px;
 }
 
 .sell-form label {
-    margin-bottom: 10px;
     font-weight: bold;
     color: #555;
+    margin-bottom: 5px;
 }
 
 .sell-form input,
-.sell-form textarea {
-    margin-bottom: 20px;
+.sell-form textarea,
+.sell-form select {
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -44,7 +45,7 @@
 
 .sell-button {
     padding: 15px;
-    background-color: black;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 6px;
@@ -55,5 +56,20 @@
 }
 
 .sell-button:hover {
-    background-color: #555;
+    background-color: #0056b3;
+}
+
+
+@media (max-width: 600px) {
+    .sell-container {
+        padding: 15px;
+    }
+
+    .sell-header {
+        font-size: 2em;
+    }
+
+    .sell-button {
+        font-size: 16px;
+    }
 }

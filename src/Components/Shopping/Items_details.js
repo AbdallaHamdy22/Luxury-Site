@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Breadcrumb, ListGroup, Image, Card } from 
 import './Items_details.css';
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
+import axiosInstance from './../../axiosConfig/instance';
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -13,7 +13,7 @@ const ItemDetails = () => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    axios.get('http://localhost/backend//getitems.php')
+    axiosInstance.get('getitems.php')
       .then(response => {
         const data = response.data;
         const currentItem = data.find(product => product.ProductID === Number(id));

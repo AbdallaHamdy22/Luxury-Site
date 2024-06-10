@@ -3,8 +3,9 @@ import { NavLink } from 'react-router-dom';
 import { FaSearch, FaUser, FaHeart, FaShoppingBag } from 'react-icons/fa';
 import './Nav.css';
 
-const Navbar = () => (
-  <nav className="navbar navbar-expand-lg navbar-light bg-white" style={{ height: '90px' }}>
+const Navbar = () => {
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-white" style={{ height: '90px' }}>
     <NavLink className="navbar-brand" to="/">Royal Luxury</NavLink>
     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
@@ -42,12 +43,13 @@ const Navbar = () => (
         </li>
         <li className="nav-item">
           <NavLink to="/Sell" className="nav-link">
-          <button className="btn sell-now-btn">SELL NOW</button>
+            <button className="btn sell-now-btn">SELL NOW</button>
           </NavLink>
         </li>
       </ul>
     </div>
   </nav>
-);
+  );
+};
 
 export default Navbar;

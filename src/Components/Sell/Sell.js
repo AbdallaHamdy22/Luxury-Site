@@ -121,23 +121,23 @@ const Sell = () => {
                     onChange={handleChange}
                 />
                 <select name="Categories" id="Cat">
-                <optgroup label="Categories"/>
+                    <option value="" disabled selected hidden>Categories</option>
                     <option value="Watches">Watches</option>
                     <option value="Bags">Bags</option>
                 </select>
                 <select name="Brands" id="Brands">
-                <optgroup label="Brands"/>
+                    <option value="" disabled selected hidden>Brands</option>
                     <option value="Rolex">Rolex</option>
                     <option value="Gucci">Gucci</option>
                 </select>
                 <select name="Sex" id="Sex">
-                <optgroup label="Sex"/>
+                    <option value="" disabled selected hidden>Sex</option>
                     <option value="Men">Men</option>
                     <option value="Women">Women</option>
                     <option value="Kids">Kids</option>
                 </select>
                 <select name="Color" id="Color">
-                <optgroup label="Color"/>
+                    <option value="" disabled selected hidden>Color</option>
                     <option value="White">White</option>
                     <option value="Black">Black</option>
                     <option value="Yellow">Yellow</option>
