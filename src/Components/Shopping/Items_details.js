@@ -16,7 +16,6 @@ const ItemDetails = () => {
       .then(response => {
         let data = response.data;
 
-        // Function to remove spaces from keys
         const removeSpacesFromKeys = (obj) => {
           const newObj = {};
           for (const key in obj) {
@@ -33,7 +32,6 @@ const ItemDetails = () => {
         if (data.ProductID) {
           console.log(data.SexID);
           setItem(data);
-          // Fetch similar products
           axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Products/getitems.php')
             .then(response => {
               const products = response.data;
@@ -79,7 +77,6 @@ const ItemDetails = () => {
           {item.Image && (
             <Image src={item.Image} fluid className="main-product-image" />
           )}
-          {/* إذا كنت تريد عرض صور متعددة، تأكد من أن `item.Image` هو مصفوفة من الصور */}
           {Array.isArray(item.Image) && item.Image.length > 0 && (
             <Row className="mt-3">
               {item.Image.map((img, index) => (

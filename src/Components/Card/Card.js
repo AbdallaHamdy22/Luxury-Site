@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
         if (isFavorite(id)) {
             dispatch(removeFromFavorites({ id }));
         } else {
-            dispatch(addToFavorites(product));  // Dispatch the whole product object
+            dispatch(addToFavorites(product));
         }
     };
 
@@ -27,7 +27,7 @@ const ProductCard = ({ product }) => {
         if (isInCart(id)) {
             dispatch(removeFromCart({ id }));
         } else {
-            dispatch(addToCart(product));  // Dispatch the whole product object
+            dispatch(addToCart(product));
         }
     };
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeFromFavorites } from '../Redux/RDXFav';
 import ProductCard from '../Card/Card';
 
-const FavoritesComponent = () => {
+const Favourites = () => {
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorites.items);
     console.log(favorites.length);
@@ -26,4 +26,4 @@ const FavoritesComponent = () => {
     );
 };
 
-export default FavoritesComponent;
+export default Favourites;
