@@ -7,19 +7,36 @@ import './Items.css';
 const Items = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
+    const [selectedSexes, setSelectedSexes] = useState([]);
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
+    const [sexes, setSexes] = useState([]);
 
     useEffect(() => {
-        axiosInstance.get('getitems.php')
+        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Products/getproduct.php')
             .then(response => {
-                const data = response.data;
-                if (Array.isArray(data)) {
-                    setProducts(data);
-                } else {
-                    console.error('Expected array but got:', data);
-                }
+                setProducts(response.data);
             })
             .catch(error => console.error('Error fetching products:', error));
+
+        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Categoire/getcategoire.php')
+            .then(response => {
+                setCategories(response.data);
+            })
+            .catch(error => console.error('Error fetching categories:', error));
+
+        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Brand/getbrand.php')
+            .then(response => {
+                setBrands(response.data);
+            })
+            .catch(error => console.error('Error fetching brands:', error));
+
+        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Sex/getSex.php')
+            .then(response => {
+                setSexes(response.data);
+            })
+            .catch(error => console.error('Error fetching sexes:', error));
     }, []);
 
     const handleCategoryChange = (event) => {
@@ -44,13 +61,26 @@ const Items = () => {
         });
     };
 
+    const handleSexChange = (event) => {
+        const { id, checked } = event.target;
+        setSelectedSexes((prevSexes) => {
+            if (checked) {
+                return [...prevSexes, id];
+            } else {
+                return prevSexes.filter((sex) => sex !== id);
+            }
+        });
+    };
+
     const filteredProducts = useMemo(() => products.filter((product) => {
         const categoryMatch = selectedCategories.length === 0 || 
-            (product.CategoireID && product.CategoireID.some((type) => selectedCategories.includes(type)));
+            (product.CategoireID && selectedCategories.includes(product.CategoireID.toString()));
         const brandMatch = selectedBrands.length === 0 ||
-            (product.BrandID && product.BrandID.some((type) => selectedBrands.includes(type)));
-        return categoryMatch && brandMatch;
-    }), [products, selectedCategories, selectedBrands]);
+            (product.BrandID && selectedBrands.includes(product.BrandID.toString()));
+        const sexMatch = selectedSexes.length === 0 ||
+            (product.SexID && selectedSexes.includes(product.SexID.toString()));
+        return categoryMatch && brandMatch && sexMatch;
+    }), [products, selectedCategories, selectedBrands, selectedSexes]);
 
     return (
         <div className="Itms container mt-4">
@@ -65,65 +95,45 @@ const Items = () => {
                     <h3>Filter by</h3>
                     <div className="mb-3">
                         <h5>Category</h5>
-                        <div className="form-check">
-                            <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="Men"
-                                onChange={handleCategoryChange}
-                            />
-                            <label className="form-check-label" htmlFor="Men">Men</label>
-                        </div>
-                        <div className="form-check">
-                            <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="Women"
-                                onChange={handleCategoryChange}
-                            />
-                            <label className="form-check-label" htmlFor="Women">Women</label>
-                        </div>
-                        <div className="form-check">
-                            <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="Kids"
-                                onChange={handleCategoryChange}
-                            />
-                            <label className="form-check-label" htmlFor="Kids">Kids</label>
-                        </div>
-                        <div className="form-check">
-                            <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="Home"
-                                onChange={handleCategoryChange}
-                            />
-                            <label className="form-check-label" htmlFor="Home">Home</label>
-                        </div>
+                        {categories.map(category => (
+                            <div className="form-check" key={category.CategoireID}>
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={category.CategoireID}
+                                    onChange={handleCategoryChange}
+                                />
+                                <label className="form-check-label" htmlFor={category.CategoireID}>{category.Name}</label>
+                            </div>
+                        ))}
                     </div>
                     <div className="mb-3">
                         <h5>Brands</h5>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="Rolex" onChange={handleBrandChange}/>
-                            <label className="form-check-label" htmlFor="Rolex">Rolex</label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="Dior" onChange={handleBrandChange} />
-                            <label className="form-check-label" htmlFor="Dior">Dior</label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="Cartier" onChange={handleBrandChange} />
-                            <label className="form-check-label" htmlFor="Cartier">Cartier</label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="Chanel" onChange={handleBrandChange} />
-                            <label className="form-check-label" htmlFor="Chanel">Chanel</label>
-                        </div>
-                        <div className="form-check">
-                            <input className="form-check-input" type="checkbox" id="Dolce & Gabbana" onChange={handleBrandChange} />
-                            <label className="form-check-label" htmlFor="Dolce & Gabbana">Dolce & Gabbana</label>
-                        </div>
+                        {brands.map(brand => (
+                            <div className="form-check" key={brand.BrandID}>
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={brand.BrandID}
+                                    onChange={handleBrandChange}
+                                />
+                                <label className="form-check-label" htmlFor={brand.BrandID}>{brand.Name}</label>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mb-3">
+                        <h5>Sex</h5>
+                        {sexes.map(sex => (
+                            <div className="form-check" key={sex.SexID}>
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={sex.SexID}
+                                    onChange={handleSexChange}
+                                />
+                                <label className="form-check-label" htmlFor={sex.SexID}>{sex.Name}</label>
+                            </div>
+                        ))}
                     </div>
                 </aside>
                 <div className="col-md-9">
@@ -139,4 +149,3 @@ const Items = () => {
 };
 
 export default Items;
-

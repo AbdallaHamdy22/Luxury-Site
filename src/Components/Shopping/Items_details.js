@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Button, Breadcrumb, ListGroup, Image, Card } from 'react-bootstrap';
-import './Items_details.css';
-import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from './../../axiosConfig/instance';
+import './Items_details.css';
 
 const ItemDetails = () => {
   const { id } = useParams();
@@ -13,28 +12,49 @@ const ItemDetails = () => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    axiosInstance.get('getitems.php')
+    axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Products/getProductDetails.php?ProductID=${id}`)
       .then(response => {
-        const data = response.data;
-        const currentItem = data.find(product => product.ProductID === Number(id));
+        let data = response.data;
 
-        if (currentItem) {
-          setItem(currentItem);
-          const similar = data.filter(product => 
-            (product.CategoireID[0] === currentItem.CategoireID[0] || product.BrandID[0] === currentItem.BrandID[0]) && 
-            product.ProductID !== Number(id)
-          );
-          setSimilarProducts(similar);
+        // Function to remove spaces from keys
+        const removeSpacesFromKeys = (obj) => {
+          const newObj = {};
+          for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+              const newKey = key.replace(/ /g, '');
+              newObj[newKey] = obj[key];
+            }
+          }
+          return newObj;
+        };
+
+        data = removeSpacesFromKeys(data);
+
+        if (data.ProductID) {
+          console.log(data.SexID);
+          setItem(data);
+          // Fetch similar products
+          axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Products/getitems.php')
+            .then(response => {
+              const products = response.data;
+              const similar = products.filter(product =>
+                (product.CategoireID === data.CategoireID || product.BrandID === data.BrandID) &&
+                product.ProductID !== Number(id)
+              );
+              setSimilarProducts(similar);
+            })
+            .catch(error => console.error('Error fetching similar products:', error));
         } else {
           console.error('Item not found');
         }
       })
-      .catch(error => console.error('Error fetching products:', error));
+      .catch(error => console.error('Error fetching product details:', error));
   }, [id]);
 
   const handleClickThumbnail = (index) => {
     setSelectedImageIndex(index);
   };
+
   const scrollLeft = () => {
     scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
   };
@@ -42,26 +62,33 @@ const ItemDetails = () => {
   const scrollRight = () => {
     scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
   };
+  console.log(item);
+
   return (
     <Container className="product-detail-container mt-4">
       <Breadcrumb>
         <Breadcrumb.Item href="/" style={{ textDecoration: 'none' }}>Home</Breadcrumb.Item>
         <Breadcrumb.Item href={`/ItemDetails/${id}`} style={{ textDecoration: 'none' }}>
-          {item.CategoireID && item.CategoireID[0]}'s Watches
+          {item.CategoireID && `${item.CategoireID}'s Watches`}
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{item.BrandID}</Breadcrumb.Item>
       </Breadcrumb>
 
       <Row>
         <Col md={6}>
-          <Image src={item.Image && item.Image[selectedImageIndex]} fluid className="main-product-image" />
-          <Row className="mt-3">
-            {item.Image && item.Image.map((img, index) => (
-              <Col xs={3} key={index} onClick={() => handleClickThumbnail(index)}>
-                <Image src={img} thumbnail className='imgs'/>
-              </Col>
-            ))}
-          </Row>
+          {item.Image && (
+            <Image src={item.Image} fluid className="main-product-image" />
+          )}
+          {/* إذا كنت تريد عرض صور متعددة، تأكد من أن `item.Image` هو مصفوفة من الصور */}
+          {Array.isArray(item.Image) && item.Image.length > 0 && (
+            <Row className="mt-3">
+              {item.Image.map((img, index) => (
+                <Col xs={3} key={index} onClick={() => handleClickThumbnail(index)}>
+                  <Image src={img} thumbnail className='imgs'/>
+                </Col>
+              ))}
+            </Row>
+          )}
         </Col>
         <Col md={6}>
           <h1>{item.Name}</h1>
@@ -73,12 +100,12 @@ const ItemDetails = () => {
             <Card.Body>
               <Card.Title>Overview</Card.Title>
               <ListGroup variant="flush">
-                <ListGroup.Item><strong>Gender:</strong> Women</ListGroup.Item>
-                <ListGroup.Item><strong>Bracelet Material:</strong> Stainless Steel</ListGroup.Item>
-                <ListGroup.Item><strong>Complication:</strong> Date</ListGroup.Item>
-                <ListGroup.Item><strong>Production Year:</strong> 2012</ListGroup.Item>
-                <ListGroup.Item><strong>Movement Type:</strong> Automatic</ListGroup.Item>
-                <ListGroup.Item><strong>Includes:</strong> Rolex box and card</ListGroup.Item>
+                <ListGroup.Item><strong>Gender:</strong> {item.SexID}</ListGroup.Item>
+                <ListGroup.Item><strong>Bracelet Material:</strong> {item.BraceletMaterial || 'N/A'}</ListGroup.Item>
+                
+                <ListGroup.Item><strong>Production Year:</strong> {item.ProductionYear || 'N/A'}</ListGroup.Item>
+                
+                <ListGroup.Item><strong>Description:</strong> {item.Description || 'N/A'}</ListGroup.Item>
               </ListGroup>
             </Card.Body>
           </Card>
@@ -104,7 +131,7 @@ const ItemDetails = () => {
             {similarProducts.map(product => (
               <Col md={2} key={product.ProductID}>
                 <Card>
-                  <Card.Img variant="top" src={product.Image[0]} />
+                  <Card.Img variant="top" src={product.Image} />
                   <Card.Body>
                     <Card.Title>{product.Name}</Card.Title>
                     <Card.Text>{product.Price} AED</Card.Text>
