@@ -9,11 +9,10 @@ import Home from './Components/Home/Home';
 import Login from './Components/Login-Register/Login';
 import NotFound from './Components/NotFound/NotFound';
 import CartComponent from './Components/Cart/Cart';
-import RdxFav from './Components/Redux/RDXFav';
-import RdxCart from './Components/Redux/RDXCart';
 import Items from './Components/Shopping/Items';
 import ItemDetails from './Components/Shopping/Items_details';
 import Sell from './Components/Sell/Sell';
+
 import FavComponent from './Components/favorites/Fav';
 
 const App = () => {
@@ -45,5 +44,6 @@ const App = () => {
     </>
   );
 };
+
 
 export default App;
