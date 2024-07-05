@@ -3,8 +3,15 @@ import axiosInstance from './../../axiosConfig/instance';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductCard from '../Card/Card';
 import './Items.css';
+import { useLocation } from 'react-router-dom';
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const Items = () => {
+    const query = useQuery();
+    const location = useLocation();
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [selectedSexes, setSelectedSexes] = useState([]);
@@ -38,6 +45,14 @@ const Items = () => {
             })
             .catch(error => console.error('Error fetching sexes:', error));
     }, []);
+
+    useEffect(() => {
+        const category = query.get("category");
+        const sex = query.get("sex");
+
+        if (category) setSelectedCategories([category]);
+        if (sex) setSelectedSexes([sex]);
+    }, [location.search]); // هنا نراقب تغييرات العنوان URL
 
     const handleCategoryChange = (event) => {
         const { id, checked } = event.target;
@@ -102,6 +117,7 @@ const Items = () => {
                                     type="checkbox"
                                     id={category.CategoireID}
                                     onChange={handleCategoryChange}
+                                    checked={selectedCategories.includes(category.CategoireID.toString())}
                                 />
                                 <label className="form-check-label" htmlFor={category.CategoireID}>{category.Name}</label>
                             </div>
@@ -130,6 +146,7 @@ const Items = () => {
                                     type="checkbox"
                                     id={sex.SexID}
                                     onChange={handleSexChange}
+                                    checked={selectedSexes.includes(sex.SexID.toString())}
                                 />
                                 <label className="form-check-label" htmlFor={sex.SexID}>{sex.Name}</label>
                             </div>

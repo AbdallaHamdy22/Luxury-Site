@@ -1,10 +1,13 @@
+import React from 'react';
 import Navbar from './Nav';
 import DropdownMenus from './DropDownMenu';
 import './Nav.css';
-const Header = () => (
-    <>
-        <Navbar />
-        <DropdownMenus />
-    </>
+
+const Header = ({ user }) => (
+  <>
+    <Navbar user={user} />
+    <DropdownMenus />
+  </>
 );
+
 export default Header;

@@ -19,3 +19,27 @@
     font-weight: bold;
     margin-left: 15px;
 }
+.dropdown-toggle.custom-dropdown {
+    background-color: #B5853F;
+    border-color: #B5853F;
+    color: white;
+}
+
+.dropdown-toggle.custom-dropdown:hover,
+.dropdown-toggle.custom-dropdown:focus,
+.dropdown-toggle.custom-dropdown:active,
+.show > .dropdown-toggle.custom-dropdown {
+    background-color: #B5853F;
+    border-color: #B5853F;
+    color: white;
+}
+
+.dropdown-menu .dropdown-item {
+    color: black;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: #B5853F;
+    color: white;
+}

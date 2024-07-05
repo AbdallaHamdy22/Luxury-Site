@@ -7,7 +7,7 @@ const DropdownMenus = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost/dashboard/LUXURY-SITE/Sex/') // Replace with the actual URL to your PHP endpoint
+    fetch('http://localhost/dashboard/LUXURY-SITE/Sex/')
       .then(response => response.json())
       .then(data => {
         setMenuData(data);

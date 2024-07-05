@@ -1,4 +1,6 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+
 
 const DropdownMenu = ({ id, title, sections }) => (
   <li className="nav-item dropdown">
@@ -18,9 +20,13 @@ const DropdownMenu = ({ id, title, sections }) => (
         <div key={index}>
           {section.header && <h6 className="dropdown-header">{section.header}</h6>}
           {section.items.map((item, idx) => (
-            <a className="dropdown-item" href={section.link || '#'} key={idx}>
-              {item}
-            </a>
+            <NavLink
+              className="dropdown-item"
+              to={title === "ALL" ? `/items?category=${item.id}` : `/items?category=${item.id}&sex=${id}`}
+              key={idx}
+            >
+              {item.name}
+            </NavLink>
           ))}
           <div className="dropdown-divider"></div>
         </div>
