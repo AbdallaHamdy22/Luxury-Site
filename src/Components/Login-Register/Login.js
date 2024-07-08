@@ -24,7 +24,7 @@ const Login = ({ setUser }) => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await fetch('http://localhost/dashboard/LUXURY-SITE/User/UserLogin.php', {
+      const response = await fetch('User/UserLogin.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ const Login = ({ setUser }) => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await fetch('http://localhost/dashboard/LUXURY-SITE/signup.php', {
+      const response = await fetch('signup.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

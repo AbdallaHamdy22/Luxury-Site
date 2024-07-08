@@ -17,6 +17,7 @@ import ShowProducts from './Components/ShowProducts/product';
 import ShowCategories from './Components/ShowCategories/Categories';
 import ShowBrands from './Components/ShowBrand/Brands';
 import ShowGenders from './Components/ShowGender/Genders';
+import ShowDetails from './Components/ShowDetails/ShowDetails';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -38,6 +39,7 @@ const App = () => {
         <Route path='/fav' element={<FavComponent />} />
         <Route path='/cart' element={<CartComponent />} />
         <Route path='/Items' element={<Items />} />
+        <Route path='/ShowDetails' element={<ShowDetails />} />
         <Route path='/ShowProducts' element={<ShowProducts />} />
         <Route path='/ShowCategories' element={<ShowCategories />} />
         <Route path='/ShowBrands' element={<ShowBrands />} />

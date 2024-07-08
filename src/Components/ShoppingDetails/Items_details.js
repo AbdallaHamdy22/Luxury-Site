@@ -12,7 +12,7 @@ const ItemDetails = () => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Products/getProductDetails.php?ProductID=${id}`)
+    axiosInstance.get(`Products/getProductDetails.php?ProductID=${id}`)
       .then(response => {
         let data = response.data;
 
@@ -32,7 +32,7 @@ const ItemDetails = () => {
         if (data.ProductID) {
           console.log(data.SexID);
           setItem(data);
-          axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Products/getitems.php')
+          axiosInstance.get('Products/getitems.php')
             .then(response => {
               const products = response.data;
               const similar = products.filter(product =>

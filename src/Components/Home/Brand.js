@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Brand.css';
+import axiosInstance from '../../axiosConfig/instance';
 
 const BrandSection = () => {
   const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost/dashboard/LUXURY-SITE/Brand/')
+    axiosInstance.get('Brand/')
       .then(response => response.json())
       .then(data => setBrands(data))
       .catch(error => console.error('Error fetching brands:', error));

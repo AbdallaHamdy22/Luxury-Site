@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 import DropdownMenu from './DropDown';
 import './DropDown.css';
 import { NavLink } from 'react-router-dom';
+import axiosInstance from '../../axiosConfig/instance';
 
 const DropdownMenus = ({ user }) => {
   const [menuData, setMenuData] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost/dashboard/LUXURY-SITE/Sex/')
-      .then(response => response.json())
-      .then(data => {
-        setMenuData(data);
-        console.log(menuData);
+    axiosInstance.get('Sex/')
+      .then(response => {
+        setMenuData(response.data);
         setLoading(false);
       })
       .catch(error => {
@@ -46,7 +45,7 @@ const DropdownMenus = ({ user }) => {
           </NavLink>
         ) : (
           user && (
-            <NavLink to="/Show" className="nav-link">
+            <NavLink to="/ShowDetails" className="nav-link">
               <button className="btn sell-now-btn">SHOW DETAILS</button>
             </NavLink>
           )

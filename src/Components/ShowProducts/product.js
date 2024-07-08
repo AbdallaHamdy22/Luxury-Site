@@ -9,7 +9,7 @@ const ShowProducts = () => {
     const [currentProduct, setCurrentProduct] = useState({});
 
     useEffect(() => {
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Products/getproduct.php')
+        axiosInstance.get('Products/getproduct.php')
             .then(response => {
                 setProducts(response.data);
                 console.log(products);
@@ -34,7 +34,7 @@ const ShowProducts = () => {
     };
 
     const handleSave = () => {
-        axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Products/updateproduct.php', currentProduct)
+        axiosInstance.post('Products/updateproduct.php', currentProduct)
             .then(response => {
                 setProducts(products.map(product =>
                     product.ProductID === currentProduct.ProductID ? currentProduct : product

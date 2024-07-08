@@ -1,3 +1,4 @@
+import axiosInstance from '../../axiosConfig/instance';
 import './Sell.css';
 import { useState } from 'react';
 
@@ -36,7 +37,7 @@ const Sell = () => {
             data.append('images[]', imageFiles[i]);
         }
     
-        fetch('http://localhost/backend/uploaditem.php', {
+        axiosInstance.get('uploaditem.php', {
             method: 'POST',
             body: data
         })

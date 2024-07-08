@@ -9,7 +9,7 @@ const ShowGenders = () => {
     const [currentGender, setCurrentGender] = useState({});
 
     useEffect(() => {
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Sex/getSex.php')
+        axiosInstance.get('Sex/getSex.php')
             .then(response => {
                 setGenders(response.data);
                 console.log(Genders);
@@ -34,7 +34,7 @@ const ShowGenders = () => {
     };
 
     const handleSave = () => {
-        axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Categoire/updategender.php', currentGender)
+        axiosInstance.post('Sex/updategender.php', currentGender)
             .then(response => {
                 setGenders(Genders.map(Gender =>
                     Gender.SexID === currentGender.SexID ? currentGender : Gender

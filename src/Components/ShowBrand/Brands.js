@@ -10,7 +10,7 @@ const ShowBrands = () => {
     const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Brand/getbrand.php')
+        axiosInstance.get('Brand/getbrand.php')
             .then(response => {
                 setBrands(response.data);
                 console.log(Brands);
@@ -49,7 +49,7 @@ const ShowBrands = () => {
             formData.append(key, currentBrand[key]);
         }
 
-        axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Categoire/updatebrand.php', formData)
+        axiosInstance.post('Brand/updatebrand.php', formData)
             .then(response => {
                 setBrands(Brands.map(Brand =>
                     Brand.BrandID === currentBrand.BrandID ? currentBrand : Brand

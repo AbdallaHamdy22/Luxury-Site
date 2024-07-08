@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Category.css';
+import axiosInstance from './../../axiosConfig/instance';
 
 const CategorySection = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost/dashboard/LUXURY-SITE/Categoire/')
+    axiosInstance.get('Categoire/')
       .then(response => response.json())
       .then(data => setCategories(data))
       .catch(error => console.error('Error fetching categories:', error));

@@ -10,7 +10,7 @@ const ShowCategories = () => {
     const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Categoire/getcategoire.php')
+        axiosInstance.get('Categoire/getcategoire.php')
             .then(response => {
                 setCategories(response.data);
                 console.log(Categories);
@@ -49,7 +49,7 @@ const ShowCategories = () => {
             formData.append(key, currentCategorie[key]);
         }
 
-        axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Categoire/updatecategoire.php', formData)
+        axiosInstance.post('Categoire/updatecategoire.php', formData)
             .then(response => {
                 setCategories(Categories.map(categorie =>
                     categorie.CategoireID === currentCategorie.CategoireID ? currentCategorie : categorie

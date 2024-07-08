@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './NewArrival.css';
+import axiosInstance from '../../axiosConfig/instance';
 
 const NewArrivalsSection = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost/dashboard/LUXURY-SITE/Products/') // Replace with the actual URL to your PHP endpoint
+    axiosInstance.get('Products/')
       .then(response => response.json())
       .then(data => {
         setItems(data);

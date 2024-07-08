@@ -21,25 +21,25 @@ const Items = () => {
     const [sexes, setSexes] = useState([]);
 
     useEffect(() => {
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Products/getproduct.php')
+        axiosInstance.get('Products/getproduct.php')
             .then(response => {
                 setProducts(response.data);
             })
             .catch(error => console.error('Error fetching products:', error));
 
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Categoire/getcategoire.php')
+        axiosInstance.get('Categoire/getcategoire.php')
             .then(response => {
                 setCategories(response.data);
             })
             .catch(error => console.error('Error fetching categories:', error));
 
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Brand/getbrand.php')
+        axiosInstance.get('Brand/getbrand.php')
             .then(response => {
                 setBrands(response.data);
             })
             .catch(error => console.error('Error fetching brands:', error));
 
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Sex/getSex.php')
+        axiosInstance.get('Sex/getSex.php')
             .then(response => {
                 setSexes(response.data);
             })
@@ -138,7 +138,7 @@ const Items = () => {
                         ))}
                     </div>
                     <div className="mb-3">
-                        <h5>Sex</h5>
+                        <h5>Gender</h5>
                         {sexes.map(sex => (
                             <div className="form-check" key={sex.SexID}>
                                 <input
