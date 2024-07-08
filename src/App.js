@@ -14,6 +14,7 @@ import ItemDetails from './Components/Shopping/Items_details';
 import Sell from './Components/Sell/Sell';
 import FavComponent from './Components/Favorites/Favourites';
 import ShowProducts from './Components/ShowProducts/product';
+import ShowCategories from './Components/ShowCategories/Categories';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -36,6 +37,7 @@ const App = () => {
         <Route path='/cart' element={<CartComponent />} />
         <Route path='/Items' element={<Items />} />
         <Route path='/ShowProducts' element={<ShowProducts />} />
+        <Route path='/ShowCategories' element={<ShowCategories />} />
         <Route path='/ItemDetails/:id' element={<ItemDetails />} />
         <Route path='*' element={<NotFound />} />
       </Routes>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from './../../axiosConfig/instance';
 import './product.css';
-import PopForm from './popForm';
+import PopForm from '../popUpform/popForm';
 
 const ShowProducts = () => {
     const [products, setProducts] = useState([]);
@@ -77,7 +77,7 @@ const ShowProducts = () => {
                 <form>
                     <label>
                         ID
-                        <input type="number" name="ProductID" value={currentProduct.ProductID} onChange={handleChange} />
+                        <input type="number" name="Product ID" value={currentProduct.ProductID} onChange={handleChange} />
                     </label>
                     <label>
                         Name
