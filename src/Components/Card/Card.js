@@ -48,6 +48,8 @@ const ProductCard = ({ product }) => {
     const discountPrice = calculateDiscountPrice(product.Price, product.OfferPrice);
     const hasOffer = product.OfferPrice && product.OfferPrice > 0;
 
+    const imageUrls = product.Image ? product.Image.split(',') : [];
+
     return (
         <div className="col-md-4 mb-4">
             <div className="card h-100">
@@ -66,10 +68,10 @@ const ProductCard = ({ product }) => {
                     </button>
                 </div>
                 <Link to={`/ItemDetails/${product.ProductID}`} style={{ textDecoration: 'none' }}>
-                    {product.Image ? (
-                        <img src={product.Image} className="card-img-top" alt={product.Name} />
+                    {imageUrls.length > 0 ? (
+                        <img src={imageUrls[0]} className="card-img-top" alt={product.Name} />
                     ) : (
-                        <img src="/path/to/default/image.png" className="card-img-top" alt="Default" />
+                        <div className="placeholder-image">No Image Available</div>
                     )}
                 </Link>
                 <div className="card-body">

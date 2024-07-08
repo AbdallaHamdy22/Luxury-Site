@@ -74,12 +74,12 @@ const ItemDetails = () => {
 
       <Row>
         <Col md={6}>
-          {item.Image && (
-            <Image src={item.Image} fluid className="main-product-image" />
+          {item.Images && (
+            <Image src={item.Images} fluid className="main-product-image" />
           )}
-          {Array.isArray(item.Image) && item.Image.length > 0 && (
+          {Array.isArray(item.Images) && item.Images.length > 0 && (
             <Row className="mt-3">
-              {item.Image.map((img, index) => (
+              {item.Images.map((img, index) => (
                 <Col xs={3} key={index} onClick={() => handleClickThumbnail(index)}>
                   <Image src={img} thumbnail className='imgs'/>
                 </Col>
@@ -128,7 +128,7 @@ const ItemDetails = () => {
             {similarProducts.map(product => (
               <Col md={2} key={product.ProductID}>
                 <Card>
-                  <Card.Img variant="top" src={product.Image} />
+                  <Card.Img variant="top" src={product.Images} />
                   <Card.Body>
                     <Card.Title>{product.Name}</Card.Title>
                     <Card.Text>{product.Price} AED</Card.Text>
