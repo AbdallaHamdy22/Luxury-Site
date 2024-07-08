@@ -10,11 +10,13 @@ import Login from './Components/Login-Register/Login';
 import NotFound from './Components/NotFound/NotFound';
 import CartComponent from './Components/Cart/Cart';
 import Items from './Components/Shopping/Items';
-import ItemDetails from './Components/Shopping/Items_details';
+import ItemDetails from './Components/ShoppingDetails/Items_details';
 import Sell from './Components/Sell/Sell';
 import FavComponent from './Components/Favorites/Favourites';
 import ShowProducts from './Components/ShowProducts/product';
 import ShowCategories from './Components/ShowCategories/Categories';
+import ShowBrands from './Components/ShowBrand/Brands';
+import ShowGenders from './Components/ShowGender/Genders';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -38,6 +40,8 @@ const App = () => {
         <Route path='/Items' element={<Items />} />
         <Route path='/ShowProducts' element={<ShowProducts />} />
         <Route path='/ShowCategories' element={<ShowCategories />} />
+        <Route path='/ShowBrands' element={<ShowBrands />} />
+        <Route path='/ShowGenders' element={<ShowGenders />} />
         <Route path='/ItemDetails/:id' element={<ItemDetails />} />
         <Route path='*' element={<NotFound />} />
       </Routes>

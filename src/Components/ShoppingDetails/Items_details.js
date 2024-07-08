@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Button, Breadcrumb, ListGroup, Image, Card } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
-import axiosInstance from './../../axiosConfig/instance';
+import axiosInstance from '../../axiosConfig/instance';
 import './Items_details.css';
 
 const ItemDetails = () => {
