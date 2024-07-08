@@ -45,7 +45,7 @@
 
 .sell-button {
     padding: 15px;
-    background-color: #007bff;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 6px;
@@ -54,11 +54,6 @@
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
-
-.sell-button:hover {
-    background-color: #0056b3;
-}
-
 
 @media (max-width: 600px) {
     .sell-container {

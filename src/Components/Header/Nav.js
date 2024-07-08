@@ -12,28 +12,24 @@ const Navbar = ({ user }) => {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
-        <form className="form-inline my-4 my-lg-0 mx-auto">
+        <form className="form-inline my-2 my-lg-0 mx-auto">
           <div className="input-group">
-            <input className="form-control mr-sm-4 search-bar" type="search" placeholder="    What are you looking for?" aria-label="Search" style={{ width: '500px', fontSize: '20px', position: 'relative' }} />
-            <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
-              <FaSearch style={{ fontSize: '20px' }} />
+            <input className="form-control search-bar" type="search" placeholder="What are you looking for?" aria-label="Search" />
+            <div className="search-icon">
+              <FaSearch />
             </div>
           </div>
         </form>
-        <ul className="navbar-nav">
+        <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <NavLink to="/cart" className="nav-link" style={({ isActive }) => ({
-              color: isActive ? 'white' : '',
-              backgroundColor: isActive ? 'gray' : '',
-              borderRadius: '8px',
-            })}><FaShoppingBag /> Bag</NavLink>
+            <NavLink to="/cart" className="nav-link">
+              <FaShoppingBag /> Bag
+            </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/fav" className="nav-link" style={({ isActive }) => ({
-              color: isActive ? 'white' : '',
-              backgroundColor: isActive ? 'gray' : '',
-              borderRadius: '8px',
-            })}><FaHeart /> Wishlist</NavLink>
+            <NavLink to="/fav" className="nav-link">
+              <FaHeart /> Wishlist
+            </NavLink>
           </li>
           {user ? (
             <li className="nav-item">
@@ -52,18 +48,26 @@ const Navbar = ({ user }) => {
             </li>
           ) : (
             <li className="nav-item">
-              <NavLink to="/join" className="nav-link" style={({ isActive }) => ({
-                color: isActive ? 'white' : '',
-                backgroundColor: isActive ? 'gray' : '',
-                borderRadius: '8px',
-              })}><FaUser /> Sign in</NavLink>
+              <NavLink to="/join" className="nav-link">
+                <FaUser /> Sign in
+              </NavLink>
             </li>
           )}
+          <div className="navbar-button">
           <li className="nav-item">
-            <NavLink to="/sell" className="nav-link">
-              <button className="btn sell-now-btn">SELL NOW</button>
-            </NavLink>
-          </li>
+            {user && user.Role.RoleName !== 'admin' ? (
+              <NavLink to="/sell" className="nav-link">
+                <button className="btn sell-now-btn">SELL NOW</button>
+              </NavLink>
+            ) : (
+              user && (
+                <NavLink to="/Show" className="nav-link">
+                  <button className="btn sell-now-btn">SHOW DETAILS</button>
+                </NavLink>
+              )
+            )}
+            </li>
+          </div>
         </ul>
       </div>
     </nav>

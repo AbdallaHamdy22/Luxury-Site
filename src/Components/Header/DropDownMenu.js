@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DropdownMenu from './DropDown';
 import './DropDown.css';
 
-const DropdownMenus = () => {
+const DropdownMenus = ({ user }) => {
   const [menuData, setMenuData] = useState({});
   const [loading, setLoading] = useState(true);
 
