@@ -9,7 +9,6 @@ const ShowDetails = () => {
         axiosInstance.get('Orders/getorder.php')
             .then(response => {
                 setOrders(response.data);
-                console.log(orders);
             })
             .catch(error => {
                 console.error("There was an error fetching the orders!", error);

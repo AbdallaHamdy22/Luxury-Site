@@ -13,7 +13,6 @@ const ShowBrands = () => {
         axiosInstance.get('Brand/getbrand.php')
             .then(response => {
                 setBrands(response.data);
-                console.log(Brands);
             })
             .catch(error => {
                 console.error("There was an error fetching the Brands!", error);

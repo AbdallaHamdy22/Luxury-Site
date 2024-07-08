@@ -12,7 +12,6 @@ const ShowGenders = () => {
         axiosInstance.get('Sex/getSex.php')
             .then(response => {
                 setGenders(response.data);
-                console.log(Genders);
             })
             .catch(error => {
                 console.error("There was an error fetching the Genders!", error);

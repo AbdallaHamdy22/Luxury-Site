@@ -13,7 +13,6 @@ const ShowCategories = () => {
         axiosInstance.get('Categoire/getcategoire.php')
             .then(response => {
                 setCategories(response.data);
-                console.log(Categories);
             })
             .catch(error => {
                 console.error("There was an error fetching the Categories!", error);
