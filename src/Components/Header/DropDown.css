@@ -11,3 +11,10 @@
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+.sell-now-btn {
+    background-color: #b5853f;
+    color: white;
+    font-weight: bold;
+    margin-left: 15px;
+}

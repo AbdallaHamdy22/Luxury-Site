@@ -7,17 +7,19 @@ import { Dropdown } from 'react-bootstrap';
 const Navbar = ({ user }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white" style={{ height: '90px' }}>
-      <NavLink className="navbar-brand" to="/">Royal Luxury</NavLink>
+      <NavLink className="navbar-brand" to="/">
+        <img src={`${process.env.PUBLIC_URL}/Images/Logo2.png`} alt="Logo" />
+      </NavLink>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <form className="form-inline my-2 my-lg-0 mx-auto">
           <div className="input-group">
-            <input className="form-control search-bar" type="search" placeholder="What are you looking for?" aria-label="Search" />
             <div className="search-icon">
               <FaSearch />
             </div>
+            <input className="form-control search-bar" type="search" placeholder="What are you looking for?" aria-label="Search" />
           </div>
         </form>
         <ul className="navbar-nav ml-auto">
@@ -32,14 +34,14 @@ const Navbar = ({ user }) => {
             </NavLink>
           </li>
           {user ? (
-            <li className="nav-item">
+            <li>
               <Dropdown className="custom-dropdown">
                 <Dropdown.Toggle variant="success" id="dropdown-basic" className="custom-dropdown">
-                  Welcome, {user.UserName}
+                  {user.UserName}!
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item href="/account-settings">Account Settings</Dropdown.Item>
-                  <Dropdown.Item href="#" onClick={() => {
+                  <Dropdown.Item href="/" onClick={() => {
                     localStorage.removeItem('user');
                     window.location.reload();
                   }}>Logout</Dropdown.Item>
@@ -47,27 +49,12 @@ const Navbar = ({ user }) => {
               </Dropdown>
             </li>
           ) : (
-            <li className="nav-item">
+            <li>
               <NavLink to="/join" className="nav-link">
                 <FaUser /> Sign in
               </NavLink>
             </li>
           )}
-          <div className="navbar-button">
-          <li className="nav-item">
-            {user && user.Role.RoleName !== 'admin' ? (
-              <NavLink to="/sell" className="nav-link">
-                <button className="btn sell-now-btn">SELL NOW</button>
-              </NavLink>
-            ) : (
-              user && (
-                <NavLink to="/Show" className="nav-link">
-                  <button className="btn sell-now-btn">SHOW DETAILS</button>
-                </NavLink>
-              )
-            )}
-            </li>
-          </div>
         </ul>
       </div>
     </nav>

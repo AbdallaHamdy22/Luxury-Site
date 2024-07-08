@@ -4,7 +4,7 @@ import DropdownMenus from './DropDownMenu';
 const Header = ({ user }) => (
   <>
     <Navbar user={user} />
-    <DropdownMenus/>
+    <DropdownMenus user={user} />
   </>
 );
 

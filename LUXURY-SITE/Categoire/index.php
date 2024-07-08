@@ -12,4 +12,3 @@ $categories = new Categoire($db);
 $allCategories = $categories->Get_All_Categoire_Data();
 
 echo json_encode($allCategories);
-?>

@@ -6,7 +6,7 @@ const DropdownMenu = ({ id, title, sections }) => (
   <li className="nav-item dropdown">
     <a
       className="nav-link dropdown-toggle"
-      href="#"
+      href="/Items"
       id={id}
       role="button"
       data-toggle="dropdown"
