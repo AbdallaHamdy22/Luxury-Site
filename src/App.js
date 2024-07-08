@@ -12,8 +12,8 @@ import CartComponent from './Components/Cart/Cart';
 import Items from './Components/Shopping/Items';
 import ItemDetails from './Components/Shopping/Items_details';
 import Sell from './Components/Sell/Sell';
-
-import FavComponent from './Components/favorites/Fav';
+import FavComponent from './Components/Favorites/Favourites';
+import ShowProducts from './Components/ShowProducts/product';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -33,10 +33,9 @@ const App = () => {
         <Route path='/sell' element={<Sell />} />
         <Route path='/join' element={<Login setUser={setUser} />} />
         <Route path='/fav' element={<FavComponent />} />
-        <Route path='/fav' element={<RdxFav />} />
         <Route path='/cart' element={<CartComponent />} />
-        <Route path='/cart' element={<RdxCart />} />
         <Route path='/Items' element={<Items />} />
+        <Route path='/ShowProducts' element={<ShowProducts />} />
         <Route path='/ItemDetails/:id' element={<ItemDetails />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
