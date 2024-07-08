@@ -17,7 +17,8 @@ import ShowProducts from './Components/ShowProducts/product';
 import ShowCategories from './Components/ShowCategories/Categories';
 import ShowBrands from './Components/ShowBrand/Brands';
 import ShowGenders from './Components/ShowGender/Genders';
-import ShowDetails from './Components/ShowDetails/ShowDetails';
+import ShowOrders from './Components/ShowOrders/ShowOrders';
+import ShowOrderDetails from './Components/ShowOrderDetails/ShowOrderDetails';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -39,12 +40,13 @@ const App = () => {
         <Route path='/fav' element={<FavComponent />} />
         <Route path='/cart' element={<CartComponent />} />
         <Route path='/Items' element={<Items />} />
-        <Route path='/ShowDetails' element={<ShowDetails />} />
+        <Route path='/ItemDetails/:id' element={<ItemDetails />} />
+        <Route path='/ShowOrders' element={<ShowOrders />} />
+        <Route path='/ShowOrderDetails/:id' element={<ShowOrderDetails />} />
         <Route path='/ShowProducts' element={<ShowProducts />} />
         <Route path='/ShowCategories' element={<ShowCategories />} />
         <Route path='/ShowBrands' element={<ShowBrands />} />
         <Route path='/ShowGenders' element={<ShowGenders />} />
-        <Route path='/ItemDetails/:id' element={<ItemDetails />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />

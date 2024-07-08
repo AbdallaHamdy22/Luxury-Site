@@ -7,6 +7,7 @@ const ShowProducts = () => {
     const [products, setProducts] = useState([]);
     const [show, setShow] = useState(false);
     const [currentProduct, setCurrentProduct] = useState({});
+    const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
         axiosInstance.get('Products/getproduct.php')
@@ -18,8 +19,17 @@ const ShowProducts = () => {
             });
     }, []);
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setCurrentProduct({ ...currentProduct, Image: file });
+            setImagePreview(URL.createObjectURL(file));
+        }
+    };
+
     const handleEdit = (product) => {
         setCurrentProduct(product);
+        setImagePreview(product.Image);
         setShow(true);
     };
 
@@ -33,16 +43,21 @@ const ShowProducts = () => {
     };
 
     const handleSave = () => {
-        axiosInstance.post('Products/updateproduct.php', currentProduct)
-            .then(response => {
-                setProducts(products.map(product =>
-                    product.ProductID === currentProduct.ProductID ? currentProduct : product
-                ));
-                setShow(false);
-            })
-            .catch(error => {
-                console.error("There was an error updating the product!", error);
-            });
+        const formData = new FormData();
+        for (const key in currentProduct) {
+            formData.append(key, currentProduct[key]);
+        }
+
+        axiosInstance.post('Products/updateproduct.php', formData)
+        .then(response => {
+            setProducts(products.map(product =>
+                product.ProductID === currentProduct.ProductID ? currentProduct : product
+            ));
+            setShow(false);
+        })
+        .catch(error => {
+            console.error("There was an error updating the Categories!", error);
+        });
     };
 
     return (
@@ -54,6 +69,7 @@ const ShowProducts = () => {
                         <th>ID</th>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Image</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -64,6 +80,7 @@ const ShowProducts = () => {
                             <td>{product.ProductID}</td>
                             <td>{product.Name}</td>
                             <td>{product.Price}</td>
+                            <td><img src={product.Image} alt={product.Name} className="product-image" /></td>
                             <td><button onClick={() => handleEdit(product)}>Edit</button></td>
                             <td><button>Delete</button></td>
                         </tr>
@@ -86,6 +103,11 @@ const ShowProducts = () => {
                         Price
                         <input type="number" name="Price" value={currentProduct.Price} onChange={handleChange} />
                     </label>
+                    <label>
+                        Image:
+                        <input type="file" name="Image" onChange={handleImageChange} />
+                    </label>
+                    {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
                 </form>
             </PopForm>
         </div>

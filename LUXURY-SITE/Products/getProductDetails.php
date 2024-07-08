@@ -9,7 +9,6 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 
-
 // Create a database connection
 $database = new Connection();
 $db = $database->connect();
@@ -20,11 +19,13 @@ $product = new Products($db);
 $productID = isset($_GET['ProductID']) ? intval($_GET['ProductID']) : 0;
 
 if ($productID > 0) {
-    // Fetch the product data by ID
     $productData = $product->Get_Product_Data_By_ID($productID);
-    // print_r($productData);
 
     if ($productData) {
+        if (isset($productData['Image'])) {
+            $productData['Images'] = explode(',', $productData['Image']);
+            unset($productData['Image']);
+        }
         echo json_encode($productData);
     } else {
         echo json_encode(["message" => "Product not found."]);
@@ -32,4 +33,3 @@ if ($productID > 0) {
 } else {
     echo json_encode(["message" => "Invalid product ID."]);
 }
-?>

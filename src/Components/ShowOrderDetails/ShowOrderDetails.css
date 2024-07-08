@@ -1,0 +1,57 @@
+.scroll-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.scroll-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    margin: 0 10px;
+    width: 80%; /* Ensure the container has a width to show horizontal scrollbar */
+}
+
+.image-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: max-content; /* Ensure the row doesn't wrap */
+}
+
+.image-container {
+    display: inline-block;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0.5;
+    position: relative;
+    transform: scale(0.8);
+    margin: 0 10px;
+}
+
+.image-container.selected {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.product-image {
+    cursor: pointer;
+    max-width: 150px;
+}
+
+.main-product-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-detail-container {
+    padding: 20px;
+}
+
+.description-container {
+    display: flex;
+    align-items: center;
+}
+
+.description-container h3 {
+    margin-right: 10px;
+}
