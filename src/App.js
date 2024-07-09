@@ -12,7 +12,7 @@ import CartComponent from './Components/Cart/Cart';
 import Items from './Components/Shopping/Items';
 import ItemDetails from './Components/ShoppingDetails/Items_details';
 import Sell from './Components/Sell/Sell';
-import FavComponent from './Components/Favorites/Favourites';
+import FavComponent from './Components/favorites/Favourites'
 import ShowProducts from './Components/ShowProducts/product';
 import ShowCategories from './Components/ShowCategories/Categories';
 import ShowBrands from './Components/ShowBrand/Brands';

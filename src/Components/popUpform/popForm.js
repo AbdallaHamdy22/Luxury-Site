@@ -1,24 +1,25 @@
+
 import React from 'react';
 import './popForm.css';
 
 const PopForm = ({ show, handleClose, handleSave, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-  return (
-    <div className={showHideClassName}>
-      <section className="modal-main">
-        {children}
-        <div className="button-group">
-          <button type="button" onClick={handleClose}>
-            Close
-          </button>
-          <button type="button" onClick={handleSave}>
-            Save
-          </button>
+    return (
+        <div className={`modal ${show ? 'show' : ''}`} onClick={handleClose}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <div className="modal-header">
+                    <h4 className="modal-title">Product Form</h4>
+                </div>
+                <div className="modal-body">
+                    {children}
+                </div>
+                <div className="modal-footer">
+                    <button className="button" onClick={handleClose}>Close</button>
+                    <button className="button" onClick={() => handleSave(handleClose)}>Save</button>
+                </div>
+            </div>
         </div>
-      </section>
-    </div>
-  );
+    );
 };
 
 export default PopForm;
+  
