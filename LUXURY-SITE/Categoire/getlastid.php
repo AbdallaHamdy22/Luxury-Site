@@ -8,8 +8,9 @@ header("Content-Type: application/json; charset=UTF-8");
 $database = new Connection();
 $db = $database->connect();
 
-$categories = new Categoire($db);
-$allCategories = $categories->Get_Categoire_Data_With_Pagination();
+$category = new Categoire($db);
 
-echo json_encode($allCategories);
+$lastID = $category->GetLastID();
+
+echo json_encode(array("LastID" => $lastID));
 ?>

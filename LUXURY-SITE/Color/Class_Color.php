@@ -52,6 +52,16 @@ class Color
             return null;
         }
     }
+    public function Get_All_Color_Data()
+    {
+        $sql = "SELECT * FROM prodcut_color"; 
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
 
 }
 ?>

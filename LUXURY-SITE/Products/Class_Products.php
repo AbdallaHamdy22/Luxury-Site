@@ -3,15 +3,15 @@ class Products
 {
     private int $ID;
     private string $Name;
-    private string $Description;
+    private string $Description='';
     private int $Productionyear;
-    private string $BraceletMaterial;
+    private string $BraceletMaterial='';
     private float $Price;
-    private float $Quantity;
+    private float $Quantity=0;
     private string $Image;
-    private float $OfferPrice;
+    private float $OfferPrice=0;
     private Brand $Brand;
-    private Categoire $Categoire;
+    private Categoire $Categoire ;
     private Color $Color;
     private Sex $Sex;
     private $conn;
@@ -20,6 +20,10 @@ class Products
     public function __construct($db)
     {
         $this->conn = $db;
+        $this->Brand = new Brand($db);
+        $this->Categoire = new Categoire($db);
+        $this->Color = new Color($db);
+        $this->Sex = new Sex($db);
     }
     
     
@@ -41,8 +45,8 @@ class Products
             $this->Quantity = $result['Quantity'];            
             $this->Image = $result['Image'];   
             $this->OfferPrice = $result['OfferPrice']; 
-            $this->Productionyear = $result['Production Year'];
-            $this->BraceletMaterial = $result['Bracelet Material'];
+            $this->Productionyear = $result['ProductionYear'];
+            $this->BraceletMaterial = $result['BraceletMaterial'];
             $this->Brand = new Brand($this->conn);
             $this->Brand->Get_Brand_Data_By_ID($result['CategoireID']); 
             $this->Categoire = new Categoire($this->conn);
@@ -55,6 +59,37 @@ class Products
         } else {
             return null;
         }
+    }
+    public function Get_Product_Data_With_Pagination($start=0, $limit=6) {
+        $sql = "SELECT p.*, 
+                       b.Name AS BrandName, 
+                       c.Name AS CategoryName, 
+                       col.Name AS ColorName, 
+                       s.Name AS SexName
+                FROM products p
+                LEFT JOIN brand b ON p.BrandID = b.BrandID
+                LEFT JOIN categoire c ON p.CategoireID = c.CategoireID
+                LEFT JOIN prodcut_color col ON p.Color_ID = col.Color_ID
+                LEFT JOIN sex s ON p.SexID = s.SexID
+                LIMIT :start, :limit";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results;
+    }
+    
+    public function Get_Total_Product_Count()
+    {
+        $sql = "SELECT COUNT(*) as count FROM products";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['count'];
     }
     
     public function Get_Latest_Products()
@@ -96,6 +131,14 @@ class Products
     public function setName(string $Name): void {
         $this->Name = $Name;
     }
+    public function Delete_Product()
+{
+    $sql = "DELETE FROM products WHERE ProductID = :id";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id', $this->ID, PDO::PARAM_INT);
+    
+    return $stmt->execute();
+}
 
     // Getter and Setter for Description
     public function setDescription(string $Description): void {
@@ -157,6 +200,114 @@ class Products
     public function setOfferPrice(float $OfferPrice): void {
         $this->OfferPrice = $OfferPrice;
     }         
+    public function setBrandID($brandID){
+        
+        $this->Brand->setID($brandID);
+    }
+    public function setCategoryID($CategoryID){
+        
+        $this->Categoire->setID($CategoryID);
+    }
+    public function setColorID($colorID){
+        
+        $this->Color->setID($colorID);
+    }
+    public function setSexID($SexID){
+        
+        $this->Sex->setID($SexID);
+    }
+    public function Create_Product()
+{
+    $sql = "INSERT INTO products 
+            (ProductID, Name, Description, ProductionYear, BraceletMaterial, Price, Quantity, Image, OfferPrice, BrandID, CategoireID, Color_ID, SexID)
+            VALUES 
+            (:productid, :name, :description, :productionyear, :braceletmaterial, :price, :quantity, :image, :offerprice, :brandid, :categoireid, :colorid, :sexid)";
+    $stmt = $this->conn->prepare($sql);    
+    
+    // Define variables for the values to be bound
+    $brandid = $this->Brand->getID();
+    $categoireid = $this->Categoire->getID();
+    $colorid = $this->Color->getID();
+    $sexid = $this->Sex->getID(); 
+
+    $stmt->bindParam(':productid', $this->ID);
+    $stmt->bindParam(':name', $this->Name);
+    $stmt->bindParam(':description', $this->Description);
+    $stmt->bindParam(':productionyear', $this->Productionyear);
+    $stmt->bindParam(':braceletmaterial', $this->BraceletMaterial);
+    $stmt->bindParam(':price', $this->Price);
+    $stmt->bindParam(':quantity', $this->Quantity);
+    $stmt->bindParam(':image', $this->Image);
+    $stmt->bindParam(':offerprice', $this->OfferPrice);
+    $stmt->bindParam(':brandid', $brandid); // Use variable
+    $stmt->bindParam(':categoireid', $categoireid); // Use variable
+    $stmt->bindParam(':colorid', $colorid); // Use variable
+    $stmt->bindParam(':sexid', $sexid); // Use variable
+
+    if ($stmt->execute()) {
+        return true;
+    }
+
+    return false;
+}
+
+
+
+    // Get the last inserted ID
+    public function GetLastID()
+    {
+        $sql = "SELECT MAX(ProductID) as LastID FROM products";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['LastID'];
+    }
+    public function Update_Product()
+{
+    $sql = "UPDATE products SET 
+            Name = :name,
+            Description = :description,
+            ProductionYear = :productionyear,
+            BraceletMaterial = :braceletmaterial,
+            Price = :price,
+            Quantity = :quantity,
+            Image = :image,
+            OfferPrice = :offerprice,
+            BrandID = :brandid,
+            CategoireID = :categoireid,
+            Color_ID = :colorid,
+            SexID = :sexid
+            WHERE ProductID = :productid";
+
+    $stmt = $this->conn->prepare($sql);
+    
+    $brandid = $this->Brand->getID();
+    $categoireid = $this->Categoire->getID();
+    $colorid = $this->Color->getID();
+    $sexid = $this->Sex->getID(); 
+
+    $stmt->bindParam(':name', $this->Name);
+    $stmt->bindParam(':description', $this->Description);
+    $stmt->bindParam(':productionyear', $this->Productionyear);
+    $stmt->bindParam(':braceletmaterial', $this->BraceletMaterial);
+    $stmt->bindParam(':price', $this->Price);
+    $stmt->bindParam(':quantity', $this->Quantity);
+    $stmt->bindParam(':image', $this->Image);
+    $stmt->bindParam(':offerprice', $this->OfferPrice);
+    $stmt->bindParam(':brandid', $brandid); // Use variable
+    $stmt->bindParam(':categoireid', $categoireid); // Use variable
+    $stmt->bindParam(':colorid', $colorid); // Use variable
+    $stmt->bindParam(':sexid', $sexid); // Use variable
+    $stmt->bindParam(':productid', $this->ID);
+
+    if ($stmt->execute()) {
+        return true;
+    }
+
+    return false;
+}
 
 
 }

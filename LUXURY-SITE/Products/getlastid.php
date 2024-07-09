@@ -12,8 +12,9 @@ header("Content-Type: application/json; charset=UTF-8");
 $database = new Connection();
 $db = $database->connect();
 
-$product = new Products($db);
-$allProducts = $product->Get_All_Product_Data(); // Assuming you have this method to get all products
+$Product = new Products($db);
 
-echo json_encode($allProducts);
+$lastID = $Product->GetLastID();
+
+echo json_encode(array("LastID" => $lastID));
 ?>

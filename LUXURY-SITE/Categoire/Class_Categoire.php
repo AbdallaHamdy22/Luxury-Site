@@ -73,5 +73,88 @@ class Categoire
 
         return $results;
     }
+
+    public function Get_Categoire_Data_With_Pagination($start=0, $limit=6)
+    {
+        $sql = "SELECT * FROM Categoire LIMIT :start, :limit";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
+
+    public function Get_Total_Categories_Count()
+    {
+        $sql = "SELECT COUNT(*) as count FROM Categoire";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['count'];
+    }
+
+    public function Create_Categoire()
+    {
+        $sql = "INSERT INTO Categoire (CategoireID , Name, Image) VALUES (:ID, :Name, :Image)";
+        $stmt = $this->conn->prepare($sql);
+
+        // Bind data
+        $stmt->bindParam(':ID', $this->ID);
+        $stmt->bindParam(':Name', $this->Name);
+        $stmt->bindParam(':Image', $this->Image);
+
+        // Execute query
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    public function GetLastID()
+    {
+        $sql = "SELECT MAX(CategoireID) as LastID FROM Categoire";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['LastID']+1;
+    }
+    public function Update_Categoire()
+    {
+        $sql = "UPDATE Categoire SET Name = :Name, Image = :Image WHERE CategoireID = :ID";
+        $stmt = $this->conn->prepare($sql);
+
+        // Bind data
+        $stmt->bindParam(':ID', $this->ID);
+        $stmt->bindParam(':Name', $this->Name);
+        $stmt->bindParam(':Image', $this->Image);
+
+        // Execute query
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+    public function Delete_Categoire()
+{
+    $sql = "DELETE FROM Categoire WHERE CategoireID = :ID";
+    $stmt = $this->conn->prepare($sql);
+
+    // Bind data
+    $stmt->bindParam(':ID', $this->ID);
+
+    // Execute query
+    if($stmt->execute()){
+        return true;
+    }
+    return false;
+}
+
 }
 ?>

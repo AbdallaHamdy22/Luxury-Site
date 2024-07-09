@@ -1,6 +1,6 @@
 <?php
 require_once "../DataBase/Class_Connection.php";
-require_once 'Class_Categoire.php';
+require_once 'Class_Brand.php';
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -8,8 +8,9 @@ header("Content-Type: application/json; charset=UTF-8");
 $database = new Connection();
 $db = $database->connect();
 
-$categories = new Categoire($db);
-$allCategories = $categories->Get_Categoire_Data_With_Pagination();
+$Brand = new Brand($db);
 
-echo json_encode($allCategories);
+$lastID = $Brand->GetLastID();
+
+echo json_encode(array("LastID" => $lastID));
 ?>
