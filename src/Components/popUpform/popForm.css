@@ -1,0 +1,104 @@
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.modal.show {
+    display: flex; /* Show the modal */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-header, .modal-footer {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-family: 'Arial', sans-serif;
+}
+
+.modal-header h4 {
+    margin: 0;
+}
+
+.modal-body {
+    padding: 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.modal-footer .button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #5cb85c;
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+.modal-footer .button:hover {
+    background-color: #4cae4c;
+}
+
+.modal-body label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="number"],
+.modal-body input[type="file"],
+.modal-body textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+.image-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

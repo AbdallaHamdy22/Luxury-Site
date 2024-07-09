@@ -1,0 +1,60 @@
+    .product-table {
+        width: 100%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        font-family: 'Georgia', serif; /* تغيير الفونت */
+        
+    }
+
+    .product-table table {
+        width: 100%;
+        border: 1px solid #b87333; /* لون نحاسي */
+        margin-top: 20px;
+    }
+
+    .product-table th, .product-table td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #b87333; /* لون نحاسي */
+        white-space: nowrap; /* لمنع التكسرات داخل الخلايا */
+    }
+
+    .product-table th {
+        background-color: #b87333; /* لون نحاسي */
+        font-weight: bold;
+        color: #fff; /* لون الخط */
+    }
+
+    .product-table td {
+        color: #333; /* لون النص */
+    }
+
+    .product-table button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        background-color: #b87333; /* لون نحاسي */
+        color: #fff; /* لون الخط */
+        font-family: 'Georgia', serif; /* تغيير الفونت */
+    }
+
+    .product-table button:hover {
+        background-color: #a56925; /* لون نحاسي غامق */
+    }
+
+    .product-table h1 {
+        text-align: center;
+        color: #b87333; /* لون نحاسي */
+        font-family: 'Georgia', serif; /* تغيير الفونت */
+    }
+
+    /* تصغير حجم الصورة */
+    .product-table td img {
+        width: 100px; /* تغيير حجم الصورة */
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
