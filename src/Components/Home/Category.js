@@ -7,8 +7,9 @@ const CategorySection = () => {
 
   useEffect(() => {
     axiosInstance.get('Categoire/')
-      .then(response => response.json())
-      .then(data => setCategories(data))
+      .then(response => {
+        setCategories(response.data);
+      })
       .catch(error => console.error('Error fetching categories:', error));
   }, []);
 
@@ -29,4 +30,3 @@ const CategorySection = () => {
 };
 
 export default CategorySection;
-

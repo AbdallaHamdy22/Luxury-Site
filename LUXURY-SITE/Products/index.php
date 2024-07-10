@@ -21,14 +21,15 @@ $latestProducts = $products->Get_Latest_Products();
 // Format the data to match the required structure
 $formattedProducts = array_map(function($product) {
     return [
-        'name' => $product['Name'],
-        'description' => $product['Description'],
-        'price' => $product['Price'] . ' AED',
+        'ProductID' => $product['ProductID'], // Include ProductID for unique key
+        'Name' => $product['Name'],
+        'Description' => $product['Description'],
+        'Price' => $product['Price'] . ' AED',
         'link' => "/ItemDetails/" . $product['ProductID'],
-        'img' => $product['Image'] 
-        // ''
+        'img' =>   $product['Image'] 
     ];
 }, $latestProducts);
 
 echo json_encode($formattedProducts);
+
 ?>

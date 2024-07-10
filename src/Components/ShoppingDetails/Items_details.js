@@ -30,7 +30,6 @@ const ItemDetails = () => {
         data = removeSpacesFromKeys(data);
 
         if (data.ProductID) {
-          console.log(data.SexID);
           setItem(data);
           axiosInstance.get('Products/getitems.php')
             .then(response => {
@@ -60,7 +59,6 @@ const ItemDetails = () => {
   const scrollRight = () => {
     scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
   };
-  console.log(item);
 
   return (
     <Container className="product-detail-container mt-4">

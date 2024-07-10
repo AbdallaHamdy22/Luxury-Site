@@ -7,8 +7,9 @@ const BrandSection = () => {
 
   useEffect(() => {
     axiosInstance.get('Brand/')
-      .then(response => response.json())
-      .then(data => setBrands(data))
+      .then(response => {
+        setBrands(response.data);
+      })
       .catch(error => console.error('Error fetching brands:', error));
   }, []);
 
