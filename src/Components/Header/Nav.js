@@ -40,7 +40,7 @@ const Navbar = ({ user }) => {
                   {user.UserName}!
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/account-settings">Account Settings</Dropdown.Item>
+                  <Dropdown.Item href="/accountDetails">Account Settings</Dropdown.Item>
                   <Dropdown.Item href="/" onClick={() => {
                     localStorage.removeItem('user');
                     window.location.reload();

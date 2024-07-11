@@ -124,13 +124,20 @@ const ShowBrands = () => {
         if (window.confirm("Are you sure you want to delete this brand?")) {
             axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Brand/deletebrand.php', { BrandID: id })
                 .then(response => {
-                    fetchBrands();
+                    if (response.data.status === 'success') {
+                        fetchBrands();
+                        alert('Brand deleted successfully.');
+                    } else {
+                        // console.log(response.data.message);
+                        alert(response.data.message);
+                    }
                 })
                 .catch(error => {
                     console.error("There was an error deleting the brand!", error);
                 });
         }
     };
+    
 
     const handleSearch = (e) => {
         const value = e.target.value;

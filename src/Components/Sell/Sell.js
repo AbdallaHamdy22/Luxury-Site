@@ -1,16 +1,50 @@
 import axiosInstance from '../../axiosConfig/instance';
 import './Sell.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const Sell = () => {
+const Sell = ({ user }) => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
         price: '',
         quantity: '',
-        offerPrice: ''
+        offerPrice: '',
+        CategoireID: '',
+        BrandID: '',
+        SexID: '',
+        ColorID: ''
     });
-    const [imageFiles, setImageFiles] = useState([]);
+    const [imageFiles, setImageFiles] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
+    const [sexes, setSexes] = useState([]);
+    const [colors, setColors] = useState([]);
+
+    useEffect(() => {
+        axiosInstance.get('Categoire/getcategoire.php')
+            .then(response => {
+                setCategories(response.data);
+            })
+            .catch(error => console.error('Error fetching categories:', error));
+
+        axiosInstance.get('Brand/getbrand.php')
+            .then(response => {
+                setBrands(response.data);
+            })
+            .catch(error => console.error('Error fetching brands:', error));
+
+        axiosInstance.get('Sex/getSex.php')
+            .then(response => {
+                setSexes(response.data);
+            })
+            .catch(error => console.error('Error fetching sexes:', error));
+
+        axiosInstance.get('Color/getcolor.php')
+            .then(response => {
+                setColors(response.data);
+            })
+            .catch(error => console.error('Error fetching colors:', error));
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,7 +55,7 @@ const Sell = () => {
     };
 
     const handleFileChange = (e) => {
-        setImageFiles(e.target.files);
+        setImageFiles(e.target.files[0]);
     };
 
     const handleSubmit = (e) => {
@@ -32,41 +66,50 @@ const Sell = () => {
         data.append('price', formData.price);
         data.append('quantity', formData.quantity);
         data.append('offerPrice', formData.offerPrice);
-    
-        for (let i = 0; i < imageFiles.length; i++) {
-            data.append('images[]', imageFiles[i]);
-        }
-    
-        axiosInstance.get('uploaditem.php', {
-            method: 'POST',
-            body: data
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(result => {
-            console.log('Form submitted', result);
-            if (result.status === 'success') {
-                alert(result.message);
-                setFormData({
-                    name: '',
-                    description: '',
-                    price: '',
-                    quantity: '',
-                    offerPrice: '',
-                });
-                setImageFiles([]);
-            } else {
-                alert('Error: ' + result.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while submitting the form');
+        data.append('CategoireID', formData.CategoireID);
+        data.append('BrandID', formData.BrandID);
+        data.append('SexID', formData.SexID);
+        data.append('ColorID', formData.ColorID);
+        data.append('UserID', user.ID);
+        data.append('Image', imageFiles); // تأكد من إضافة الصورة
+        
+        console.log('----------------------------------------');
+        data.forEach((value, key) => {
+            console.log(`${key}: ${value}`);
         });
+
+        axiosInstance.post('WaitingList/addqueue.php', data)
+            .then(response => {
+                if (response.status !== 200) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.data;
+            })
+            .then(result => {
+                console.log('Form submitted', result);
+                
+                if (result.status === 'success') {
+                    alert(result.message);
+                    setFormData({
+                        name: '',
+                        description: '',
+                        price: '',
+                        quantity: '',
+                        offerPrice: '',
+                        CategoireID: '',
+                        BrandID: '',
+                        SexID: '',
+                        ColorID: ''
+                    });
+                    setImageFiles(null);
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the form');
+            });
     };
     
     return (
@@ -109,7 +152,6 @@ const Sell = () => {
                 <input
                     name='images'
                     type='file'
-                    multiple
                     onChange={handleFileChange}
                     required
                 />
@@ -121,27 +163,33 @@ const Sell = () => {
                     value={formData.offerPrice}
                     onChange={handleChange}
                 />
-                <select name="Categories" id="Cat">
-                    <option value="" disabled selected hidden>Categories</option>
-                    <option value="Watches">Watches</option>
-                    <option value="Bags">Bags</option>
+                <label htmlFor='CategoireID'>Categories</label>
+                <select name="CategoireID" id="CategoireID" value={formData.CategoireID} onChange={handleChange} required>
+                    <option value="" disabled>Select Category</option>
+                    {categories.map(category => (
+                        <option key={category.CategoireID} value={category.CategoireID}>{category.Name}</option>
+                    ))}
                 </select>
-                <select name="Brands" id="Brands">
-                    <option value="" disabled selected hidden>Brands</option>
-                    <option value="Rolex">Rolex</option>
-                    <option value="Gucci">Gucci</option>
+                <label htmlFor='BrandID'>Brands</label>
+                <select name="BrandID" id="BrandID" value={formData.BrandID} onChange={handleChange} required>
+                    <option value="" disabled>Select Brand</option>
+                    {brands.map(brand => (
+                        <option key={brand.BrandID} value={brand.BrandID}>{brand.Name}</option>
+                    ))}
                 </select>
-                <select name="Sex" id="Sex">
-                    <option value="" disabled selected hidden>Sex</option>
-                    <option value="Men">Men</option>
-                    <option value="Women">Women</option>
-                    <option value="Kids">Kids</option>
+                <label htmlFor='SexID'>Sex</label>
+                <select name="SexID" id="SexID" value={formData.SexID} onChange={handleChange} required>
+                    <option value="" disabled>Select Sex</option>
+                    {sexes.map(sex => (
+                        <option key={sex.SexID} value={sex.SexID}>{sex.Name}</option>
+                    ))}
                 </select>
-                <select name="Color" id="Color">
-                    <option value="" disabled selected hidden>Color</option>
-                    <option value="White">White</option>
-                    <option value="Black">Black</option>
-                    <option value="Yellow">Yellow</option>
+                <label htmlFor='ColorID'>Color</label>
+                <select name="ColorID" id="ColorID" value={formData.ColorID} onChange={handleChange} required>
+                    <option value="" disabled>Select Color</option>
+                    {colors.map(color => (
+                        <option key={color.Color_ID} value={color.Color_ID}>{color.Name}</option>
+                    ))}
                 </select>
                 <button className='sell-button' type='submit'>Add</button>
             </form>

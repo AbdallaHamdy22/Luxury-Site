@@ -1,0 +1,57 @@
+.account-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.account-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.account-container .form-group {
+    margin-bottom: 15px;
+}
+
+.account-container .form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.account-container .form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.account-container .profile-image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.account-container .profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.account-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.account-container button:hover {
+    background-color: #45a049;
+}

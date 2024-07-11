@@ -9,6 +9,7 @@ const Login = ({ setUser }) => {
   });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup
   const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
@@ -80,46 +81,39 @@ const Login = ({ setUser }) => {
   }
 
   return (
-    <div>
-      <div className="main_container1">
-        <div className="Login_form">
-          <form onSubmit={handleLoginSubmit}>
-            <h2>Sign in</h2>
+    <div className="form-container">
+      <div className="tab-buttons">
+        <button className={`tab-button ${isLogin ? 'active' : ''}`} onClick={() => setIsLogin(true)}>Sign In</button>
+        <button className={`tab-button ${!isLogin ? 'active' : ''}`} onClick={() => setIsLogin(false)}>Sign Up</button>
+      </div>
+      {isLogin ? (
+        <div className="form-card">
+          <form onSubmit={handleLoginSubmit} className="login-form">
+            <h2>Sign In</h2>
             <input
               placeholder="Email address"
               type="text"
               name="Email"
-              className="inputs"
               required
               value={loginData.Email}
               onChange={handleLoginChange}
             />
-            <br />
             <input
               placeholder="Password"
-              type="Password"
+              type="password"
               name="Password"
-              className="inputs"
               required
               value={loginData.Password}
               onChange={handleLoginChange}
             />
-            <br />
-            <button className="lgn-btn" type="submit">Log in</button>
+            <button type="submit">Log In</button>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </form>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
-          <br />
-          <div className="register">
-            <p>
-              You don't have an account? <span className="reg">Create new account</span>
-            </p>
-          </div>
         </div>
-      </div>
-      <div className="main_container2">
-        <div className="signup_form">
-          <form onSubmit={handleSignupSubmit}>
-            <p>Create a new account</p>
+      ) : (
+        <div className="form-card">
+          <form onSubmit={handleSignupSubmit} className="signup-form">
+            <h2>Create a New Account</h2>
             <input
               type="text"
               placeholder="First name"
@@ -135,56 +129,74 @@ const Login = ({ setUser }) => {
               required
               value={signupData.lName}
               onChange={handleSignupChange}
-            /><br />
+            />
             <input
               type="number"
               placeholder="Phone number"
-              className="box"
               name="number"
               required
               value={signupData.number}
               onChange={handleSignupChange}
-            /><br />
+            />
             <input
               type="email"
-              placeholder="Email Address"
-              className="box"
+              placeholder="Email address"
               name="Email"
               required
               value={signupData.Email}
               onChange={handleSignupChange}
-            /><br />
+            />
             <input
-              type="Password"
+              type="password"
               placeholder="Password"
-              className="box"
-              required
               name="Password"
+              required
               value={signupData.Password}
               onChange={handleSignupChange}
-            /><br />
+            />
             <input
-              type="Password"
-              placeholder="Confirm Password"
-              className="box"
-              required
+              type="password"
+              placeholder="Confirm password"
               name="conf_Password"
+              required
               value={signupData.conf_Password}
               onChange={handleSignupChange}
-            /><br />
-            <label htmlFor="brth">Date of birth</label><br />
-            <input type="date" name="birthdate" id="brth" value={signupData.birthdate} onChange={handleSignupChange} /><br />
-            <label htmlFor="gndrM">Male</label>
-            <input type="radio" id="gndrM" name="gender" value="Male" checked={signupData.gender === 'Male'} onChange={handleSignupChange} />
-            <label htmlFor="gndrF">Female</label>
-            <input type="radio" id="gndrF" name="gender" value="Female" checked={signupData.gender === 'Female'} onChange={handleSignupChange} /><br />
-            <button className="reg-btn" type="submit">
-              Sign up
-            </button>
+            />
+            <label htmlFor="birthdate">Date of Birth</label>
+            <input
+              type="date"
+              name="birthdate"
+              id="birthdate"
+              value={signupData.birthdate}
+              onChange={handleSignupChange}
+            />
+            <div className="gender-selection">
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Male"
+                  checked={signupData.gender === 'Male'}
+                  onChange={handleSignupChange}
+                />
+                Male
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Female"
+                  checked={signupData.gender === 'Female'}
+                  onChange={handleSignupChange}
+                />
+                Female
+              </label>
+            </div>
+            <button type="submit">Sign Up</button>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </form>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
-      </div>
+      )}
     </div>
   );
 };

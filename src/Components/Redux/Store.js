@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import favoritesReducer from './RDXFav';
 import cartReducer from './RDXCart';
+import favoritesReducer from './RDXFav';
 
-const store = configureStore({
-  reducer: {
-    favorites: favoritesReducer,
-    cart: cartReducer,
-  },
+const store = configureStore({ 
+    reducer: {
+        cart: cartReducer,
+        favorites: favoritesReducer,
+    },
 });
 
 export default store;

@@ -22,7 +22,7 @@ const DropdownMenu = ({ id, title, sections }) => (
           {section.items.map((item, idx) => (
             <NavLink
               className="dropdown-item"
-              to={title === "ALL" ? `/items?category=${item.id}` : `/items?category=${item.id}&sex=${id}`}
+              to={title === "ALL" ? `/items?category=${id}` : `/items?category=${id}&sex=${item.id}`}
               key={idx}
             >
               {item.name}

@@ -1,0 +1,103 @@
+.sidebar-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow: hidden;
+    transition: width 0.3s;
+    width: 50px;
+    z-index: 1000;
+  }
+  
+  .sidebar-container:hover {
+    width: 200px;
+  }
+  
+  .sidebar {
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .sidebar-header {
+    padding: 20px;
+    background-color: #444;
+    text-align: center;
+    font-size: 1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .sidebar-title {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  .sidebar-menu {
+    padding: 10px;
+  }
+  
+  .sidebar-menu-item {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+  }
+  
+  .sidebar-menu-item:hover {
+    background-color: #555;
+  }
+  
+  .sidebar-submenu-title {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .sidebar-submenu-title:hover {
+    background-color: #555;
+  }
+  
+  .sidebar-submenu {
+    margin-left: 10px;
+  }
+  
+  .badge {
+    background-color: red;
+    color: white;
+    padding: 3px 7px;
+    border-radius: 12px;
+    font-size: 0.75em;
+  }
+  
+  .new {
+    background-color: red;
+  }
+  
+  .activeClicked {
+    background-color: #444;
+  }
+  
+  /* New class to remove underline from NavLink */
+  .sidebar-navlink {
+    color: inherit;
+    text-decoration: none;
+  }
+  

@@ -122,12 +122,18 @@ const ShowCategories = () => {
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this category?")) {
             axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Categoire/deletecategoire.php', { CategoireID: id })
-                .then(response => {
+            .then(response => {
+                if (response.data.status === 'success') {
                     fetchCategories();
-                })
-                .catch(error => {
-                    console.error("There was an error deleting the category!", error);
-                });
+                    alert('Categorie deleted successfully.');
+                } else {
+                    console.log(response.data.message);
+                    alert(response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("There was an error deleting the Categorie!", error);
+            });
         }
     };
 

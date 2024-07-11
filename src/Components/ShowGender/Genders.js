@@ -71,12 +71,18 @@ const ShowGenders = () => {
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this gender?")) {
             axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Sex/deletegender.php', { SexID: id })
-                .then(response => {
+            .then(response => {
+                if (response.data.status === 'success') {
                     fetchGenders();
-                })
-                .catch(error => {
-                    console.error("There was an error deleting the gender!", error);
-                });
+                    alert('Gender deleted successfully.');
+                } else {
+                    // console.log(response.data.message);
+                    alert(response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("There was an error deleting the Gender!", error);
+            });
         }
     };
 

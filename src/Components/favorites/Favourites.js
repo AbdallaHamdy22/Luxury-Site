@@ -1,26 +1,32 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromFavorites } from '../Redux/RDXFav';
-import ProductCard from '../Card/Card';
+import ProductCard from './ProductCard';
+import './Fav.css';
 
 const Favourites = () => {
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorites.items);
-    console.log(favorites.length);
+
     return (
-        <div>
+        <div className="favourites-container container mt-4">
+            <h2>Your Favourites</h2>
             {favorites.length > 0 ? (
-                favorites.map(product => (
-                    <div key={product.ProductID}>
-                        <h4>{product.Name}</h4>
-                        <ProductCard key={product.ProductID} product={product} />
-                        <button onClick={() => dispatch(removeFromFavorites({ id: product.ProductID }))} className='btn btn-danger'>
-                            Remove from Favorites
-                        </button>
-                    </div> 
-                ))
+                <div className="row">
+                    {favorites.map(product => (
+                        <div className="col-md-4" key={product.ProductID}>
+                            <ProductCard product={product} />
+                            <button
+                                onClick={() => dispatch(removeFromFavorites({ id: product.ProductID }))}
+                                className="btn btn-danger mt-2 w-100"
+                            >
+                                Remove from Favorites
+                            </button>
+                        </div>
+                    ))}
+                </div>
             ) : (
-                <p>No favorites yet.</p>
+                <p className="no-favorites">You have no favorite products yet.</p>
             )}
         </div>
     );
