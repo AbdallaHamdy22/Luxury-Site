@@ -3,6 +3,7 @@ import axiosInstance from '../../axiosConfig/instance';
 import './Categories.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
+import Sidebar from "../SideBar/SideBar";
 
 const ShowCategories = () => {
     const [Categories, setCategories] = useState([]);
@@ -173,6 +174,9 @@ const ShowCategories = () => {
     const displayedCategories = filteredCategories.length > 0 ? filteredCategories.slice(0, categoriesPerPage) : [];
 
     return (
+        <div className="Categories-container">
+            <Sidebar />
+        
         <div className="Categories-table">
             <h1>Categories List</h1>
             <input 
@@ -236,7 +240,8 @@ const ShowCategories = () => {
                     {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
                 </form>
             </PopForm>
-        </div>
+            </div>
+            </div>
     );
 };
 

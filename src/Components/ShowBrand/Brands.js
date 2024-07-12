@@ -3,6 +3,7 @@ import axiosInstance from '../../axiosConfig/instance';
 import './Brands.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
+import Sidebar from "../SideBar/SideBar";
 
 const ShowBrands = () => {
     const [Brands, setBrands] = useState([]);
@@ -167,6 +168,9 @@ const ShowBrands = () => {
     const displayedBrands = filteredBrands.length > 0 ? filteredBrands.slice(0, brandsPerPage) : [];
 
     return (
+        <div className="Brands-container">
+            <Sidebar />
+        
         <div className="Brands-table">
             <h1>Brands List</h1>
             <input 
@@ -230,6 +234,7 @@ const ShowBrands = () => {
                     {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
                 </form>
             </PopForm>
+        </div>
         </div>
     );
 };

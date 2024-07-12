@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaSearch, FaUser, FaHeart, FaShoppingBag } from 'react-icons/fa';
 import './Nav.css';
 import { Dropdown } from 'react-bootstrap';
+import Modal from '../Login-Register/Modal';
+import Login from '../Login-Register/Login';
 
 const Navbar = ({ user }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white" style={{ height: '90px' }}>
       <NavLink className="navbar-brand" to="/">
-        <img src={`${process.env.PUBLIC_URL}/Images/Logo2.png`} alt="Logo" />
+        <img src={'/Images/Logo2.png'} alt="Logo" />
       </NavLink>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
@@ -50,13 +53,16 @@ const Navbar = ({ user }) => {
             </li>
           ) : (
             <li>
-              <NavLink to="/join" className="nav-link">
+              <button className="nav-link" onClick={() => setIsModalOpen(true)}>
                 <FaUser /> Sign in
-              </NavLink>
+              </button>
             </li>
           )}
         </ul>
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <Login setUser={() => setIsModalOpen(false)} />
+      </Modal>
     </nav>
   );
 };

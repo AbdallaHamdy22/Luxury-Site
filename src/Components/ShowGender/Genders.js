@@ -3,6 +3,7 @@ import axiosInstance from '../../axiosConfig/instance';
 import './Genders.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
+import Sidebar from "../SideBar/SideBar";
 
 const ShowGenders = () => {
     const [Genders, setGenders] = useState([]);
@@ -116,6 +117,9 @@ const ShowGenders = () => {
     const displayedGenders = Genders.slice(0, gendersPerPage);
 
     return (
+        <div className="Gender-container">
+            <Sidebar />
+        
         <div className="Genders-table">
             <h1>Genders List</h1>
             <input 
@@ -172,7 +176,8 @@ const ShowGenders = () => {
                     </label>
                 </form>
             </PopForm>
-        </div>
+            </div>
+            </div>
     );
 };
 

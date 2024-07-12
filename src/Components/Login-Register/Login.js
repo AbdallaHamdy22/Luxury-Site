@@ -9,7 +9,7 @@ const Login = ({ setUser }) => {
   });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isLogin, setIsLogin] = useState(true); // State to toggle between login and signup
+  const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
@@ -81,7 +81,7 @@ const Login = ({ setUser }) => {
   }
 
   return (
-    <div className="form-container">
+    <div className="login-form-container">
       <div className="tab-buttons">
         <button className={`tab-button ${isLogin ? 'active' : ''}`} onClick={() => setIsLogin(true)}>Sign In</button>
         <button className={`tab-button ${!isLogin ? 'active' : ''}`} onClick={() => setIsLogin(false)}>Sign Up</button>

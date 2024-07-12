@@ -3,6 +3,7 @@ import axiosInstance from './../../axiosConfig/instance';
 import './product.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
+import Sidebar from "../SideBar/SideBar";
 
 const ShowProducts = () => {
     const [products, setProducts] = useState([]);
@@ -215,6 +216,8 @@ const ShowProducts = () => {
     const displayedProducts = products.slice(0, productsPerPage);
 
     return (
+        <div className="products-container">
+        <Sidebar />
         <div className="product-table">
             <h1>Products List</h1>
             <input 
@@ -358,7 +361,8 @@ const ShowProducts = () => {
                     </label>
                 </form>
             </PopForm>
-        </div>
+            </div>
+            </div>
     );
 };
 

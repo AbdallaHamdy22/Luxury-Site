@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axiosInstance from '../../axiosConfig/instance';
 import { useParams } from "react-router-dom";
 import './ShowOrderDetails.css';
-
+import Sidebar from "../SideBar/SideBar";
 const ShowOrderDetails = () => {
     const { id } = useParams();
     const [item, setItem] = useState({});
@@ -12,7 +12,7 @@ const ShowOrderDetails = () => {
     useEffect(() => {
         axiosInstance.get(`WaitingList/getQueueDetails.php?QueueID=${id}`)
             .then(response => {
-                let data = response.data[0];  // Assuming response.data is an array with one element
+                let data = response.data[0];
                 setItem(data);
             })
             .catch(error => console.error('Error fetching queue details:', error));
@@ -25,8 +25,9 @@ const ShowOrderDetails = () => {
     const scrollRight = () => {
         scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
     };
-    console.log(item.Image)
     return (
+        <div className="showOrderDetails">
+            <Sidebar />
         <Container className="product-detail-container mt-4">
             <h1 className="text-center">{item.ProductName}</h1>
 
@@ -59,7 +60,8 @@ const ShowOrderDetails = () => {
                     </div>
                 </Col>
             </Row>
-        </Container>
+            </Container>
+            </div>
     );
 };
 

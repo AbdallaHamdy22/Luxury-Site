@@ -3,6 +3,7 @@ import axiosInstance from '../../axiosConfig/instance';
 import './Colors.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
+import Sidebar from "../SideBar/SideBar";
 
 const ShowColors = () => {
     const [Colors, setColors] = useState([]);
@@ -110,6 +111,9 @@ const ShowColors = () => {
     const displayedColors = Colors.slice(0, ColorsPerPage);
 
     return (
+        <div className="Colors-container">
+            <Sidebar />
+        
         <div className="Colors-table">
             <h1>Colors List</h1>
             <input 
@@ -166,7 +170,8 @@ const ShowColors = () => {
                     </label>
                 </form>
             </PopForm>
-        </div>
+            </div>
+            </div>
     );
 };
 
