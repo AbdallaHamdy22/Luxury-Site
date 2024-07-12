@@ -10,7 +10,7 @@ const ShowColors = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentColor, setCurrentColor] = useState({
-        ColorID: null,
+        Color_ID: null,
         Name: ''
     });
     const [searchTerm, setSearchTerm] = useState('');
@@ -23,7 +23,7 @@ const ShowColors = () => {
     }, [currentPage]);
 
     const fetchColors = () => {
-        axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Color/getcolor.php?page=${currentPage + 1}&limit=${ColorsPerPage}`)
+        axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Color/showcolor_page.php?page=${currentPage + 1}&limit=${ColorsPerPage}`)
             .then(response => {
                 setColors(response.data.data || []);
                 setPageCount(Math.ceil(response.data.total / ColorsPerPage));
@@ -51,9 +51,9 @@ const ShowColors = () => {
 
     const handleSave = (handleCloseCallback) => {
         setLoading(true);
-        const url = currentColor.ColorID ? 'http://localhost/dashboard/LUXURY-SITE/Color/updateColor.php' : 'http://localhost/dashboard/LUXURY-SITE/Color/addColor.php';
+        const url = currentColor.Color_ID ? 'http://localhost/dashboard/LUXURY-SITE/Color/updateColor.php' : 'http://localhost/dashboard/LUXURY-SITE/Color/addColor.php';
         const data = {
-            ColorID: currentColor.ColorID,
+            Color_ID: currentColor.Color_ID,
             Name: currentColor.Name
         };
 
@@ -69,15 +69,22 @@ const ShowColors = () => {
             });
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = (Color_ID) => {
         if (window.confirm("Are you sure you want to delete this Color?")) {
-            axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Color/deleteColor.php', { ColorID: id })
-                .then(response => {
+            
+            axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Color/deleteColor.php', { Color_ID: Color_ID })
+            .then(response => {
+                if (response.data.status === 'success') {
                     fetchColors();
-                })
-                .catch(error => {
-                    console.error("There was an error deleting the Color!", error);
-                });
+                    alert('Gender deleted successfully.');
+                } else {
+                    // console.log(response.data.message);
+                    alert(response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error("There was an error deleting the Gender!", error);
+            });
         }
     };
 
@@ -88,7 +95,7 @@ const ShowColors = () => {
             fetchColors();
         } else {
             const filtered = Colors.filter(Color => 
-                Color.ColorID.toString().includes(value) || 
+                Color.Color_ID.toString().includes(value) || 
                 Color.Name.toLowerCase().includes(value.toLowerCase())
             );
             setColors(filtered);
@@ -97,7 +104,7 @@ const ShowColors = () => {
 
     const handleAddColor = () => {
         const newColor = {
-            ColorID: null,
+            Color_ID: null,
             Name: ''
         };
         setCurrentColor(newColor);
@@ -137,11 +144,11 @@ const ShowColors = () => {
                 </thead>
                 <tbody>
                     {displayedColors.map(Color => (
-                        <tr key={Color.ColorID}>
-                            <td>{Color.ColorID}</td>
+                        <tr key={Color.Color_ID}>
+                            <td>{Color.Color_ID}</td>
                             <td>{Color.Name}</td>
                             <td><button onClick={() => handleEdit(Color)}>Edit</button></td>
-                            <td><button onClick={() => handleDelete(Color.ColorID)}>Delete</button></td>
+                            <td><button onClick={() => handleDelete(Color.Color_ID)}>Delete</button></td>
                         </tr>
                     ))}
                 </tbody>
@@ -158,11 +165,11 @@ const ShowColors = () => {
                 activeClassName={'active'}
             />
             <PopForm show={show} handleClose={handleClose} handleSave={handleSave}>
-                <h2>{currentColor.ColorID ? 'Edit Color' : 'Add Color'}</h2>
+                <h2>{currentColor.Color_ID ? 'Edit Color' : 'Add Color'}</h2>
                 <form>
                     <label>
                         ID:
-                        <input type="number" name="ColorID" value={currentColor.ColorID || ''} onChange={handleChange} readOnly />
+                        <input type="number" name="Color_ID" value={currentColor.Color_ID || ''} onChange={handleChange} readOnly />
                     </label>
                     <label>
                         Name:
