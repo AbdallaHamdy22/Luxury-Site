@@ -14,7 +14,51 @@ class User
     {
         $this->conn = $db;
     }
-    
+
+    public function registerUser($data)
+    {
+        try {
+            $this->UserName = $data->fName . ' ' . $data->lName;
+            $this->Password =$data->Password;
+            $this->Email = $data->Email;
+            $this->ProfileImage = ''; 
+            $roleID = 2; 
+            
+            $sql = "INSERT INTO users (UserName, Password, Email, ProfileImage, RoleID) VALUES (:UserName, :Password, :Email, :ProfileImage, :RoleID)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':UserName', $this->UserName);
+            $stmt->bindParam(':Password', $this->Password);
+            $stmt->bindParam(':Email', $this->Email);
+            $stmt->bindParam(':ProfileImage', $this->ProfileImage);
+            $stmt->bindParam(':RoleID', $roleID);
+            
+            if ($stmt->execute()) {
+                
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function updateUserDetails()
+{
+    try {
+        $sql = "UPDATE users SET UserName = :UserName, Password = :Password, Email = :Email, ProfileImage = :ProfileImage WHERE UserID = :UserID";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':UserID', $this->ID, PDO::PARAM_INT);
+        $stmt->bindParam(':UserName', $this->UserName, PDO::PARAM_STR);
+        $stmt->bindParam(':Password', $this->Password, PDO::PARAM_STR);
+        $stmt->bindParam(':Email', $this->Email, PDO::PARAM_STR);
+        $stmt->bindParam(':ProfileImage', $this->ProfileImage, PDO::PARAM_STR);
+        
+        return $stmt->execute();
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
     
 
     public function Get_User_Data_By_ID($id)

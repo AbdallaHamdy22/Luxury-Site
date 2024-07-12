@@ -37,6 +37,7 @@ const Login = ({ setUser }) => {
         setErrorMessage(data.message);
       } else {
         localStorage.setItem('user', JSON.stringify(data));
+        console.log(data);
         setUser(data);
         navigate('/');
         window.location.reload();
@@ -54,7 +55,7 @@ const Login = ({ setUser }) => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await fetch('signup.php', {
+      const response = await fetch('http://localhost/dashboard/LUXURY-SITE/User/signup.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -64,10 +65,10 @@ const Login = ({ setUser }) => {
       const data = await response.json();
       if (data.status === 'error') {
         setErrorMessage(data.message);
-      } else {
-        localStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
+      } else {        
         navigate('/');
+        window.location.reload();
+        
       }
       setLoading(false);
     } catch (error) {

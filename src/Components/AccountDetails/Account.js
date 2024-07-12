@@ -1,14 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Account.css';
 
 const AccountDetails = () => {
-    const [userDetails, setUserDetails] = useState({
-        userID: 1,
-        userName: 'John Doe',
-        password: 'password123',
-        email: 'john.doe@example.com',
-        profileImage: '/Images/bag1.jpg'
+    const [user, setUserDetails] = useState({
+        userID: '',
+        userName: '',
+        password: '',
+        email: '',
+        profileImage: ''
     });
+
+    useEffect(() => {
+        fetchUserDetails();
+    }, []);
+
+    const fetchUserDetails = async () => {
+        try {
+            const response = await fetch('http://localhost/dashboard/LUXURY-SITE/User/getUserDetails.php?userID=1');
+            const data = await response.json();
+            console.log(data.user);
+            if (data.status === 'success') {
+                setUserDetails({
+                    userID: data.user.userID || '',
+                    userName: data.user.userName || '',
+                    password: data.user.password || '',
+                    email: data.user.email || '',
+                    profileImage: data.user.profileImage || ''
+                });
+                console.log("mewo".user);
+            } else {
+                console.error('Failed to fetch user details');
+            }
+        } catch (error) {
+            console.error('Error fetching user details:', error);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,10 +58,26 @@ const AccountDetails = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        console.log('Form submitted:', userDetails);
+
+        try {
+            const response = await fetch('http://localhost/dashboard/LUXURY-SITE/User/updateUserDetails.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            });
+            const data = await response.json();
+            if (data.status === 'success') {
+                console.log('User details updated successfully');
+            } else {
+                console.error('Failed to update user details');
+            }
+        } catch (error) {
+            console.error('Error updating user details:', error);
+        }
     };
 
     return (
@@ -44,7 +86,7 @@ const AccountDetails = () => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <div className="profile-image-container">
-                        <img src={userDetails.profileImage} alt="Profile" className="profile-image" />
+                        <img src={user.profileImage} alt="Profile" className="profile-image" />
                     </div>
                     <label htmlFor="profileImage">Change Profile Image</label>
                     <input
@@ -61,7 +103,8 @@ const AccountDetails = () => {
                         type="text"
                         id="userName"
                         name="userName"
-                        value={userDetails.userName}
+                        value={user.userName}
+                        autoComplete='off'
                         onChange={handleChange}
                     />
                 </div>
@@ -71,7 +114,8 @@ const AccountDetails = () => {
                         type="email"
                         id="email"
                         name="email"
-                        value={userDetails.email}
+                        value={user.email}
+                        autoComplete='off'
                         onChange={handleChange}
                     />
                 </div>
@@ -81,7 +125,8 @@ const AccountDetails = () => {
                         type="password"
                         id="password"
                         name="password"
-                        value={userDetails.password}
+                        value={user.password}
+                        autoComplete='off'
                         onChange={handleChange}
                     />
                 </div>
