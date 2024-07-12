@@ -9,11 +9,17 @@ const Cart = () => {
     const cart = useSelector((state) => state.cart.items);
     const dispatch = useDispatch();
     const [quantities, setQuantities] = useState(cart.reduce((acc, item) => {
-        acc[item.ProductID] = 1; // Initialize with quantity 1
+        acc[item.ProductID] = 1; // Initialize with the current quantity
         return acc;
     }, {}));
 
     const handleQuantityChange = (item, newQuantity) => {
+        const stock = item.Quantity; 
+        if (newQuantity > stock) {
+            alert(`غير مسموح، الكمية المتاحة هي ${stock}`);
+            return;
+        }
+
         setQuantities((prevQuantities) => ({
             ...prevQuantities,
             [item.ProductID]: newQuantity,
@@ -44,6 +50,7 @@ const Cart = () => {
                         <CartItem
                             key={item.ProductID}
                             item={item}
+                            quantity={quantities[item.ProductID]}
                             onQuantityChange={handleQuantityChange}
                             onRemove={handleRemove}
                         />
