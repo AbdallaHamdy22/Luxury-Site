@@ -177,9 +177,9 @@ const Sell = ({ user }) => {
                         <option key={brand.BrandID} value={brand.BrandID}>{brand.Name}</option>
                     ))}
                 </select>
-                <label htmlFor='SexID'>Sex</label>
+                <label htmlFor='SexID'>Gender</label>
                 <select name="SexID" id="SexID" value={formData.SexID} onChange={handleChange} required>
-                    <option value="" disabled>Select Sex</option>
+                    <option value="" disabled>Select Gender</option>
                     {sexes.map(sex => (
                         <option key={sex.SexID} value={sex.SexID}>{sex.Name}</option>
                     ))}
