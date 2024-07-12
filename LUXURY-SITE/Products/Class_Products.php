@@ -26,6 +26,21 @@ class Products
         $this->Sex = new Sex($db);
     }
     
+    public function checkProductsByBrandID($brandID) {
+        $query = "SELECT COUNT(*) as count FROM Products WHERE BrandID = :brandID";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':brandID', $brandID);
+        $stmt->execute();
+        
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($row['count'] > 0) {
+            return true;
+        }
+        
+        return false; 
+    }
+    
     
 
     public function Get_Product_Data_By_ID($id)
@@ -80,7 +95,10 @@ class Products
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $results;
     }
-    
+    public function getSex() {
+        return $this->Sex;
+    }
+
     public function Get_Total_Product_Count()
     {
         $sql = "SELECT COUNT(*) as count FROM products";

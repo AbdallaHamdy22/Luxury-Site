@@ -16,45 +16,42 @@ $allCategories = $categories->Get_All_Categoire_Data();
 $menuData = [
     "allDropdown" => [
         "title" => "ALL",
-        "sections" => [
-            [
-                "link" => "/Items",
-                "header" => "All products",
-                "items" => []
-            ]
-        ]
+        "sections" => []
     ]
 ];
 
-// تحويل الفئات إلى مصفوفة من العناصر مع إضافة "All " قبل كل فئة
-$allCategoryItems = [];
-foreach ($allCategories as $category) {
-    $allCategoryItems[] = [
-        'id' => $category['CategoireID'], // افتراضًا أن الـ ID موجود في الحقل 'CategoireID'
-        'name' => 'All ' . $category['Name']
+// تحويل الجنس إلى مصفوفة من العناصر مع إضافة "All " قبل كل جنس
+$allSexItems = [];
+foreach ($allSex as $sex) {
+    $allSexItems[] = [
+        'id' => $sex['SexID'],
+        'name' => 'All ' . $sex['Name']
     ];
 }
 
+$menuData['allDropdown']['sections'][0] = [
+    "link" => "/Items",
+    "header" => "All products",
+    "items" => $allSexItems
+];
 
-$menuData['allDropdown']['sections'][0]['items'] = $allCategoryItems;
-
-foreach ($allSex as $sex) {
-    // تحويل الفئات إلى مصفوفة من العناصر مع إضافة اسم الجنس قبل كل فئة
-    $sexCategoryItems = [];
-    foreach ($allCategories as $category) {
-        $sexCategoryItems[] = [
-            'id' => $category['CategoireID'],
-            'name' => $sex['Name'] . ' ' . $category['Name']
+foreach ($allCategories as $category) {
+    // تحويل الجنس إلى مصفوفة من العناصر مع إضافة اسم الفئة قبل كل جنس
+    $categorySexItems = [];
+    foreach ($allSex as $sex) {
+        $categorySexItems[] = [
+            'id' => $sex['SexID'],
+            'name' => $category['Name'] . ' ' . $sex['Name']
         ];
     }
-    
-    $menuData[$sex['SexID']] = [
-        "title" => $sex['Name'],
+
+    $menuData[$category['CategoireID']] = [
+        "title" => $category['Name'],
         "sections" => [
             [
                 "link" => "/Items",
-                "header" => $sex['Name'],
-                "items" => $sexCategoryItems
+                "header" => $category['Name'],
+                "items" => $categorySexItems
             ]
         ]
     ];

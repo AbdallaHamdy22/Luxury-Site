@@ -9,23 +9,19 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 
-
-
-// Create a database connection
 $database = new Connection();
 $db = $database->connect();
 
-// Create an instance of the Products class
 $product = new Products($db);
-// Get the product ID from the request
 $productID = isset($_GET['ProductID']) ? intval($_GET['ProductID']) : 0;
 
 if ($productID > 0) {
-    // Fetch the product data by ID
     $productData = $product->Get_Product_Data_By_ID($productID);
-    // print_r($productData);
 
     if ($productData) {
+        $productData['SexName'] = $product->getSex()->getName();
+        $productData['Image'] = stripslashes($productData['Image']);
+        
         echo json_encode($productData);
     } else {
         echo json_encode(["message" => "Product not found."]);
