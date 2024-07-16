@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Button, Form } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import './CartItem.css';
 
 const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
@@ -9,11 +9,14 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
         setLocalQuantity(quantity);
     }, [quantity]);
 
-    const handleQuantityChange = (e) => {
-        console.log(item);
-        const newQuantity = parseInt(e.target.value, 10);
-        if (newQuantity >= 1) {
-            setLocalQuantity(newQuantity);
+    const handleIncrease = () => {
+        const newQuantity = localQuantity + 1;
+        onQuantityChange(item, newQuantity);
+    };
+
+    const handleDecrease = () => {
+        if (localQuantity > 1) {
+            const newQuantity = localQuantity - 1;
             onQuantityChange(item, newQuantity);
         }
     };
@@ -30,18 +33,17 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
                 <span>${parseFloat(item.Price).toFixed(2)}</span>
             </Col>
             <Col className='col3'>
-                <Form.Control 
-                    type="number" 
-                    value={localQuantity} 
-                    onChange={handleQuantityChange} 
-                    min="1" 
-                />
+                <div className="quantity-control">
+                    <Button className="quantity-button" onClick={handleDecrease}>-</Button>
+                    <span className="quantity">{localQuantity}</span>
+                    <Button className="quantity-button" onClick={handleIncrease}>+</Button>
+                </div>
             </Col>
             <Col className='col4'>
                 <span>${(parseFloat(item.Price) * localQuantity).toFixed(2)}</span>
-                <Button 
-                    variant="danger" 
-                    onClick={() => onRemove(item)} 
+                <Button
+                    variant="danger"
+                    onClick={() => onRemove(item)}
                     className="remove-button"
                 >
                     Remove

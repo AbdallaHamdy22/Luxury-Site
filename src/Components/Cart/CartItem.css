@@ -1,5 +1,3 @@
-/* CartItem.css */
-
 .cart-item {
     display: flex;
     align-items: center;
@@ -37,7 +35,7 @@
     margin-left: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) { 
     .cart-item {
         flex-direction: column;
         align-items: flex-start;
