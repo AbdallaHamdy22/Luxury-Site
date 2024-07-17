@@ -7,6 +7,7 @@ class Products
     private int $Productionyear;
     private string $BraceletMaterial='';
     private float $Price;
+    private float $UserPrice=0;
     private float $Quantity=0;
     private string $Image;
     private float $OfferPrice=0;
@@ -26,8 +27,8 @@ class Products
         $this->Sex = new Sex($db);
     }
     
-    public function checkProductsByBrandID($brandID) {
-        $query = "SELECT COUNT(*) as count FROM Products WHERE BrandID = :brandID";
+    public function checkProductsByOtherID($brandID,$type) {
+        $query = "SELECT COUNT(*) as count FROM Products WHERE ".$type." = :brandID";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':brandID', $brandID);
         $stmt->execute();
@@ -60,6 +61,7 @@ class Products
             $this->Quantity = $result['Quantity'];            
             $this->Image = $result['Image'];   
             $this->OfferPrice = $result['OfferPrice']; 
+            $this->UserPrice=$result['UserPrice'];
             $this->Productionyear = $result['ProductionYear'];
             $this->BraceletMaterial = $result['BraceletMaterial'];
             $this->Brand = new Brand($this->conn);
@@ -191,6 +193,13 @@ class Products
     public function setPrice(float $Price): void {
         $this->Price = $Price;
     }
+    public function getUserPrice(): float {
+        return $this->UserPrice;
+    }
+
+    public function setUSerPrice(float $UserPrice): void {
+        $this->UserPrice = $UserPrice;
+    }
 
     // Getter and Setter for Quantity
     public function getQuantity(): float {
@@ -237,9 +246,9 @@ class Products
     public function Create_Product()
 {
     $sql = "INSERT INTO products 
-            (ProductID, Name, Description, ProductionYear, BraceletMaterial, Price, Quantity, Image, OfferPrice, BrandID, CategoireID, Color_ID, SexID)
+            (ProductID, Name, Description, ProductionYear, BraceletMaterial, Price,UserPrice, Quantity, Image, OfferPrice, BrandID, CategoireID, Color_ID, SexID)
             VALUES 
-            (:productid, :name, :description, :productionyear, :braceletmaterial, :price, :quantity, :image, :offerprice, :brandid, :categoireid, :colorid, :sexid)";
+            (:productid, :name, :description, :productionyear, :braceletmaterial, :price,:UserPrice, :quantity, :image, :offerprice, :brandid, :categoireid, :colorid, :sexid)";
     $stmt = $this->conn->prepare($sql);    
     
     // Define variables for the values to be bound
@@ -254,13 +263,14 @@ class Products
     $stmt->bindParam(':productionyear', $this->Productionyear);
     $stmt->bindParam(':braceletmaterial', $this->BraceletMaterial);
     $stmt->bindParam(':price', $this->Price);
+    $stmt->bindParam(':UserPrice', $this->UserPrice);
     $stmt->bindParam(':quantity', $this->Quantity);
     $stmt->bindParam(':image', $this->Image);
     $stmt->bindParam(':offerprice', $this->OfferPrice);
-    $stmt->bindParam(':brandid', $brandid); // Use variable
-    $stmt->bindParam(':categoireid', $categoireid); // Use variable
-    $stmt->bindParam(':colorid', $colorid); // Use variable
-    $stmt->bindParam(':sexid', $sexid); // Use variable
+    $stmt->bindParam(':brandid', $brandid); 
+    $stmt->bindParam(':categoireid', $categoireid);
+    $stmt->bindParam(':colorid', $colorid); 
+    $stmt->bindParam(':sexid', $sexid); 
 
     if ($stmt->execute()) {
         return true;

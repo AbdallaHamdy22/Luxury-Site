@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($id) {
         $Brand->setID($id);
-        if (!$product->checkProductsByBrandID($Brand->getID())) {            
+        if (!$product->checkProductsByOtherID($Brand->getID(),"BrandID")) {            
             if ($Brand->Delete_Brand()) {
                 http_response_code(200); 
                 echo json_encode(["status"=> "success","message" => "brand was deleted."]);

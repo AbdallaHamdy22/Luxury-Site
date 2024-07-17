@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($id) {
         $category->setID($id);
-        if (!$product->checkProductsByBrandID($category->getID())) 
+        if (!$product->checkProductsByOtherID($category->getID(),"CategoireID")) 
         {         
             if ($category->Delete_Categoire()) {
                 http_response_code(200); 
