@@ -28,24 +28,24 @@ if ($queueID > 0) {
 
     if ($results) {
         $details = [];
-        
+
         foreach ($results as $result) {
             // Fetch category details
             $category = new Categoire($db);
             $categoryData = $category->Get_Categoire_Data_By_ID($result['CategoireID']);
-            
+
             // Fetch brand details
             $brand = new Brand($db);
             $brandData = $brand->Get_Brand_Data_By_ID($result['BrandID']);
-            
+
             // Fetch color details
             $color = new Color($db);
             $colorData = $color->Get_Color_Data_By_ID($result['Color_ID']);
-            
+
             // Fetch sex details
             $sex = new Sex($db);
             $sexData = $sex->Get_Sex_Data_By_ID($result['SexID']);
-            
+
             // Combine all details into a single response
             $details[] = array_merge($result, [
                 'CategoryName' => $categoryData['Name'],
@@ -62,4 +62,3 @@ if ($queueID > 0) {
 } else {
     echo json_encode(["status" => "error", "message" => "Invalid queue ID."]);
 }
-?>

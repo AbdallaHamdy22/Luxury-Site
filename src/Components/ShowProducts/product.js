@@ -40,7 +40,7 @@ const ShowProducts = () => {
     }, [currentPage]);
 
     const fetchProducts = () => {
-        axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Products/showproduct_page.php?page=${currentPage + 1}&limit=${productsPerPage}`)
+        axiosInstance.get(`Products/showproduct_page.php?page=${currentPage + 1}&limit=${productsPerPage}`)
             .then(response => {
                 setProducts(response.data.data || []);
                 setPageCount(Math.ceil(response.data.total / productsPerPage));
@@ -51,7 +51,7 @@ const ShowProducts = () => {
     };
 
     const fetchAuxiliaryData = () => {
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Brand/getbrand.php')
+        axiosInstance.get('Brand/getbrand.php')
             .then(response => {
                 setBrands(response.data || []);
             })
@@ -59,7 +59,7 @@ const ShowProducts = () => {
                 console.error("There was an error fetching the brands!", error);
             });
 
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Categoire/getcategoire.php')
+        axiosInstance.get('Categoire/getcategoire.php')
             .then(response => {
                 setCategories(response.data || []);
             })
@@ -67,7 +67,7 @@ const ShowProducts = () => {
                 console.error("There was an error fetching the categories!", error);
             });
 
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Color/getcolor.php')
+        axiosInstance.get('Color/getcolor.php')
             .then(response => {
                 setColors(response.data || []);
             })
@@ -75,7 +75,7 @@ const ShowProducts = () => {
                 console.error("There was an error fetching the colors!", error);
             });
 
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Sex/getsex.php')
+        axiosInstance.get('Sex/getsex.php')
             .then(response => {
                 setSexes(response.data || []);
             })
@@ -118,10 +118,10 @@ const ShowProducts = () => {
             }
         }
 
-        const url = currentProduct.ProductID ? 'http://localhost/dashboard/LUXURY-SITE/Products/updateproduct.php' : 'http://localhost/dashboard/LUXURY-SITE/Products/addproduct.php';
+        const url = currentProduct.ProductID ? 'Products/updateproduct.php' : 'Products/addproduct.php';
 
         if (currentProduct.ProductID === null) {
-            axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Products/getlastid.php')
+            axiosInstance.get('Products/getlastid.php')
                 .then(response => {
                     const lastID = response.data.LastID;
                     formData.append('ProductID', lastID + 1);
@@ -164,7 +164,7 @@ const ShowProducts = () => {
 
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
-            axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Products/deleteproduct.php', { ProductID: id })
+            axiosInstance.post('Products/deleteproduct.php', { ProductID: id })
                 .then(response => {
                     fetchProducts();
                 })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../Redux/RDXFav';
 import { addToCart, removeFromCart } from '../Redux/RDXCart';
@@ -11,10 +11,8 @@ const ProductCard = ({ product }) => {
     const dispatch = useDispatch();
     const favorites = useSelector((state) => state.favorites.items);
     const cart = useSelector((state) => state.cart.items);
-
     const isFavorite = (id) => favorites.some((item) => item.ProductID === id);
     const isInCart = (id) => cart.some((item) => item.ProductID === id);
-
     const handleToggleFavorites = (id) => {
         if (isFavorite(id)) {
             dispatch(removeFromFavorites({ id }));
@@ -49,7 +47,7 @@ const ProductCard = ({ product }) => {
     const hasOffer = product.OfferPrice && product.OfferPrice > 0;
 
     const imageUrls = product.Image ? product.Image.split(',') : [];
-
+    console.log(imageUrls);
     return (
         <div className="col-md-4 mb-4">
             <div className="card h-100">

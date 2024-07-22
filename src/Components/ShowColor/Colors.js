@@ -23,7 +23,7 @@ const ShowColors = () => {
     }, [currentPage]);
 
     const fetchColors = () => {
-        axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Color/showcolor_page.php?page=${currentPage + 1}&limit=${ColorsPerPage}`)
+        axiosInstance.get(`Color/showcolor_page.php?page=${currentPage + 1}&limit=${ColorsPerPage}`)
             .then(response => {
                 setColors(response.data.data || []);
                 setPageCount(Math.ceil(response.data.total / ColorsPerPage));
@@ -51,7 +51,7 @@ const ShowColors = () => {
 
     const handleSave = (handleCloseCallback) => {
         setLoading(true);
-        const url = currentColor.Color_ID ? 'http://localhost/dashboard/LUXURY-SITE/Color/updateColor.php' : 'http://localhost/dashboard/LUXURY-SITE/Color/addColor.php';
+        const url = currentColor.Color_ID ? 'Color/updateColor.php' : 'Color/addColor.php';
         const data = {
             Color_ID: currentColor.Color_ID,
             Name: currentColor.Name
@@ -72,7 +72,7 @@ const ShowColors = () => {
     const handleDelete = (Color_ID) => {
         if (window.confirm("Are you sure you want to delete this Color?")) {
             
-            axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Color/deleteColor.php', { Color_ID: Color_ID })
+            axiosInstance.post('Color/deleteColor.php', { Color_ID: Color_ID })
             .then(response => {
                 if (response.data.status === 'success') {
                     fetchColors();

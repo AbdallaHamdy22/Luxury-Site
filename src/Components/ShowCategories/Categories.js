@@ -26,7 +26,7 @@ const ShowCategories = () => {
     }, [currentPage]);
 
     const fetchCategories = () => {
-        axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Categoire/showcategoire_page.php?page=${currentPage + 1}&limit=${categoriesPerPage}`)
+        axiosInstance.get(`Categoire/showcategoire_page.php?page=${currentPage + 1}&limit=${categoriesPerPage}`)
             .then(response => {
                 setCategories(response.data.data || []);
                 setFilteredCategories(response.data.data || []);
@@ -72,13 +72,13 @@ const ShowCategories = () => {
             }
         }
 
-        const url = currentCategorie.CategoireID ? 'http://localhost/dashboard/LUXURY-SITE/Categoire/updatecategoire.php' : 'http://localhost/dashboard/LUXURY-SITE/Categoire/addcategoire.php';
+        const url = currentCategorie.CategoireID ? 'Categoire/updatecategoire.php' : 'Categoire/addcategoire.php';
 
         console.log("URL:", url);
         console.log("FormData:", ...formData);
 
         if (currentCategorie.CategoireID === null) {
-            axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Categoire/getlastid.php')
+            axiosInstance.get('Categoire/getlastid.php')
                 .then(response => {
                     const lastID = response.data.LastID;
                     formData.append('CategoireID', lastID + 1);
@@ -122,7 +122,7 @@ const ShowCategories = () => {
     };
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this category?")) {
-            axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Categoire/deletecategoire.php', { CategoireID: id })
+            axiosInstance.post('Categoire/deletecategoire.php', { CategoireID: id })
             .then(response => {
                 if (response.data.status === 'success') {
                     fetchCategories();
@@ -149,7 +149,7 @@ const ShowCategories = () => {
     };
 
     const handleAddCategory = () => {
-        axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Categoire/getlastid.php')
+        axiosInstance.get('Categoire/getlastid.php')
             .then(response => {
                 const lastID = response.data.LastID;
                 const newCategory = {

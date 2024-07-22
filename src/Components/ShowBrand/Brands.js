@@ -26,7 +26,7 @@ const ShowBrands = () => {
     }, [currentPage]);
 
     const fetchBrands = () => {
-        axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Brand/showbrand_page.php?page=${currentPage + 1}&limit=${brandsPerPage}`)
+        axiosInstance.get(`Brand/showbrand_page.php?page=${currentPage + 1}&limit=${brandsPerPage}`)
             .then(response => {
                 setBrands(response.data.data || []);
                 setFilteredBrands(response.data.data || []);
@@ -72,13 +72,13 @@ const ShowBrands = () => {
             }
         }
 
-        const url = currentBrand.BrandID ? 'http://localhost/dashboard/LUXURY-SITE/Brand/updatebrand.php' : 'http://localhost/dashboard/LUXURY-SITE/Brand/addbrand.php';
+        const url = currentBrand.BrandID ? 'Brand/updatebrand.php' : 'Brand/addbrand.php';
 
         console.log("URL:", url);
         console.log("FormData:", ...formData);
 
         if (currentBrand.BrandID === null) {
-            axiosInstance.get('http://localhost/dashboard/LUXURY-SITE/Brand/getlastid.php')
+            axiosInstance.get('Brand/getlastid.php')
                 .then(response => {
                     const lastID = response.data.LastID;
                     formData.append('BrandID', lastID + 1);
@@ -123,7 +123,7 @@ const ShowBrands = () => {
 
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this brand?")) {
-            axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Brand/deletebrand.php', { BrandID: id })
+            axiosInstance.post('Brand/deletebrand.php', { BrandID: id })
                 .then(response => {
                     if (response.data.status === 'success') {
                         fetchBrands();

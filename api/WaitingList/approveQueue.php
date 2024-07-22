@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $productName = $result['ProductName'];
                     $productDescription = $result['productDescription'];
                     $productUserPrice = $result['ProductPrice'];
+                    $productOfferPrice = $result['OfferPrice'];
                     $quantity = $result['Quantity'];
                     $categoireID = $result['CategoireID'];
                     $brandID = $result['BrandID'];
@@ -62,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $product->setPrice($userPrice); // User-specified price
                     $product->setUSerPrice($productUserPrice);
                     $product->setQuantity($quantity);
-                    $product->setOfferPrice(0);
+                    $product->setOfferPrice($productOfferPrice);
                     $product->setCategoryID($categoireID);
                     $product->setBrandID($brandID);
                     $product->setSexID($sexID);
@@ -95,4 +96,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(["status" => "error", "message" => "Invalid queue ID or user price. " . $queueID . "/" . $userPrice, "queueID" => $queueID, "userPrice" => $userPrice]);
     }
 }
-?>

@@ -23,7 +23,7 @@ const ShowGenders = () => {
     }, [currentPage]);
 
     const fetchGenders = () => {
-        axiosInstance.get(`http://localhost/dashboard/LUXURY-SITE/Sex/showgender_page.php?page=${currentPage + 1}&limit=${gendersPerPage}`)
+        axiosInstance.get(`Sex/showgender_page.php?page=${currentPage + 1}&limit=${gendersPerPage}`)
             .then(response => {
                 setGenders(response.data.data || []);
                 setPageCount(Math.ceil(response.data.total / gendersPerPage));
@@ -51,7 +51,7 @@ const ShowGenders = () => {
 
     const handleSave = (handleCloseCallback) => {
         setLoading(true);
-        const url = currentGender.SexID ? 'http://localhost/dashboard/LUXURY-SITE/Sex/updategender.php' : 'http://localhost/dashboard/LUXURY-SITE/Sex/addgender.php';
+        const url = currentGender.SexID ? 'Sex/updategender.php' : 'Sex/addgender.php';
         const data = {
             SexID: currentGender.SexID,
             Name: currentGender.Name
@@ -71,7 +71,7 @@ const ShowGenders = () => {
 
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this gender?")) {
-            axiosInstance.post('http://localhost/dashboard/LUXURY-SITE/Sex/deletegender.php', { SexID: id })
+            axiosInstance.post('Sex/deletegender.php', { SexID: id })
             .then(response => {
                 if (response.data.status === 'success') {
                     fetchGenders();

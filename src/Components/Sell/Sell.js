@@ -1,10 +1,10 @@
 import axiosInstance from '../../axiosConfig/instance';
 import './Sell.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Sell = ({ user }) => {
     const [formData, setFormData] = useState({
-        name: '',
+        ProductName: '',
         description: '',
         price: '',
         quantity: '',
@@ -14,35 +14,28 @@ const Sell = ({ user }) => {
         SexID: '',
         ColorID: ''
     });
-    const [imageFiles, setImageFiles] = useState(null);
+    const [imageFiles, setImageFiles] = useState([]);
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [sexes, setSexes] = useState([]);
     const [colors, setColors] = useState([]);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         axiosInstance.get('Categoire/getcategoire.php')
-            .then(response => {
-                setCategories(response.data);
-            })
+            .then(response => setCategories(response.data))
             .catch(error => console.error('Error fetching categories:', error));
 
         axiosInstance.get('Brand/getbrand.php')
-            .then(response => {
-                setBrands(response.data);
-            })
+            .then(response => setBrands(response.data))
             .catch(error => console.error('Error fetching brands:', error));
 
         axiosInstance.get('Sex/getSex.php')
-            .then(response => {
-                setSexes(response.data);
-            })
+            .then(response => setSexes(response.data))
             .catch(error => console.error('Error fetching sexes:', error));
 
         axiosInstance.get('Color/getcolor.php')
-            .then(response => {
-                setColors(response.data);
-            })
+            .then(response => setColors(response.data))
             .catch(error => console.error('Error fetching colors:', error));
     }, []);
 
@@ -55,80 +48,71 @@ const Sell = ({ user }) => {
     };
 
     const handleFileChange = (e) => {
-        setImageFiles(e.target.files[0]);
+        setImageFiles(e.target.files);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = new FormData();
-        data.append('name', formData.name);
-        data.append('description', formData.description);
-        data.append('price', formData.price);
-        data.append('quantity', formData.quantity);
-        data.append('offerPrice', formData.offerPrice);
-        data.append('CategoireID', formData.CategoireID);
-        data.append('BrandID', formData.BrandID);
-        data.append('SexID', formData.SexID);
-        data.append('ColorID', formData.ColorID);
-        data.append('UserID', user.ID);
-        data.append('Image', imageFiles); // تأكد من إضافة الصورة
-        
-        console.log('----------------------------------------');
-        data.forEach((value, key) => {
-            console.log(`${key}: ${value}`);
+        let data = new FormData();
+        Object.keys(formData).forEach(key => {
+            data.append(key, formData[key]);
         });
+        data.append('UserID', user.ID);
+        for (let i = 0; i < imageFiles.length; i++) {
+            data.append('images[]', imageFiles[i]);
+        }
 
-        axiosInstance.post('WaitingList/addqueue.php', data)
-            .then(response => {
-                if (response.status !== 200) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.data;
-            })
-            .then(result => {
-                console.log('Form submitted', result);
-                
-                if (result.status === 'success') {
-                    alert(result.message);
-                    setFormData({
-                        name: '',
-                        description: '',
-                        price: '',
-                        quantity: '',
-                        offerPrice: '',
-                        CategoireID: '',
-                        BrandID: '',
-                        SexID: '',
-                        ColorID: ''
-                    });
-                    setImageFiles(null);
-                } else {
-                    alert('Error: ' + result.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while submitting the form');
-            });
+        axiosInstance.post('WaitingList/addqueue.php', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(response => response.data)
+        .then(result => {
+            if (result.status === 'success') {
+                alert(result.message);
+                setFormData({
+                    ProductName: '',
+                    description: '',
+                    price: '',
+                    quantity: '',
+                    offerPrice: '',
+                    CategoireID: '',
+                    BrandID: '',
+                    SexID: '',
+                    ColorID: ''
+                });
+                setImageFiles([]);
+                fileInputRef.current.value = '';
+            } else {
+                alert('Error: ' + result.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the form');
+        });
     };
-    
+
     return (
         <div className='sell-container'>
             <h1 className='sell-header'>Sell Your Product Now!</h1>
             <form className='sell-form' onSubmit={handleSubmit}>
-                <label htmlFor='name'>Product Name</label>
+                <label htmlFor='ProductName'>Product Name</label>
                 <input
-                    name='name'
                     type='text'
-                    value={formData.name}
+                    name='ProductName'
+                    value={formData.ProductName}
                     onChange={handleChange}
+                    placeholder='Enter you product name'
                     required
-                />
+                    />
                 <label htmlFor='description'>Product Description</label>
                 <textarea
                     name='description'
                     value={formData.description}
                     onChange={handleChange}
+                    placeholder='Enter you product description.. eg. small black bag with unique bracalet material'
                     required
                 />
                 <label htmlFor='price'>Product Price</label>
@@ -138,29 +122,34 @@ const Sell = ({ user }) => {
                     step='0.01'
                     value={formData.price}
                     onChange={handleChange}
+                    placeholder='Enter you product price'
                     required
-                />
+                    />
                 <label htmlFor='quantity'>Quantity</label>
                 <input
                     name='quantity'
                     type='number'
                     value={formData.quantity}
                     onChange={handleChange}
+                    placeholder='Enter you product available quantity'
                     required
-                />
+                    />
                 <label htmlFor='images'>Images</label>
                 <input
                     name='images'
                     type='file'
+                    multiple
                     onChange={handleFileChange}
+                    ref={fileInputRef}
                     required
-                />
+                    />
                 <label htmlFor='offerPrice'>Offer Price</label>
                 <input
                     name='offerPrice'
                     type='number'
                     step='0.01'
                     value={formData.offerPrice}
+                    placeholder='Enter you offer price.. eg. 20 if you want 20%'
                     onChange={handleChange}
                 />
                 <label htmlFor='CategoireID'>Categories</label>
