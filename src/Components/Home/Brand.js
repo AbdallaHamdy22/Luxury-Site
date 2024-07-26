@@ -19,7 +19,7 @@ const BrandSection = () => {
       <br />
       <div className="row d-flex justify-content-center">
         {brands.map(brand => (
-          <div className="col-md-1 mb-4 text-center" key={brand.BrandID}>
+          <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 text-center" key={brand.BrandID}>
             <img src={brand.Image} alt={brand.Name} />
             <h5>{brand.Name.toUpperCase()}</h5>
           </div>

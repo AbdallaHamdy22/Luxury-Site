@@ -22,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = isset($_POST['Name']) ? $_POST['Name'] : null;
     $description = isset($_POST['Description']) ? $_POST['Description'] : '';
     $productionYear = isset($_POST['ProductionYear']) ? $_POST['ProductionYear'] : 0;
-    $braceletMaterial = isset($_POST['BraceletMaterial']) ? $_POST['BraceletMaterial'] : '';
     $price = isset($_POST['Price']) ? $_POST['Price'] : 0;
     $quantity = isset($_POST['Quantity']) ? $_POST['Quantity'] : 0;
     $offerPrice = isset($_POST['OfferPrice']) ? $_POST['OfferPrice'] : 0;
@@ -31,14 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $colorID = isset($_POST['Color_ID']) ? $_POST['Color_ID'] : null;
     $sexID = isset($_POST['SexID']) ? $_POST['SexID'] : null;
     $image = isset($_FILES['Image']) ? $_FILES['Image'] : null;
-    
-    if ($id && $name ) {
+
+    if ($id && $name) {
         $Product->setID($id);
         $Product->Get_Product_Data_By_ID($id);
         $Product->setName($name);
         $Product->setDescription($description);
         $Product->setProduction_year($productionYear);
-        $Product->setBracelet_Material($braceletMaterial);
         $Product->setPrice($price);
         $Product->setQuantity($quantity);
         $Product->setOfferPrice($offerPrice);
@@ -49,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($image) {
             // Handle the image file
-            $target_dir = realpath("D:/Luxury-Site/public/Images") . '/';
+            $target_dir = realpath("../../public/Images") . '/';
             $target_file = $target_dir . basename($image["name"]);
 
             // Check for file upload errors
@@ -71,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Move the uploaded file
             if (move_uploaded_file($image["tmp_name"], $target_file)) {
                 file_put_contents('php://stderr', print_r("File uploaded successfully to $target_file\n", TRUE));
-                $Product->setImage("/Images/".$image["name"]);
+                $Product->setImage("/Images/" . $image["name"]);
             } else {
                 file_put_contents('php://stderr', print_r("Failed to move uploaded file to $target_file\n", TRUE));
                 http_response_code(400); // Bad request
@@ -79,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             }
         }
-        
+
         if ($Product->Update_product()) {
             http_response_code(200); // OK
             echo json_encode(["message" => "Product was updated."]);
@@ -96,4 +94,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo json_encode(["message" => "Invalid request method."]);
 }
-?>

@@ -2,8 +2,9 @@
     margin-top: 30px;
 }
 .new-arrivals-section img {
-    width: 100%;
-    height: 250px;
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
 }
 .new-arrivals-section h5, .new-arrivals-section p {
     color: black;

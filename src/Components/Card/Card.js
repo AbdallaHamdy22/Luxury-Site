@@ -47,7 +47,6 @@ const ProductCard = ({ product }) => {
     const hasOffer = product.OfferPrice && product.OfferPrice > 0;
 
     const imageUrls = product.Image ? product.Image.split(',') : [];
-    console.log(imageUrls);
     return (
         <div className="col-md-4 mb-4">
             <div className="card h-100">

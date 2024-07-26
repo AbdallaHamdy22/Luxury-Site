@@ -66,7 +66,6 @@ if (
         $file_name_array = explode(".", $received_files['images']['name'][$key]);
         $file_name = time() . '_' . $key . '.' . end($file_name_array);
         $upload_file = $upload_directory . $file_name;
-        $image_link = 'http://localhost/dashboard/luxury-site-last/public/Images/' . $file_name;
         $image_save_link = '/Images/' . $file_name;
         if (move_uploaded_file($tmp_name, $upload_file)) {
             $imagePaths[] = $image_save_link;

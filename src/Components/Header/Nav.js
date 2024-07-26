@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaSearch, FaUser, FaHeart, FaShoppingBag } from 'react-icons/fa';
-import './Nav.css';
+import { FaSearch, FaUser, FaHeart, FaShoppingBag, FaUserCircle, FaSignOutAlt, FaBox } from 'react-icons/fa';
 import { Dropdown } from 'react-bootstrap';
 import Modal from '../Login-Register/Modal';
 import Login from '../Login-Register/Login';
 
 const Navbar = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white" style={{ height: '90px' }}>
+    <nav className="navbar navbar-expand-lg navbar-light bg-white">
       <NavLink className="navbar-brand" to="/">
         <img src={'/Images/Logo2.png'} alt="Logo" />
       </NavLink>
@@ -18,7 +18,7 @@ const Navbar = ({ user }) => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <form className="form-inline my-2 my-lg-0 mx-auto">
-          <div className="input-group">
+          <div className="input-group search-container">
             <div className="search-icon">
               <FaSearch />
             </div>
@@ -37,24 +37,32 @@ const Navbar = ({ user }) => {
             </NavLink>
           </li>
           {user ? (
-            <li>
+            <li className="nav-item dropdown">
               <Dropdown className="custom-dropdown">
                 <Dropdown.Toggle variant="success" id="dropdown-basic" className="custom-dropdown">
-                  {user.UserName}!
+                  <img src={user.ProfileImage} alt="User" className="user-photo" />
+                  {user.UserName}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/accountDetails">Account Details</Dropdown.Item>
+                  <Dropdown.Item href="/userDetails">
+                    <FaBox /> My Items
+                  </Dropdown.Item>
+                  <Dropdown.Item href="/accountDetails">
+                    <FaUserCircle /> My Profile
+                  </Dropdown.Item>
                   <Dropdown.Item href="/" onClick={() => {
                     localStorage.removeItem('user');
                     window.location.reload();
-                  }}>Logout</Dropdown.Item>
+                  }}>
+                    <FaSignOutAlt /> Sign Out
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </li>
           ) : (
-            <li>
+            <li className="nav-item">
               <button className="nav-link" onClick={() => setIsModalOpen(true)}>
-                <FaUser /> Sign in
+                <FaUser /> Sign In
               </button>
             </li>
           )}

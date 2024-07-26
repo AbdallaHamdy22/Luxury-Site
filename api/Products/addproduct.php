@@ -21,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = isset($_POST['Name']) ? $_POST['Name'] : null;
     $description = isset($_POST['Description']) ? $_POST['Description'] : '';
     $productionYear = isset($_POST['ProductionYear']) ? $_POST['ProductionYear'] : null;
-    $braceletMaterial = isset($_POST['BraceletMaterial']) ? $_POST['BraceletMaterial'] : '';
     $price = isset($_POST['Price']) ? $_POST['Price'] : 0;
     $quantity = isset($_POST['Quantity']) ? $_POST['Quantity'] : 0;
     $offerPrice = isset($_POST['OfferPrice']) ? $_POST['OfferPrice'] : 0;
@@ -38,11 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // For debugging
     file_put_contents('php://stderr', print_r("Received Name: $name, Image: " . print_r($image, true) . "\n", TRUE));
 
-    if ($name && $image) {        
+    if ($name && $image) {
         $product->setName($name);
         $product->setDescription($description);
         $product->setProduction_year($productionYear);
-        $product->setBracelet_Material($braceletMaterial);
         $product->setPrice($price);
         $product->setQuantity($quantity);
         $product->setOfferPrice($offerPrice);
@@ -50,17 +48,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $product->setCategoryID($categoryID);
         $product->setColorID($colorID);
         $product->setSexID($sexID);
-       
+
         // Handle the image file
-        $target_dir = realpath("D:/Luxury-Site/public/Images") . '/'; // Using realpath to get the absolute path
+        $target_dir = realpath("../../public/Images") . '/'; // Using realpath to get the absolute path
         $target_file = $target_dir . basename($image["name"]);
-        
+
         // Check for file upload errors
         if ($image["error"] !== UPLOAD_ERR_OK) {
             file_put_contents('php://stderr', print_r("File upload error: " . $image["error"] . "\n", TRUE));
             http_response_code(400); // Bad request
             echo json_encode(["status" => "error", "message" => "File upload error: " . $image["error"]]);
-            exit(); 
+            exit();
         }
 
         // Check for directory permissions
@@ -74,11 +72,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Debugging: Check file move operation
         if (move_uploaded_file($image["tmp_name"], $target_file)) {
             file_put_contents('php://stderr', print_r("File uploaded successfully to $target_file\n", TRUE));
-            $product->setImage("/Images/".$image["name"]);
+            $product->setImage("/Images/" . $image["name"]);
 
             // Set the ID
             $product->setID($product->GetLastID() + 1);
-            
+
             // Create the product
             if ($product->Create_Product()) {
                 http_response_code(201); // Created
@@ -101,4 +99,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo json_encode(["message" => "Invalid request method."]);
 }
-?>

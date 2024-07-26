@@ -24,14 +24,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // For debugging
     file_put_contents('php://stderr', print_r("Received ID: $id, Name: $name, Image: " . print_r($image, true) . "\n", TRUE));
 
-    if ($id && $name ) {
+    if ($id && $name) {
         $category->setID($id);
         $category->Get_Categoire_Data_By_ID($category->getID());
         $category->setName($name);
-        if ($image) 
-        {
+        if ($image) {
             // Handle the image file
-            $target_dir = realpath("D:/Luxury-Site/public/Images") . '/'; 
+            $target_dir = realpath("../../public/Images") . '/';
             $target_file = $target_dir . basename($image["name"]);
 
             // Check for file upload errors
@@ -53,10 +52,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Move the uploaded file
             if (move_uploaded_file($image["tmp_name"], $target_file)) {
                 file_put_contents('php://stderr', print_r("File uploaded successfully to $target_file\n", TRUE));
-                $category->setImage("/Images/".$image["name"]);
+                $category->setImage("/Images/" . $image["name"]);
 
                 // Update the category
-                
+
             } else {
                 file_put_contents('php://stderr', print_r("Failed to move uploaded file to $target_file\n", TRUE));
                 http_response_code(400); // Bad request
@@ -79,4 +78,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo json_encode(["message" => "Invalid request method."]);
 }
-?>

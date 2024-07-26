@@ -21,7 +21,8 @@ if ($productID > 0) {
     if ($productData) {
         $productData['SexName'] = $product->getSex()->getName();
         $productData['Image'] = stripslashes($productData['Image']);
-        
+        $productData['Image'] = explode(",", $productData['Image']);
+
         echo json_encode($productData);
     } else {
         echo json_encode(["message" => "Product not found."]);
@@ -29,4 +30,3 @@ if ($productID > 0) {
 } else {
     echo json_encode(["message" => "Invalid product ID."]);
 }
-?>

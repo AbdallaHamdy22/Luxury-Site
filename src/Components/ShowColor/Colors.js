@@ -164,7 +164,7 @@ const ShowColors = () => {
                 containerClassName={'pagination'}
                 activeClassName={'active'}
             />
-            <PopForm show={show} handleClose={handleClose} handleSave={handleSave}>
+            <PopForm name={'Color'} show={show} handleClose={handleClose} handleSave={handleSave}>
                 <h2>{currentColor.Color_ID ? 'Edit Color' : 'Add Color'}</h2>
                 <form>
                     <label>

@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $category->setName($name);
 
         // Handle the image file
-        $target_dir = realpath("D:/Luxury-Site/public/Images") . '/'; // Using realpath to get the absolute path
+        $target_dir = realpath("../../public/Images") . '/'; // Using realpath to get the absolute path
         $target_file = $target_dir . basename($image["name"]);
 
         // Check for file upload errors
@@ -50,14 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Debugging: Check file move operation
         if (move_uploaded_file($image["tmp_name"], $target_file)) {
             file_put_contents('php://stderr', print_r("File uploaded successfully to $target_file\n", TRUE));
-            $category->setImage("/Images/".$image["name"]);
-            
+            $category->setImage("/Images/" . $image["name"]);
+
             // Set the ID
             $category->setID($category->GetLastID() + 1);
-            
+
             // Create the category
             if ($category->Create_Categoire()) {
-                
+
                 http_response_code(201); // Created
                 echo json_encode(["message" => "Category was created."]);
             } else {
@@ -78,4 +78,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo json_encode(["message" => "Invalid request method."]);
 }
-?>

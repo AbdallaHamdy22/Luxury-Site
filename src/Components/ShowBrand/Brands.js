@@ -129,7 +129,6 @@ const ShowBrands = () => {
                         fetchBrands();
                         alert('Brand deleted successfully.');
                     } else {
-                        // console.log(response.data.message);
                         alert(response.data.message);
                     }
                 })
@@ -216,7 +215,7 @@ const ShowBrands = () => {
                 containerClassName={'pagination'}
                 activeClassName={'active'}
             />
-            <PopForm show={show} handleClose={handleClose} handleSave={() => handleSave(handleClose)}>
+                <PopForm name={'Brand'}  show={show} handleClose={handleClose} handleSave={() => handleSave(handleClose)}>
                 <h2>{currentBrand.BrandID ? 'Edit Brand' : 'Add Brand'}</h2>
                 <form>
                     <label>

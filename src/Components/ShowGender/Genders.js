@@ -163,7 +163,7 @@ const ShowGenders = () => {
                 containerClassName={'pagination'}
                 activeClassName={'active'}
             />
-            <PopForm show={show} handleClose={handleClose} handleSave={handleSave}>
+            <PopForm name={'Gender'} show={show} handleClose={handleClose} handleSave={handleSave}>
                 <h2>{currentGender.SexID ? 'Edit Gender' : 'Add Gender'}</h2>
                 <form>
                     <label>

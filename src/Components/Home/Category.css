@@ -3,8 +3,9 @@
     text-align: center;
 }
 .category-section img {
-    width: 100%;
-    height: auto;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
 }
 .category-section h5 {
     font-weight: bold;

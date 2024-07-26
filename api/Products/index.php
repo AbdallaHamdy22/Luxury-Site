@@ -19,17 +19,16 @@ $products = new Products($db);
 $latestProducts = $products->Get_Latest_Products();
 
 // Format the data to match the required structure
-$formattedProducts = array_map(function($product) {
+$formattedProducts = array_map(function ($product) {
+    $imgs = explode(',', $product["Image"]);
     return [
-        'ProductID' => $product['ProductID'], // Include ProductID for unique key
+        'ProductID' => $product['ProductID'],
         'Name' => $product['Name'],
         'Description' => $product['Description'],
         'Price' => $product['Price'] . ' AED',
         'link' => "/ItemDetails/" . $product['ProductID'],
-        'img' =>   $product['Image'] 
+        'img' =>   $imgs
     ];
 }, $latestProducts);
 
 echo json_encode($formattedProducts);
-
-?>

@@ -283,7 +283,7 @@ const ShowProducts = () => {
                 containerClassName={'pagination'}
                 activeClassName={'active'}
             />
-            <PopForm show={show} handleClose={handleClose} handleSave={handleSave}>
+            <PopForm name={'Product'} show={show} handleClose={handleClose} handleSave={handleSave}>
                 <h2>{currentProduct.ProductID ? 'Edit Product' : 'Add Product'}</h2>
                 <form>
                     <label>

@@ -19,7 +19,7 @@ const CategorySection = () => {
       <br />
       <div className="row">
         {categories.map(category => (
-          <div key={category.CategoireID} className="col-md-4 mb-4">
+          <div key={category.CategoireID} className="col-12 col-sm-6 col-md-4 mb-4">
             <img src={category.Image} alt={category.Name} />
             <h5>{category.Name}</h5>
           </div>

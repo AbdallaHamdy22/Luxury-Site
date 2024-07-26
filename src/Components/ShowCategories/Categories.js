@@ -222,7 +222,7 @@ const ShowCategories = () => {
                 containerClassName={'pagination'}
                 activeClassName={'active'}
             />
-            <PopForm show={show} handleClose={handleClose} handleSave={handleSave}>
+            <PopForm name={'Category'} show={show} handleClose={handleClose} handleSave={handleSave}>
                 <h2>{currentCategorie.CategoireID ? 'Edit Categorie' : 'Add Categorie'}</h2>
                 <form>
                     <label>

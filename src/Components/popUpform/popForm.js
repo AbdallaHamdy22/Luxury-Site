@@ -2,12 +2,12 @@
 import React from 'react';
 import './popForm.css';
 
-const PopForm = ({ show, handleClose, handleSave, children }) => {
+const PopForm = ({ name, show, handleClose, handleSave, children }) => {
     return (
         <div className={`modal ${show ? 'show' : ''}`} onClick={handleClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h4 className="modal-title">Product Form</h4>
+                    <h4 className="modal-title">{name} Form</h4>
                 </div>
                 <div className="modal-body">
                     {children}

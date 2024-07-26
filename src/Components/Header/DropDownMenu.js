@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import DropdownMenu from './DropDown';
-import './DropDown.css';
 import { NavLink } from 'react-router-dom';
 import axiosInstance from '../../axiosConfig/instance';
 
 const DropdownMenus = ({ user }) => {  
-  
   const [menuData, setMenuData] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -22,12 +20,11 @@ const DropdownMenus = ({ user }) => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (
     <div className="bg-white border-top">
-      
       <nav className="navbar navbar-expand-lg navbar-light bg-white">
         <div className="collapse navbar-collapse justify-content-center" id="navbarNav2">
           <ul className="navbar-nav">

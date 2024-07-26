@@ -25,11 +25,11 @@ if ($queueID > 0) {
 
     // Fetch the queue details by ID
     $results = $queueDetails->Get_Queue_Details_By_QueueID($queueID);
-
     if ($results) {
         $details = [];
 
         foreach ($results as $result) {
+            $result['Image'] = explode(",", $result['Image']);
             // Fetch category details
             $category = new Categoire($db);
             $categoryData = $category->Get_Categoire_Data_By_ID($result['CategoireID']);

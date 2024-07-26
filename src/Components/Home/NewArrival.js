@@ -10,7 +10,6 @@ const NewArrivalsSection = () => {
   useEffect(() => {
     axiosInstance.get('Products/')
       .then(response => {
-        console.log(response.data); // تحقق من البيانات المسترجعة
         setItems(response.data);
         setLoading(false);
       })
@@ -30,9 +29,9 @@ const NewArrivalsSection = () => {
       <hr />
       <div className="row">
         {items.map(item => (
-          <div className="col-md-3 mb-4" key={item.ProductID}>
+          <div className="col-6 col-md-4 col-lg-3 mb-4" key={item.ProductID}>
             <NavLink to={item.link} style={{ textDecoration: 'none' }}>
-              <img src={item.img} alt={item.Name} className="img-fluid equal-image" />
+              <img src={item.img[0]} alt={item.Name} className="img-fluid equal-image" />
               <h5>{item.Name}</h5>
               <p>{item.Description}</p>
               <p>{item.Price}</p>
