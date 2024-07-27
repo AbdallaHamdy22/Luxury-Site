@@ -1,5 +1,5 @@
 .sidebar-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
@@ -73,4 +73,14 @@
 .sidebar-navlink {
   color: inherit;
   text-decoration: none;
+}
+
+.main-content {
+  margin-left: 200px;
+  padding: 20px;
+  transition: margin-left 0.3s;
+}
+
+.sidebar-container:hover ~ .main-content {
+  margin-left: 200px;
 }
