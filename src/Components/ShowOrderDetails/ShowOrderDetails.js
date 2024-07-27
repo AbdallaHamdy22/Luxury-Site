@@ -30,10 +30,9 @@ const ShowOrderDetails = () => {
             QueueID: id,
             UserPrice: totalUserPrice
         };
-    
+
         axiosInstance.post('WaitingList/approveQueue.php', data)
             .then(response => {
-                console.log(response); // Log the entire response
                 if (response.data.status === 'success') {
                     alert('Order approved and moved to products successfully.');
                 } else {
@@ -45,10 +44,9 @@ const ShowOrderDetails = () => {
                 alert('An error occurred while approving the order.');
             });
     };
-    
+
     const handleIgnore = () => {
-        const data = new FormData();
-        data.append('QueueID', id);
+        const data = { QueueID: id };
 
         axiosInstance.post('WaitingList/ignoreQueue.php', data)
             .then(response => {

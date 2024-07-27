@@ -260,9 +260,9 @@ class Products
     public function Create_Product()
     {
         $sql = "INSERT INTO products 
-            (ProductID, Name, Description, ProductionYear, BraceletMaterial, Price,UserPrice, Quantity, Image, OfferPrice, BrandID, CategoireID, Color_ID, SexID)
+            (ProductID, Name, Description, ProductionYear, Price,UserPrice, Quantity, Image, OfferPrice, BrandID, CategoireID, Color_ID, SexID)
             VALUES 
-            (:productid, :name, :description, :productionyear, :braceletmaterial, :price,:UserPrice, :quantity, :image, :offerprice, :brandid, :categoireid, :colorid, :sexid)";
+            (:productid, :name, :description, :productionyear, :price,:UserPrice, :quantity, :image, :offerprice, :brandid, :categoireid, :colorid, :sexid)";
         $stmt = $this->conn->prepare($sql);
 
         // Define variables for the values to be bound
@@ -311,7 +311,6 @@ class Products
             Name = :name,
             Description = :description,
             ProductionYear = :productionyear,
-            BraceletMaterial = :braceletmaterial,
             Price = :price,
             Quantity = :quantity,
             Image = :image,

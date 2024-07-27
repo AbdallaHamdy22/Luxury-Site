@@ -68,16 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo json_encode(["status" => "success", "message" => "Product approved and added to products table."]);
             } catch (Exception $e) {
                 $db->rollBack();
-                echo json_encode(["status" => "error", "message" => "An error occurred while approving the product.", "error" => $e->getMessage()]);
+                echo json_encode(["status" => "failure", "message" => "Transaction failed: " . $e->getMessage()]);
             }
         } else {
-            echo json_encode(["status" => "error", "message" => "Failed to fetch queue details."]);
+            echo json_encode(["status" => "failure", "message" => "No queue details found for QueueID: $queueID"]);
         }
     } else {
-        error_log("Invalid QueueID: " . $queueID . " or UserPrice: " . $userPrice);
-        echo json_encode(["status" => "error", "message" => "Invalid queue ID or user price."]);
+        echo json_encode(["status" => "failure", "message" => "Invalid input data."]);
     }
 } else {
-    error_log("Invalid request method: " . $_SERVER["REQUEST_METHOD"]);
-    echo json_encode(["status" => "error", "message" => 'Invalid request method: ' . $_SERVER["REQUEST_METHOD"]]);
+    echo json_encode(["status" => "failure", "message" => "Invalid request method."]);
 }
