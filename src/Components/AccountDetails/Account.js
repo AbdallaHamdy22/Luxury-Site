@@ -73,8 +73,6 @@ const AccountDetails = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        console.log(userdetails);
-    
         try {
             const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/updateUserDetails.php', {
                 method: 'POST',

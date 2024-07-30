@@ -53,9 +53,7 @@ const UserDetails = () => {
                 <button className={`tab ${category === 'returned-withdrawn' ? 'active' : ''}`} onClick={() => navigate('/userDetails/returned-withdrawn')}>Item(s) Returned/Withdrawn</button>
                 <button className={`tab ${category === 'archived' ? 'active' : ''}`} onClick={() => navigate('/userDetails/archived')}>Archived</button>
             </div>
-            <div className="items-list">
-                {renderItems()}
-            </div>
+            {renderItems()}
         </div>
     );
 };
