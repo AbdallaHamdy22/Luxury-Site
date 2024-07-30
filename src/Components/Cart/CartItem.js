@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Image } from 'react-bootstrap';
 import './CartItem.css';
 
 const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
     const [localQuantity, setLocalQuantity] = useState(quantity);
+    const [imageArray, setImageArray] = useState([]);
 
     useEffect(() => {
         setLocalQuantity(quantity);
-    }, [quantity]);
+        if (typeof item.Image === 'string') {
+            setImageArray(item.Image.split(','));
+        } else if (Array.isArray(item.Image)) {
+            setImageArray(item.Image);
+        } else {
+            console.error('Image is not a string or array', item.Image);
+            setImageArray([]);
+        }
+    }, [quantity, item]);
 
     const handleIncrease = () => {
         const newQuantity = localQuantity + 1;
@@ -22,30 +31,26 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
     };
 
     return (
-        <Row className="cart-item">
-            <Col className='col1'>
+        <Row className="cart-item align-items-center">
+            <Col xs={12} md={5} className="col-item-info">
                 <div className="item-info">
-                    <img src={item.Image} alt={item.Name} className="item-image" />
-                    <span>{item.Name}</span>
+                    <Image src={imageArray[0]} alt={item.Name} className="item-image" rounded />
+                    <span className="item-name">{item.Name}</span>
                 </div>
             </Col>
-            <Col className='col2'>
-                <span>${parseFloat(item.Price).toFixed(2)}</span>
+            <Col xs={4} md={2} className="col-item-price">
+                <span className="item-price">${parseFloat(item.Price).toFixed(2)}</span>
             </Col>
-            <Col className='col3'>
+            <Col xs={4} md={3} className="col-item-quantity">
                 <div className="quantity-control">
-                    <Button className="quantity-button" onClick={handleDecrease}>-</Button>
+                    <Button variant="outline-secondary" className="quantity-button" onClick={handleDecrease}>-</Button>
                     <span className="quantity">{localQuantity}</span>
-                    <Button className="quantity-button" onClick={handleIncrease}>+</Button>
+                    <Button variant="outline-secondary" className="quantity-button" onClick={handleIncrease}>+</Button>
                 </div>
             </Col>
-            <Col className='col4'>
-                <span>${(parseFloat(item.Price) * localQuantity).toFixed(2)}</span>
-                <Button
-                    variant="danger"
-                    onClick={() => onRemove(item)}
-                    className="remove-button"
-                >
+            <Col xs={4} md={2} className="col-item-total">
+                <span className="item-total">${(parseFloat(item.Price) * localQuantity).toFixed(2)}</span>
+                <Button variant="outline-danger" onClick={() => onRemove(item)} className="remove-button">
                     Remove
                 </Button>
             </Col>

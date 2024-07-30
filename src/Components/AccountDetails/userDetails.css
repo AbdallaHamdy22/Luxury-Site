@@ -1,0 +1,63 @@
+/* src/UserDetails.css */
+.my-items {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  .tabs {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .tab {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .tab.active {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .items-list {
+    border-top: 2px solid #000;
+    margin-top: 20px;
+  }
+  
+  .item {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .item-content {
+    padding-top: 10px;
+  }
+  
+  .item h2 {
+    font-size: 18px;
+  }
+  
+  .item p {
+    margin: 10px 0;
+  }
+  
+  .item a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  

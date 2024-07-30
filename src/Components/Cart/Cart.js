@@ -20,8 +20,6 @@ const Cart = () => {
     const handleQuantityChange = (item, newQuantity) => {
         if (newQuantity > item.Quantity) {
             alert(`غير مسموح، الكمية المتاحة هي ${item.Quantity}`);
-            console.log(item.Quantity);
-            console.log(newQuantity);
             return;
         }
 
@@ -40,16 +38,16 @@ const Cart = () => {
 
     return (
         <div className="shopping-cart container mt-4">
-            <h2>Shopping Cart</h2>
+            <h2 className="cart-title">Shopping Cart</h2>
             {cart.length === 0 ? (
-                <p>Your cart is empty</p>
+                <p className="empty-cart-message">Your cart is empty</p>
             ) : (
                 <div>
                     <Row className="cart-header">
-                        <Col className='col1'><h4>Product</h4></Col>
-                        <Col className='col2'><h4>Price</h4></Col>
-                        <Col className='col3'><h4>Quantity</h4></Col>
-                        <Col className='col4'><h4>Total</h4></Col>
+                        <Col xs={12} md={5} className='col-item-info'><h4>Product</h4></Col>
+                        <Col xs={4} md={2} className='col-item-price'><h4>Price</h4></Col>
+                        <Col xs={4} md={3} className='col-item-quantity'><h4>Quantity</h4></Col>
+                        <Col xs={4} md={2} className='col-item-total'><h4>Total</h4></Col>
                     </Row>
                     {cart.map((item) => (
                         <CartItem
@@ -61,12 +59,12 @@ const Cart = () => {
                         />
                     ))}
                     <Row className="cart-total">
-                        <Col className='col1'><h3>Subtotal</h3></Col>
-                        <Col className='col2'></Col>
-                        <Col className='col3'></Col>
-                        <Col className='col4'><h3>{subtotal.toFixed(2)} AED</h3></Col>
+                        <Col xs={12} md={5} className='col-item-info'><h3>Subtotal</h3></Col>
+                        <Col xs={4} md={2} className='col-item-price'></Col>
+                        <Col xs={4} md={3} className='col-item-quantity'></Col>
+                        <Col xs={4} md={2} className='col-item-total'><h3>{subtotal.toFixed(2)} AED</h3></Col>
                     </Row>
-                    <Button variant="primary" className="mt-3">Proceed to Checkout</Button>
+                    <Button variant="primary" className="checkout-button mt-3">Proceed to Checkout</Button>
                 </div>
             )}
         </div>

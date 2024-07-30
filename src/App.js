@@ -21,7 +21,7 @@ import ShowOrders from "./Components/ShowOrders/ShowOrders";
 import ShowOrderDetails from "./Components/ShowOrderDetails/ShowOrderDetails";
 import ShowColors from './Components/ShowColor/Colors';
 import AccountSettings from './Components/AccountDetails/Account';
-
+import UserDetails from './Components/AccountDetails/userDetails';
 const App = () => {
   const [user, setUser] = useState(null);
 
@@ -39,7 +39,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/sell" element={<Sell user={user} />} />
         <Route path="/join" element={<Login setUser={setUser} />} />
-        <Route path='/accountDetails' element={<AccountSettings />} />
+        <Route path='/accountDetails/:userID' element={<AccountSettings />} />
+        <Route path="/userDetails/:category" element={<UserDetails />} />
         <Route path="/fav" element={<FavComponent />} />
         <Route path="/cart" element={<CartComponent />} />
         <Route path="/Items" element={<Items />} />

@@ -7,7 +7,7 @@ import Login from '../Login-Register/Login';
 
 const Navbar = ({ user }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white">
       <NavLink className="navbar-brand" to="/">
@@ -44,10 +44,10 @@ const Navbar = ({ user }) => {
                   {user.UserName}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/userDetails">
+                  <Dropdown.Item href="/userDetails/Submitted">
                     <FaBox /> My Items
                   </Dropdown.Item>
-                  <Dropdown.Item href="/accountDetails">
+                  <Dropdown.Item as={NavLink} to={`/accountDetails/${user.ID}`}>
                     <FaUserCircle /> My Profile
                   </Dropdown.Item>
                   <Dropdown.Item href="/" onClick={() => {

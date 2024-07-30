@@ -1,30 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './Account.css';
+import { useParams } from 'react-router-dom';
 
 const AccountDetails = () => {
-    const [user, setUserDetails] = useState({
+    const [userdetails, setUserDetails] = useState({
         userID: '',
         userName: '',
         password: '',
         email: '',
         profileImage: ''
     });
-
+    const { userID } = useParams();
     const [originalUser, setOriginalUser] = useState({});
     const [hasChanges, setHasChanges] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         fetchUserDetails();
-    }, []);
+    }, [userID]);
 
     const fetchUserDetails = async () => {
         try {
-            const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/getUserDetails.php?userID=1');
+            const response = await fetch(`http://localhost/dashboard/luxury-site-last/api/User/getUserDetails.php?userID=${userID}`);
             const data = await response.json();
             if (data.status === 'success') {
                 const fetchedUser = {
-                    userID: data.user.userID || '',
+                    userID: data.user.UserID || '',
                     userName: data.user.UserName || '',
                     password: data.user.Password || '',
                     email: data.user.Email || '',
@@ -58,7 +60,7 @@ const AccountDetails = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const updatedUser = {
-                    ...user,
+                    ...userdetails,
                     profileImage: reader.result
                 };
                 setUserDetails(updatedUser);
@@ -70,27 +72,33 @@ const AccountDetails = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
+        console.log(userdetails);
+    
         try {
             const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/updateUserDetails.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(user)
+                body: JSON.stringify(userdetails)
             });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
             if (data.status === 'success') {
                 console.log('User details updated successfully');
-                setOriginalUser(user);
+                setOriginalUser(userdetails);
                 setHasChanges(false);
             } else {
-                console.error('Failed to update user details');
+                console.error('Failed to update user details:', data.message);
             }
         } catch (error) {
             console.error('Error updating user details:', error);
         }
     };
+    
 
     const handleCancel = () => {
         setUserDetails(originalUser);
@@ -100,19 +108,22 @@ const AccountDetails = () => {
     const handleRemove = () => {
         setUserDetails(prevState => ({ ...prevState, profileImage: '' }));
         setHasChanges(true);
-    }
+    };
+
+    const toggleShowPassword = () => {
+        setShowPassword(prevShowPassword => !prevShowPassword);
+    };
 
     return (
         <Container className="my-4">
             <Row className="justify-content-center">
-                <Col md={8}>
+                <Col md={8} className="account-container">
                     <h2>Account Details</h2>
-                    <div className="d-flex align-items-center mb-4">
+                    <div className="profile-image-container mb-4">
                         <img
-                            src={user.profileImage}
+                            src={userdetails.profileImage}
                             alt="Profile"
-                            className="rounded-circle"
-                            style={{ width: '80px', height: '80px' }}
+                            className="profile-image"
                         />
                         <div className="ms-3">
                             <input
@@ -134,7 +145,7 @@ const AccountDetails = () => {
                                 <Form.Control
                                     type="text"
                                     name="userName"
-                                    value={user.userName}
+                                    value={userdetails.userName}
                                     autoComplete="off"
                                     onChange={handleChange}
                                 />
@@ -146,7 +157,7 @@ const AccountDetails = () => {
                                 <Form.Control
                                     type="email"
                                     name="email"
-                                    value={user.email}
+                                    value={userdetails.email}
                                     autoComplete="off"
                                     onChange={handleChange}
                                 />
@@ -155,13 +166,18 @@ const AccountDetails = () => {
                         <Form.Group as={Row} className="mb-3" controlId="formPassword">
                             <Form.Label column sm={2}>Password</Form.Label>
                             <Col sm={10}>
-                                <Form.Control
-                                    type="password"
-                                    name="password"
-                                    value={user.password}
-                                    autoComplete="off"
-                                    onChange={handleChange}
-                                />
+                                <div className="password-wrapper">
+                                    <Form.Control
+                                        type={showPassword ? "text" : "password"}
+                                        name="password"
+                                        value={userdetails.password}
+                                        autoComplete="off"
+                                        onChange={handleChange}
+                                    />
+                                    <span onClick={toggleShowPassword} className="toggle-password">
+                                        {showPassword ? "Hide" : "Show"}
+                                    </span>
+                                </div>
                             </Col>
                         </Form.Group>
                         <div className="d-flex justify-content-between">
