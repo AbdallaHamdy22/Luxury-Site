@@ -18,7 +18,6 @@ const ShowProducts = () => {
         Name: '',
         Description: '',
         ProductionYear: '',
-        BraceletMaterial: '',
         Price: '',
         Quantity: '',
         Image: '',
@@ -194,7 +193,6 @@ const ShowProducts = () => {
             Name: '',
             Description: '',
             ProductionYear: '',
-            BraceletMaterial: '',
             Price: '',
             Quantity: '',
             Image: '',
@@ -220,7 +218,7 @@ const ShowProducts = () => {
         <Sidebar />
         <div className="product-table">
             <h1>Products List</h1>
-            <input 
+            <input
                 type="text" 
                 placeholder="Search by ID or Name" 
                 value={searchTerm} 
@@ -237,7 +235,6 @@ const ShowProducts = () => {
                         <th>Name</th>
                         <th>Description</th>
                         <th>Production Year</th>
-                        <th>Bracelet Material</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Image</th>
@@ -257,7 +254,6 @@ const ShowProducts = () => {
                             <td>{product.Name}</td>
                             <td>{product.Description}</td>
                             <td>{product.ProductionYear}</td>
-                            <td>{product.BraceletMaterial}</td>
                             <td>{product.Price}</td>
                             <td>{product.Quantity}</td>
                             <td><img src={product.Image} alt={product.Name} className="product-image" /></td>
@@ -301,10 +297,6 @@ const ShowProducts = () => {
                     <label>
                         Production Year:
                         <input type="text" name="ProductionYear" value={currentProduct.ProductionYear || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Bracelet Material:
-                        <input type="text" name="BraceletMaterial" value={currentProduct.BraceletMaterial || ''} onChange={handleChange} />
                     </label>
                     <label>
                         Price:

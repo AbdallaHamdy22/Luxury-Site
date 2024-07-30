@@ -54,7 +54,7 @@ const Navbar = ({ user }) => {
                     localStorage.removeItem('user');
                     window.location.reload();
                   }}>
-                    <FaSignOutAlt /> Sign Out
+                    <FaSignOutAlt /> Logout
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
@@ -62,7 +62,7 @@ const Navbar = ({ user }) => {
           ) : (
             <li className="nav-item">
               <button className="nav-link" onClick={() => setIsModalOpen(true)}>
-                <FaUser /> Sign In
+                <FaUser /> Login
               </button>
             </li>
           )}
