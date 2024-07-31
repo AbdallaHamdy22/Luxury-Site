@@ -46,7 +46,7 @@ const Navbar = () => {
                   {user.UserName}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/userDetails/submitted">
+                  <Dropdown.Item href="/userDetails/Submitted">
                     <FaBox /> My Items
                   </Dropdown.Item>
                   <Dropdown.Item as={NavLink} to={`/accountDetails`}>

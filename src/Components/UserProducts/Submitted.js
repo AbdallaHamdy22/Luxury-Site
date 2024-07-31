@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const Submitted = ({ toggleItem, openItem }) => {
+const Submitted = ({ items, toggleItem, openItem }) => {
+  const [filtereditems, setFilteredItems] = useState([]);
+
+  useEffect(() => {
+    let data = items.filter(item => item.Status === 'Available');
+    setFilteredItems(data)
+  },[]);
   return (
     <div className="items-list">
       <div className="item">
