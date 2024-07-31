@@ -6,7 +6,8 @@ import axiosInstance from '../../axiosConfig/instance';
 import { addToCart, removeFromCart, updateQuantity } from '../Redux/RDXCart';
 import { useDispatch, useSelector } from 'react-redux';
 
-const ProductDetails = ({ user }) => {
+const ProductDetails = () => {
+    const user = useSelector((state) => state.user.user);
     const { id } = useParams();
     const [item, setItem] = useState({});
     const [colors, setColors] = useState([]);

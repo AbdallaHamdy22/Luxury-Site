@@ -8,8 +8,7 @@ class User
     private string $ProfileImage;
     private Role $role;
     private $conn;
-    
-    
+
     public function __construct($db)
     {
         $this->conn = $db;
@@ -19,11 +18,11 @@ class User
     {
         try {
             $this->UserName = $data->fName . ' ' . $data->lName;
-            $this->Password =$data->Password;
+            $this->Password = $data->Password;
             $this->Email = $data->Email;
-            $this->ProfileImage = ''; 
-            $roleID = 2; 
-            
+            $this->ProfileImage = '';
+            $roleID = 2;
+
             $sql = "INSERT INTO users (UserName, Password, Email, ProfileImage, RoleID) VALUES (:UserName, :Password, :Email, :ProfileImage, :RoleID)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':UserName', $this->UserName);
@@ -31,9 +30,9 @@ class User
             $stmt->bindParam(':Email', $this->Email);
             $stmt->bindParam(':ProfileImage', $this->ProfileImage);
             $stmt->bindParam(':RoleID', $roleID);
-            
+
             if ($stmt->execute()) {
-                
+
                 return true;
             } else {
                 return false;
@@ -43,31 +42,31 @@ class User
         }
     }
     public function updateUserDetails()
-{
-    try {
-        $sql = "UPDATE users SET UserName = :UserName, Password = :Password, Email = :Email, ProfileImage = :ProfileImage WHERE UserID = :UserID";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':UserID', $this->ID, PDO::PARAM_INT);
-        $stmt->bindParam(':UserName', $this->UserName, PDO::PARAM_STR);
-        $stmt->bindParam(':Password', $this->Password, PDO::PARAM_STR);
-        $stmt->bindParam(':Email', $this->Email, PDO::PARAM_STR);
-        $stmt->bindParam(':ProfileImage', $this->ProfileImage, PDO::PARAM_STR);
-        
-        return $stmt->execute();
-    } catch (Exception $e) {
-        return false;
-    }
-}
+    {
+        try {
+            $sql = "UPDATE users SET UserName = :UserName, Password = :Password, Email = :Email, ProfileImage = :ProfileImage WHERE UserID = :UserID";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':UserID', $this->ID, PDO::PARAM_INT);
+            $stmt->bindParam(':UserName', $this->UserName, PDO::PARAM_STR);
+            $stmt->bindParam(':Password', $this->Password, PDO::PARAM_STR);
+            $stmt->bindParam(':Email', $this->Email, PDO::PARAM_STR);
+            $stmt->bindParam(':ProfileImage', $this->ProfileImage, PDO::PARAM_STR);
 
-    
+            return $stmt->execute();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+
 
     public function Get_User_Data_By_ID($id)
     {
-        $sql = "SELECT * FROM users WHERE UserID = :id"; 
+        $sql = "SELECT * FROM users WHERE UserID = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
@@ -75,9 +74,9 @@ class User
             $this->UserName = $result['UserName'];
             $this->Password = $result['Password'];
             $this->Email = $result['Email'];
-            $this->ProfileImage = $result['ProfileImage'];            
+            $this->ProfileImage = $result['ProfileImage'];
             $this->role = new Role($this->conn);
-            $this->role->Get_Role_Data_By_ID($result['RoleID']);            
+            $this->role->Get_Role_Data_By_ID($result['RoleID']);
             return $result;
         } else {
             return null;
@@ -87,28 +86,28 @@ class User
 
     public function Get_User_Data_By_Email($Email)
     {
-        $sql = "SELECT * FROM users WHERE Email = :Email"; 
+        $sql = "SELECT * FROM users WHERE Email = :Email";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':Email', $Email, PDO::PARAM_STR); 
+        $stmt->bindParam(':Email', $Email, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($result) {
             $this->ID = $result['UserID'];
             $this->UserName = $result['UserName'];
             $this->Password = $result['Password'];
             $this->Email = $result['Email'];
-            $this->ProfileImage = $result['ProfileImage'];            
+            $this->ProfileImage = $result['ProfileImage'];
             $this->role = new Role($this->conn);
-            $this->role->Get_Role_Data_By_ID($result['RoleID']);            
+            $this->role->Get_Role_Data_By_ID($result['RoleID']);
             return $result;
         } else {
             return null;
         }
     }
-    
-    
+
+
 
     public function Display_User_Data()
     {
@@ -131,7 +130,7 @@ class User
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
@@ -198,8 +197,4 @@ class User
     {
         $this->ProfileImage = $ProfileImage;
     }
-
-
-
 }
-?>

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../Redux/RDXUser';
 import './Login.css';
 
-const Login = ({ setUser }) => {
+
+const Login = () => {
   const [loginData, setLoginData] = useState({ Email: '', Password: '' });
   const [signupData, setSignupData] = useState({
     fName: '', lName: '', Email: '', Password: '', conf_Password: '', number: '', birthdate: '', gender: ''
@@ -11,6 +14,7 @@ const Login = ({ setUser }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch(); 
 
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -25,30 +29,38 @@ const Login = ({ setUser }) => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/UserLogin.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginData)
-      });
-      const data = await response.json();
-      if (data.status === 'error') {
-        setErrorMessage(data.message);
-      } else {
-        localStorage.setItem('user', JSON.stringify(data));
-        console.log(data);
-        setUser(data);
-        navigate('/');
-        window.location.reload();
-      }
-      setLoading(false);
+        const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/UserLogin.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData)
+        });
+        const text = await response.text();
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (err) {
+            throw new Error('Invalid JSON response');
+        }
+
+        if (data.status === 'error') {
+            setErrorMessage(data.message);
+        } else {
+            localStorage.setItem('user', JSON.stringify(data));
+            dispatch(setUser(data));
+            navigate('/');
+            window.location.reload();
+        }
+        setLoading(false);
     } catch (error) {
-      console.error('Error:', error);
-      setErrorMessage('An error occurred. Please try again later.');
-      setLoading(false);
+        console.error('Error:', error);
+        setErrorMessage('An error occurred. Please try again later.');
+        setLoading(false);
     }
-  };
+};
+
+
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();

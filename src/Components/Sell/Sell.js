@@ -1,8 +1,9 @@
+import { useSelector } from 'react-redux';
 import axiosInstance from '../../axiosConfig/instance';
 import './Sell.css';
 import { useState, useEffect, useRef } from 'react';
-
-const Sell = ({ user }) => {
+const Sell = () => {
+    const user = useSelector((state) => state.user.user);
     const [formData, setFormData] = useState({
         ProductName: '',
         description: '',
@@ -57,20 +58,29 @@ const Sell = ({ user }) => {
         Object.keys(formData).forEach(key => {
             data.append(key, formData[key]);
         });
+        
         data.append('UserID', user.ID);
+        if (formData.offerPrice === '0') {
+            data.append('Status', 'Available');
+        }
+        else {
+            data.append('Status', 'OnSale');
+        }
         for (let i = 0; i < imageFiles.length; i++) {
             data.append('images[]', imageFiles[i]);
         }
-
         axiosInstance.post('WaitingList/addqueue.php', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        .then(response => response.data)
+        .then(response => {
+            return response.data;
+        })
         .then(result => {
+            const message = result.message || 'Unknown error';
             if (result.status === 'success') {
-                alert(result.message);
+                alert(message);
                 setFormData({
                     ProductName: '',
                     description: '',
@@ -85,7 +95,7 @@ const Sell = ({ user }) => {
                 setImageFiles([]);
                 fileInputRef.current.value = '';
             } else {
-                alert('Error: ' + result.message);
+                alert('Error: ' + message);
             }
         })
         .catch(error => {

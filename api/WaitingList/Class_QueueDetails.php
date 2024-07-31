@@ -11,6 +11,8 @@ class QueueDetails
     private int $SexID;
     private int $ColorID;
     private int $QueueID;
+    private int $UserID;
+    private string $Status;
     private string $Image;
     private $conn;
 
@@ -140,6 +142,25 @@ class QueueDetails
     {
         $this->QueueID = $QueueID;
     }
+    public function getUserID(): int
+    {
+        return $this->UserID;
+    }
+
+    public function setUserID(int $UserID): void
+    {
+        $this->UserID = $UserID;
+    }
+    // Getter and Setter for Image
+    public function getStatus(): string
+    {
+        return $this->Status;
+    }
+
+    public function setStatus(string $Status): void
+    {
+        $this->Status = $Status;
+    }
 
     // Getter and Setter for Image
     public function getImage(): string
@@ -155,9 +176,9 @@ class QueueDetails
     public function Create_QueueDetail()
     {
         $sql = "INSERT INTO QueueDetails 
-                (ProductName, ProductDescription, ProductPrice, OfferPrice, Quantity, CategoireID, BrandID, SexID, Color_ID, QueueID, Image) 
+                (ProductName, ProductDescription, ProductPrice, OfferPrice, Quantity, CategoireID, BrandID, SexID, Color_ID, QueueID, Image, UserID, Status) 
                 VALUES 
-                (:productname, :productdescription, :productprice, :offerprice, :quantity, :categoireid, :brandid, :sexid, :colorid, :queueid, :image)";
+                (:productname, :productdescription, :productprice, :offerprice, :quantity, :categoireid, :brandid, :sexid, :colorid, :queueid, :image, :userid, :status)";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':productname', $this->ProductName);
@@ -171,6 +192,8 @@ class QueueDetails
         $stmt->bindParam(':colorid', $this->ColorID);
         $stmt->bindParam(':queueid', $this->QueueID);
         $stmt->bindParam(':image', $this->Image);
+        $stmt->bindParam(':userid', $this->UserID);
+        $stmt->bindParam(':status', $this->Status);
 
         if ($stmt->execute()) {
             return true;
@@ -191,7 +214,9 @@ class QueueDetails
                 BrandID = :brandid, 
                 SexID = :sexid, 
                 Color_ID = :colorid,
-                Image = :image
+                Image = :image,
+                UserID = :userid,
+                Status = :status
                 WHERE QueueID = :queueid";
         $stmt = $this->conn->prepare($sql);
 
@@ -206,6 +231,8 @@ class QueueDetails
         $stmt->bindParam(':colorid', $this->ColorID);
         $stmt->bindParam(':queueid', $this->QueueID);
         $stmt->bindParam(':image', $this->Image);
+        $stmt->bindParam(':userid', $this->UserID);
+        $stmt->bindParam(':status', $this->Status);
 
         if ($stmt->execute()) {
             return true;

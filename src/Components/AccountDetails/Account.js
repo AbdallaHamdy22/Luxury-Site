@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './Account.css';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const AccountDetails = () => {
+    const user = useSelector((state) => state.user.user);
     const [userdetails, setUserDetails] = useState({
         userID: '',
         userName: '',
@@ -11,20 +12,20 @@ const AccountDetails = () => {
         email: '',
         profileImage: ''
     });
-    const { userID } = useParams();
     const [originalUser, setOriginalUser] = useState({});
     const [hasChanges, setHasChanges] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         fetchUserDetails();
-    }, [userID]);
+    }, [user.ID]);
 
     const fetchUserDetails = async () => {
         try {
-            const response = await fetch(`http://localhost/dashboard/luxury-site-last/api/User/getUserDetails.php?userID=${userID}`);
+            const response = await fetch(`http://localhost/dashboard/luxury-site-last/api/User/getUserDetails.php?userID=${user.ID}`);
             const data = await response.json();
             if (data.status === 'success') {
+                console.log(data);
                 const fetchedUser = {
                     userID: data.user.UserID || '',
                     userName: data.user.UserName || '',

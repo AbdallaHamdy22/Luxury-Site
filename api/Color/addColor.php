@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($data->Name)) {
         $color->setName($data->Name);
-        
+
 
         // For debugging: print the received data
         file_put_contents('php://stderr', print_r($color, true));
@@ -37,4 +37,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo json_encode(["message" => "Invalid request method."]);
 }
-?>

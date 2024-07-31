@@ -4,8 +4,10 @@ import './product.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
+import { useSelector } from 'react-redux';
 
 const ShowProducts = () => {
+    const user = useSelector((state) => state.user.user);
     const [products, setProducts] = useState([]);
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -243,6 +245,8 @@ const ShowProducts = () => {
                         <th>Category</th>
                         <th>Color</th>
                         <th>Sex</th>
+                        <th>User ID</th>
+                        <th>Status</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -262,6 +266,8 @@ const ShowProducts = () => {
                             <td>{categories.find(category => category.CategoireID === product.CategoireID)?.Name}</td>
                             <td>{colors.find(color => color.ColorID === product.ColorID)?.Name}</td>
                             <td>{sexes.find(sex => sex.SexID === product.SexID)?.Name}</td>
+                            <td>{product.UserID}</td>
+                            <td>{product.Status}</td>
                             <td><button onClick={() => handleEdit(product)}>Edit</button></td>
                             <td><button onClick={() => handleDelete(product.ProductID)}>Delete</button></td>
                         </tr>

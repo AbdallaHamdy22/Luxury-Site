@@ -1,28 +1,32 @@
 <?php
-class QueueList {
+class QueueList
+{
     private int $QueueID;
     private int $UserID;
     private $conn;
-    
-    public function __construct($db) {
+
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
-    public function Get_All_Queues() {
-        $sql = "SELECT * FROM QueueList"; 
+    public function Get_All_Queues()
+    {
+        $sql = "SELECT * FROM QueueList";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-        
+
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $results;
     }
 
-    public function Get_QueueList_Data_By_ID($id) {
-        $sql = "SELECT * FROM QueueList WHERE QueueID = :id"; 
+    public function Get_QueueList_Data_By_ID($id)
+    {
+        $sql = "SELECT * FROM QueueList WHERE QueueID = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
@@ -35,24 +39,29 @@ class QueueList {
     }
 
     // Getter and Setter for QueueID
-    public function getQueueID(): int {
+    public function getQueueID(): int
+    {
         return $this->QueueID;
     }
 
-    public function setQueueID(int $QueueID): void {
+    public function setQueueID(int $QueueID): void
+    {
         $this->QueueID = $QueueID;
     }
 
     // Getter and Setter for UserID
-    public function getUserID(): int {
+    public function getUserID(): int
+    {
         return $this->UserID;
     }
 
-    public function setUserID(int $UserID): void {
+    public function setUserID(int $UserID): void
+    {
         $this->UserID = $UserID;
     }
 
-    public function Create_QueueList() {
+    public function Create_QueueList()
+    {
         $sql = "INSERT INTO QueueList (QueueID, UserID) VALUES (:queueid, :userid)";
         $stmt = $this->conn->prepare($sql);
 
@@ -70,13 +79,14 @@ class QueueList {
         $sql = "SELECT MAX(QueueID) as LastID FROM QueueList";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-        
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $result['LastID']+1;
+        return $result['LastID'] + 1;
     }
 
-    public function Update_QueueList() {
+    public function Update_QueueList()
+    {
         $sql = "UPDATE QueueList SET UserID = :userid WHERE QueueID = :queueid";
         $stmt = $this->conn->prepare($sql);
 
@@ -90,12 +100,12 @@ class QueueList {
         return false;
     }
 
-    public function Delete_QueueList() {
+    public function Delete_QueueList()
+    {
         $sql = "DELETE FROM QueueList WHERE QueueID = :queueid";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':queueid', $this->QueueID, PDO::PARAM_INT);
-        
+
         return $stmt->execute();
     }
 }
-?>

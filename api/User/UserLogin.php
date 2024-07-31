@@ -5,6 +5,7 @@ require_once '../Roles/Class_Role.php';
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header('Content-Type: application/json');
 session_start();
 
 // Read the raw POST data
@@ -13,7 +14,6 @@ $data = json_decode($input, true);
 
 $email = isset($data['Email']) ? $data['Email'] : null;
 $password = isset($data['Password']) ? $data['Password'] : null;
-
 // For debugging
 file_put_contents('php://stderr', print_r("Received Email: $email, Password: $password\n", TRUE));
 
@@ -37,4 +37,3 @@ if ($email && $password) {
 } else {
     echo json_encode(["status" => "error", "message" => "Email and password are required"]);
 }
-?>

@@ -7,13 +7,20 @@ import Recieved from './recieved';
 import Archived from './archived';
 import OnSale from './onSale';
 import Sold from './Sold';
+import axiosInstance from '../../axiosConfig/instance';
 
 const UserDetails = () => {
     const [openItem, setOpenItem] = useState(null);
     const { category } = useParams();
     const navigate = useNavigate();
-
+    const [submitted,setSubmitted] = useState([]);
     useEffect(() => {
+        axiosInstance.get('Products/getproduct.php')
+            .then(response => {
+                setSubmitted()
+            })
+            .catch(error => console.error('Error fetching products:', error));
+        
         if (!category) {
             navigate('/userDetails/submitted');
         }

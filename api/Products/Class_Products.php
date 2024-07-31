@@ -10,6 +10,8 @@ class Products
     private float $Quantity = 0;
     private string $Image;
     private float $OfferPrice = 0;
+    private int $UserID;
+    private string $Status;
     private Brand $Brand;
     private Categoire $Categoire;
     private Color $Color;
@@ -71,6 +73,8 @@ class Products
             $this->Color->Get_Color_Data_By_ID($result['Color_ID']);
             $this->Sex = new Sex($this->conn);
             $this->Sex->Get_Sex_Data_By_ID($result['SexID']);
+            $this->Status = $result['Status'];
+            $this->UserID = $result['UserID'];
             return $result;
         } else {
             return null;
@@ -257,12 +261,32 @@ class Products
 
         $this->Sex->setID($SexID);
     }
+    public function getUserID(): int
+    {
+        return $this->UserID;
+    }
+
+    public function setUserID(int $UserID): void
+    {
+        $this->UserID = $UserID;
+    }
+    // Getter and Setter for Image
+    public function getStatus(): string
+    {
+        return $this->Status;
+    }
+
+    public function setStatus(string $Status): void
+    {
+        $this->Status = $Status;
+    }
+
     public function Create_Product()
     {
         $sql = "INSERT INTO products 
-            (ProductID, Name, Description, ProductionYear, Price,UserPrice, Quantity, Image, OfferPrice, BrandID, CategoireID, Color_ID, SexID)
+            (ProductID, Name, Description, ProductionYear, Price,UserPrice, Quantity, Image, OfferPrice, BrandID, CategoireID, Color_ID, SexID, UserID, Status)
             VALUES 
-            (:productid, :name, :description, :productionyear, :price,:UserPrice, :quantity, :image, :offerprice, :brandid, :categoireid, :colorid, :sexid)";
+            (:productid, :name, :description, :productionyear, :price,:UserPrice, :quantity, :image, :offerprice, :brandid, :categoireid, :colorid, :sexid, :userid, :status)";
         $stmt = $this->conn->prepare($sql);
 
         // Define variables for the values to be bound
@@ -284,6 +308,8 @@ class Products
         $stmt->bindParam(':categoireid', $categoireid);
         $stmt->bindParam(':colorid', $colorid);
         $stmt->bindParam(':sexid', $sexid);
+        $stmt->bindParam(':userid', $this->UserID);
+        $stmt->bindParam(':status', $this->Status);
 
         if ($stmt->execute()) {
             return true;
@@ -318,7 +344,9 @@ class Products
             BrandID = :brandid,
             CategoireID = :categoireid,
             Color_ID = :colorid,
-            SexID = :sexid
+            SexID = :sexid,
+            UserID = :userid,
+            Status = :status
             WHERE ProductID = :productid";
 
         $stmt = $this->conn->prepare($sql);
@@ -340,6 +368,8 @@ class Products
         $stmt->bindParam(':colorid', $colorid); // Use variable
         $stmt->bindParam(':sexid', $sexid); // Use variable
         $stmt->bindParam(':productid', $this->ID);
+        $stmt->bindParam(':userid', $this->UserID);
+        $stmt->bindParam(':status', $this->Status);
 
         if ($stmt->execute()) {
             return true;

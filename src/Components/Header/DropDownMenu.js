@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import DropdownMenu from './DropDown';
 import { NavLink } from 'react-router-dom';
 import axiosInstance from '../../axiosConfig/instance';
+import { useSelector } from 'react-redux';
 
-const DropdownMenus = ({ user }) => {  
+const DropdownMenus = () => { 
+  const user = useSelector((state) => state.user.user);
   const [menuData, setMenuData] = useState({});
   const [loading, setLoading] = useState(true);
 

@@ -28,6 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $categoryID = isset($_POST['CategoireID']) ? $_POST['CategoireID'] : null;
     $colorID = isset($_POST['Color_ID']) ? $_POST['Color_ID'] : null;
     $sexID = isset($_POST['SexID']) ? $_POST['SexID'] : null;
+    $UserID = isset($_POST['UserID']) ? $_POST['UserID'] : null;
+    $Status = isset($_POST['Status']) ? $_POST['Status'] : null;
     $image = isset($_FILES['Image']) ? $_FILES['Image'] : null;
 
     // For debugging: print the current directory
@@ -48,6 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $product->setCategoryID($categoryID);
         $product->setColorID($colorID);
         $product->setSexID($sexID);
+        $product->setUserID($UserID);
+        $product->setStatus($Status);
 
         // Handle the image file
         $target_dir = realpath("../../public/Images") . '/'; // Using realpath to get the absolute path

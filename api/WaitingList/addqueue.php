@@ -21,7 +21,7 @@ error_log('Received FILES data: ' . print_r($_FILES, true));
 
 $required_fields = [
     'ProductName', 'description', 'price', 'quantity', 'offerPrice',
-    'CategoireID', 'BrandID', 'SexID', 'ColorID', 'UserID', 'images'
+    'CategoireID', 'BrandID', 'SexID', 'ColorID', 'UserID', 'Status', 'images'
 ];
 foreach ($required_fields as $field) {
     if (!isset($data[$field]) && !isset($received_files[$field])) {
@@ -43,6 +43,7 @@ if (
         $data['SexID'],
         $data['ColorID'],
         $data['UserID'],
+        $data['Status'],
         $received_files['images']
     )
 ) {
@@ -55,7 +56,8 @@ if (
     $brandID = $data['BrandID'];
     $sexID = $data['SexID'];
     $colorID = $data['ColorID'];
-    $userID = $data['UserID'];
+    $UserID = $data['UserID'];
+    $Status = $data['Status'];
     $imagePaths = [];
     $upload_directory = '../../public/Images/';
     if (!is_dir($upload_directory)) {
@@ -79,7 +81,7 @@ if (
         $db->beginTransaction();
 
         $queueList = new QueueList($db);
-        $queueList->setUserID($userID);
+        $queueList->setUserID($UserID);
         $queueList->setQueueID($queueList->GetLastID());
         if ($queueList->Create_QueueList()) {
 
@@ -97,6 +99,8 @@ if (
             $queue->setBrandID($brandID);
             $queue->setSexID($sexID);
             $queue->setColorID($colorID);
+            $queue->setStatus($Status);
+            $queue->setUserID($UserID);
             $queue->setImage($images_json);
             if ($queue->Create_QueueDetail()) {
                 $db->commit();

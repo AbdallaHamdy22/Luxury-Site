@@ -4,8 +4,10 @@ import { FaSearch, FaUser, FaHeart, FaShoppingBag, FaUserCircle, FaSignOutAlt, F
 import { Dropdown } from 'react-bootstrap';
 import Modal from '../Login-Register/Modal';
 import Login from '../Login-Register/Login';
+import { useSelector } from 'react-redux';
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
+  const user = useSelector((state) => state.user.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -44,10 +46,10 @@ const Navbar = ({ user }) => {
                   {user.UserName}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="/userDetails/Submitted">
+                  <Dropdown.Item href="/userDetails/submitted">
                     <FaBox /> My Items
                   </Dropdown.Item>
-                  <Dropdown.Item as={NavLink} to={`/accountDetails/${user.ID}`}>
+                  <Dropdown.Item as={NavLink} to={`/accountDetails`}>
                     <FaUserCircle /> My Profile
                   </Dropdown.Item>
                   <Dropdown.Item href="/" onClick={() => {

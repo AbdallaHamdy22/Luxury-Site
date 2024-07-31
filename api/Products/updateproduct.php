@@ -29,6 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $categoryID = isset($_POST['CategoireID']) ? $_POST['CategoireID'] : null;
     $colorID = isset($_POST['Color_ID']) ? $_POST['Color_ID'] : null;
     $sexID = isset($_POST['SexID']) ? $_POST['SexID'] : null;
+    $UserID = isset($_POST['UserID']) ? $_POST['UserID'] : null;
+    $Status = isset($_POST['Status']) ? $_POST['Status'] : null;
     $image = isset($_FILES['Image']) ? $_FILES['Image'] : null;
 
     if ($id && $name) {
@@ -44,6 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $Product->setCategoryID($categoryID);
         $Product->setColorID($colorID);
         $Product->setSexID($sexID);
+        $product->setUserID($UserID);
+        $product->setStatus($Status);
 
         if ($image) {
             // Handle the image file

@@ -55,6 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $product->setSexID($result['SexID']);
                     $product->setColorID($result['Color_ID']);
                     $product->setImage($result['Image']);
+                    $product->setUserID($result['UserID']);
+                    $product->setStatus($result['Status']);
                     $product->Create_Product();
                 }
 

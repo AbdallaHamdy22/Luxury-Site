@@ -23,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || $_SERVER["REQUEST_METHOD"] == "DELET
     $data = json_decode($input, true);
 
     $id = isset($data['ProductID']) ? $data['ProductID'] : null;
-    
+
     if ($id) {
-        
+
         $product->setID($id);
 
         if ($product->Delete_Product()) {
@@ -44,4 +44,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || $_SERVER["REQUEST_METHOD"] == "DELET
 } else {
     echo json_encode(["message" => "Invalid request method."]);
 }
-?>

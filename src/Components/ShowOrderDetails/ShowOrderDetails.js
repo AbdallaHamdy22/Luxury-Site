@@ -2,7 +2,7 @@ import { Container, Row, Col, Button, ButtonGroup, Image, Form } from 'react-boo
 import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import axiosInstance from '../../axiosConfig/instance';
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Sidebar from "../SideBar/SideBar";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -35,6 +35,7 @@ const ShowOrderDetails = () => {
             .then(response => {
                 if (response.data.status === 'success') {
                     alert('Order approved and moved to products successfully.');
+                    Navigate('/ShowOrders');
                 } else {
                     alert('Failed to approve the order: ' + response.data.message);
                 }

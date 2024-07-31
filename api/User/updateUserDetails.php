@@ -1,6 +1,11 @@
 <?php
 require_once "../DataBase/Class_Connection.php";
 require_once './Class_User.php';
+require_once '../Roles/Class_Role.php';
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+session_start();
 
 // Create a new instance of the User class
 $db = new Connection();
