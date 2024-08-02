@@ -16,6 +16,7 @@ const Sell = () => {
         SexID: '',
         ColorID: ''
     });
+    
     const [imageFiles, setImageFiles] = useState([]);
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -57,11 +58,11 @@ const Sell = () => {
         e.preventDefault();
         let data = new FormData();
         
-        // Append form data fields
         Object.keys(formData).forEach(key => {
             data.append(key, formData[key]);
         });
-        
+
+        console.log(user.UserID);
         data.append('UserID', user.UserID);
         data.append('Status', formData.offerPrice > '0' ? 'OnSale' : 'Available');
     

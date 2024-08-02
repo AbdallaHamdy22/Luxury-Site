@@ -2,7 +2,7 @@
 require_once "../DataBase/Class_Connection.php";
 require_once './Class_User.php';
 require_once '../Roles/Class_Role.php';
-require_once "../UploadImages.php";
+require_once "../UploadOneImage.php";
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
