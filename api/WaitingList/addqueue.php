@@ -1,11 +1,15 @@
 <?php
+
 require_once "../DataBase/Class_Connection.php";
-require_once 'Class_Queue.php';
-require_once 'Class_QueueDetails.php';
+require_once "Class_Queue.php";
+require_once "Class_QueueDetails.php";
+require_once "../UploadImages.php";
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Content-Type: application/json");
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -21,8 +25,9 @@ error_log('Received FILES data: ' . print_r($_FILES, true));
 
 $required_fields = [
     'ProductName', 'description', 'price', 'quantity', 'offerPrice',
-    'CategoireID', 'BrandID', 'SexID', 'ColorID', 'UserID', 'Status', 'images'
+    'CategoireID', 'BrandID', 'SexID', 'ColorID', 'UserID', 'Status'
 ];
+
 foreach ($required_fields as $field) {
     if (!isset($data[$field]) && !isset($received_files[$field])) {
         error_log("Missing field: $field");
@@ -31,89 +36,81 @@ foreach ($required_fields as $field) {
     }
 }
 
-if (
-    isset(
-        $data['ProductName'],
-        $data['description'],
-        $data['price'],
-        $data['quantity'],
-        $data['offerPrice'],
-        $data['CategoireID'],
-        $data['BrandID'],
-        $data['SexID'],
-        $data['ColorID'],
-        $data['UserID'],
-        $data['Status'],
-        $received_files['images']
-    )
-) {
-    $ProductName = $data['ProductName'];
-    $description = $data['description'];
-    $price = $data['price'];
-    $quantity = $data['quantity'];
-    $offerPrice = $data['offerPrice'];
-    $categoryID = $data['CategoireID'];
-    $brandID = $data['BrandID'];
-    $sexID = $data['SexID'];
-    $colorID = $data['ColorID'];
-    $UserID = $data['UserID'];
-    $Status = $data['Status'];
-    $imagePaths = [];
-    $upload_directory = '../../public/Images/';
-    if (!is_dir($upload_directory)) {
-        mkdir($upload_directory, 0777, true);
-    }
+try {
+    if (
+        isset(
+            $data['ProductName'],
+            $data['description'],
+            $data['price'],
+            $data['quantity'],
+            $data['offerPrice'],
+            $data['CategoireID'],
+            $data['BrandID'],
+            $data['SexID'],
+            $data['ColorID'],
+            $data['UserID'],
+            $data['Status']
+        )
+    ) {
+        $ProductName = $data['ProductName'];
+        $description = $data['description'];
+        $price = $data['price'];
+        $quantity = $data['quantity'];
+        $offerPrice = $data['offerPrice'];
+        $UserID = $data['UserID'];
+        $Status = $data['Status'];
 
-    foreach ($received_files['images']['tmp_name'] as $key => $tmp_name) {
-        $file_name_array = explode(".", $received_files['images']['name'][$key]);
-        $file_name = time() . '_' . $key . '.' . end($file_name_array);
-        $upload_file = $upload_directory . $file_name;
-        $image_save_link = '/Images/' . $file_name;
-        if (move_uploaded_file($tmp_name, $upload_file)) {
-            $imagePaths[] = $image_save_link;
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to upload image']);
+        $CategoireID = $data['CategoireID'];
+        $BrandID = $data['BrandID'];
+        $SexID = $data['SexID'];
+        $ColorID = $data['ColorID'];
+
+        $uploadResult = uploadImages($received_files['images']);
+        if ($uploadResult['status'] === 'error') {
+            echo json_encode($uploadResult);
             return;
         }
-    }
-    $images_json = implode(',', $imagePaths);
-    try {
-        $db->beginTransaction();
+        $images_json = implode(',', $uploadResult['imagePaths']);
 
         $queueList = new QueueList($db);
-        $queueList->setUserID($UserID);
+        $queueDetails = new QueueDetails($db);
+
         $queueList->setQueueID($queueList->GetLastID());
+        $queueList->setUserID($UserID);
+
         if ($queueList->Create_QueueList()) {
+            $QueueID = $queueList->getQueueID();
 
-            $queueID = $queueList->getQueueID();
+            $queueDetails->setProductName($ProductName);
+            $queueDetails->setProductDescription($description);
+            $queueDetails->setProductPrice($price);
+            $queueDetails->setProductOfferPrice($offerPrice);
+            $queueDetails->setQuantity($quantity);
+            $queueDetails->setUserID($UserID);
+            $queueDetails->setStatus($Status);
+            $queueDetails->setQueueID($QueueID);
+            $queueDetails->setImage($images_json);
 
-            $queue = new QueueDetails($db);
+            $queueDetails->setCategoireID($CategoireID);
+            $queueDetails->setBrandID($BrandID);
+            $queueDetails->setSexID($SexID);
+            $queueDetails->setColorID($ColorID);
 
-            $queue->setQueueID($queueID);
-            $queue->setProductName($ProductName);
-            $queue->setProductDescription($description);
-            $queue->setProductPrice($price);
-            $queue->setProductOfferPrice($offerPrice);
-            $queue->setQuantity($quantity);
-            $queue->setCategoireID($categoryID);
-            $queue->setBrandID($brandID);
-            $queue->setSexID($sexID);
-            $queue->setColorID($colorID);
-            $queue->setStatus($Status);
-            $queue->setUserID($UserID);
-            $queue->setImage($images_json);
-            if ($queue->Create_QueueDetail()) {
-                $db->commit();
-                echo json_encode(['status' => 'success', 'message' => 'Product added to queue.']);
-                return;
-            }
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Queue added successfully',
+                'QueueID' => $QueueID
+            ]);
+        } else {
+            throw new Exception('Failed to create queue list');
         }
-        $db->rollBack();
-    } catch (Exception $e) {
-        $db->rollBack();
-        echo json_encode(['status' => 'error', 'message' => 'Failed to add product to queue: ' . $e->getMessage()]);
-        return;
+    } else {
+        throw new Exception('All required fields must be filled');
     }
+} catch (Exception $e) {
+    error_log('Error: ' . $e->getMessage());
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'An unknown error occurred: ' . $e->getMessage()
+    ]);
 }
-
-echo json_encode(['status' => 'error', 'message' => 'Invalid input.']);

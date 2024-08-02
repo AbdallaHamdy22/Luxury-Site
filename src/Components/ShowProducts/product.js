@@ -4,10 +4,8 @@ import './product.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
-import { useSelector } from 'react-redux';
 
 const ShowProducts = () => {
-    const user = useSelector((state) => state.user.user);
     const [products, setProducts] = useState([]);
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);

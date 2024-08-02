@@ -24,7 +24,7 @@ $brandID = 1;
 $sexID = 1;
 $colorID = 1;
 $userID = 2;
-
+$status = 'Available';
 try {
     // بدء المعاملة
     $db->beginTransaction();

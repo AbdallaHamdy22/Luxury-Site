@@ -6,7 +6,7 @@ import './Items.css';
 import { useLocation } from 'react-router-dom';
 
 const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
+    return new URLSearchParams(useLocation().search);
 };
 
 const Items = () => {

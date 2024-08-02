@@ -16,23 +16,23 @@ $data = json_decode(file_get_contents("php://input"));
 
 // Check if all required fields are filled
 if (!empty($data->fName) && !empty($data->lName) && !empty($data->Email) && !empty($data->Password) && !empty($data->conf_Password) && !empty($data->number) && !empty($data->birthdate) && !empty($data->gender)) {
-    
+
     // Check if the password and confirm password match
     if ($data->Password === $data->conf_Password) {
-        
+
         // Register the user
         $result = $user->registerUser($data);
-        
+
         if ($result) {
             $response = [
                 'status' => 'success',
                 'message' => 'User registered successfully.',
-                
+
             ];
         } else {
             $response = [
                 'status' => 'error',
-                
+
             ];
         }
     } else {
@@ -54,4 +54,3 @@ header('Content-Type: application/json');
 
 // Output the response in JSON format
 echo json_encode($response);
-?>

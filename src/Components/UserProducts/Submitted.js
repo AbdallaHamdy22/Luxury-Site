@@ -6,7 +6,7 @@ const Submitted = ({ items, toggleItem, openItem }) => {
   useEffect(() => {
     let data = items.filter(item => item.Status === 'Available');
     setFilteredItems(data)
-  },[]);
+  }, []);
   return (
     <div className="items-list">
       <div className="item">

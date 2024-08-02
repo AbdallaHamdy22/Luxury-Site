@@ -2,6 +2,7 @@
 require_once "../DataBase/Class_Connection.php";
 require_once './Class_User.php';
 require_once '../Roles/Class_Role.php';
+require_once "../UploadImages.php";
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -16,23 +17,40 @@ $user = new User($connection);
 $data = json_decode(file_get_contents("php://input"));
 file_put_contents('php://stderr', print_r($data, TRUE));
 
-if (!empty($data->userID) && !empty($data->userName) && !empty($data->email) && !empty($data->password)) {
-    $user->setID($data->userID);
-    $user->setUserName($data->userName);
-    $user->setEmail($data->email);
-    $user->setPassword($data->password);
-    $user->setProfileImage($data->profileImage);
+if (!empty($data->UserID) && !empty($data->UserName) && !empty($data->Email) && !empty($data->Password)) {
+    $user->setID($data->UserID);
+    $user->setUserName($data->UserName);
+    $user->setEmail($data->Email);
+    $user->setPassword($data->Password);
 
-    if ($user->updateUserDetails()) {
-        $response = [
-            'status' => 'success',
-            'message' => 'User details updated successfully.'
-        ];
+    $uploadResult = ['status' => 'success', 'imagePaths' => []];
+    if (strpos($data->ProfileImage, 'data:image') === 0) {
+        // Only upload image if it's a base64 encoded string
+        $uploadResult = uploadImages($data->ProfileImage);
+    }
+
+    if ($uploadResult['status'] === 'error') {
+        $response = $uploadResult;
     } else {
-        $response = [
-            'status' => 'error',
-            'message' => 'Failed to update user details. Please try again.'
-        ];
+        if (!empty($uploadResult['imagePaths'])) {
+            $images_json = implode(',', $uploadResult['imagePaths']);
+            $user->setProfileImage($images_json);
+        } else {
+            // Keep the existing image if no new image was uploaded
+            $user->setProfileImage($data->ProfileImage);
+        }
+
+        if ($user->updateUserDetails()) {
+            $response = [
+                'status' => 'success',
+                'message' => 'User details updated successfully.'
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'Failed to update user details. Please try again.'
+            ];
+        }
     }
 } else {
     $response = [

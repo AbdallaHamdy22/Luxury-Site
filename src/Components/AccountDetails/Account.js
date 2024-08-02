@@ -1,42 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './Account.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser } from '../Redux/RDXUser';
 
 const AccountDetails = () => {
     const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
     const [userdetails, setUserDetails] = useState({
-        userID: '',
-        userName: '',
-        password: '',
-        email: '',
-        profileImage: ''
+        Email: '',
+        Password: '',
+        ProfileImage: '',
+        RoleID: 0,
+        UserID: 0,
+        UserName: '',
     });
+    
     const [originalUser, setOriginalUser] = useState({});
     const [hasChanges, setHasChanges] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-        fetchUserDetails();
+        fetchUserDetails();    
     }, [user.ID]);
 
     const fetchUserDetails = async () => {
         try {
             const response = await fetch(`http://localhost/dashboard/luxury-site-last/api/User/getUserDetails.php?userID=${user.ID}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
             if (data.status === 'success') {
-                console.log(data);
                 const fetchedUser = {
-                    userID: data.user.UserID || '',
-                    userName: data.user.UserName || '',
-                    password: data.user.Password || '',
-                    email: data.user.Email || '',
-                    profileImage: data.user.ProfileImage || ''
+                    Email: data.user.Email || '',
+                    Password: data.user.Password || '',
+                    ProfileImage: data.user.ProfileImage || '',
+                    RoleID: data.user.RoleID || 0,
+                    UserID: data.user.UserID || 0,
+                    UserName: data.user.UserName || '',
                 };
                 setUserDetails(fetchedUser);
                 setOriginalUser(fetchedUser);
+                
             } else {
-                console.error('Failed to fetch user details');
+                console.error('Failed to fetch user details:', data.message);
             }
         } catch (error) {
             console.error('Error fetching user details:', error);
@@ -62,7 +70,7 @@ const AccountDetails = () => {
             reader.onloadend = () => {
                 const updatedUser = {
                     ...userdetails,
-                    profileImage: reader.result
+                    ProfileImage: reader.result
                 };
                 setUserDetails(updatedUser);
                 setHasChanges(JSON.stringify(updatedUser) !== JSON.stringify(originalUser));
@@ -70,10 +78,10 @@ const AccountDetails = () => {
             reader.readAsDataURL(file);
         }
     };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+        
         try {
             const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/updateUserDetails.php', {
                 method: 'POST',
@@ -82,14 +90,13 @@ const AccountDetails = () => {
                 },
                 body: JSON.stringify(userdetails)
             });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
+            const text = await response.text();
+            const data = JSON.parse(text);
             if (data.status === 'success') {
                 console.log('User details updated successfully');
                 setOriginalUser(userdetails);
                 setHasChanges(false);
+                dispatch(setUser(userdetails));
             } else {
                 console.error('Failed to update user details:', data.message);
             }
@@ -97,15 +104,14 @@ const AccountDetails = () => {
             console.error('Error updating user details:', error);
         }
     };
-    
-
+        
     const handleCancel = () => {
         setUserDetails(originalUser);
         setHasChanges(false);
     };
 
     const handleRemove = () => {
-        setUserDetails(prevState => ({ ...prevState, profileImage: '' }));
+        setUserDetails(prevState => ({ ...prevState, ProfileImage: '' }));
         setHasChanges(true);
     };
 
@@ -120,7 +126,7 @@ const AccountDetails = () => {
                     <h2>Account Details</h2>
                     <div className="profile-image-container mb-4">
                         <img
-                            src={userdetails.profileImage}
+                            src={userdetails.ProfileImage}
                             alt="Profile"
                             className="profile-image"
                         />
@@ -128,7 +134,7 @@ const AccountDetails = () => {
                             <input
                                 type="file"
                                 id="profileImage"
-                                name="profileImage"
+                                name="ProfileImage"
                                 accept="image/*"
                                 onChange={handleImageChange}
                                 style={{ display: 'none' }}
@@ -143,8 +149,8 @@ const AccountDetails = () => {
                             <Col sm={10}>
                                 <Form.Control
                                     type="text"
-                                    name="userName"
-                                    value={userdetails.userName}
+                                    name="UserName"
+                                    value={userdetails.UserName}
                                     autoComplete="off"
                                     onChange={handleChange}
                                 />
@@ -155,8 +161,8 @@ const AccountDetails = () => {
                             <Col sm={10}>
                                 <Form.Control
                                     type="email"
-                                    name="email"
-                                    value={userdetails.email}
+                                    name="Email"
+                                    value={userdetails.Email}
                                     autoComplete="off"
                                     onChange={handleChange}
                                 />
@@ -168,8 +174,8 @@ const AccountDetails = () => {
                                 <div className="password-wrapper">
                                     <Form.Control
                                         type={showPassword ? "text" : "password"}
-                                        name="password"
-                                        value={userdetails.password}
+                                        name="Password"
+                                        value={userdetails.Password}
                                         autoComplete="off"
                                         onChange={handleChange}
                                     />

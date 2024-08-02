@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import axiosInstance from '../../axiosConfig/instance';
 import './Sell.css';
 import { useState, useEffect, useRef } from 'react';
+
 const Sell = () => {
     const user = useSelector((state) => state.user.user);
     const [formData, setFormData] = useState({
@@ -40,43 +41,44 @@ const Sell = () => {
             .catch(error => console.error('Error fetching colors:', error));
     }, []);
 
+    const handleFileChange = (e) => {
+        setImageFiles(e.target.files);
+    };
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value} = e.target; 
         setFormData({
             ...formData,
             [name]: value
         });
     };
-
-    const handleFileChange = (e) => {
-        setImageFiles(e.target.files);
-    };
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         let data = new FormData();
+        
+        // Append form data fields
         Object.keys(formData).forEach(key => {
             data.append(key, formData[key]);
         });
         
-        data.append('UserID', user.ID);
-        if (formData.offerPrice === '0') {
-            data.append('Status', 'Available');
-        }
-        else {
-            data.append('Status', 'OnSale');
-        }
+        data.append('UserID', user.UserID);
+        data.append('Status', formData.offerPrice > '0' ? 'OnSale' : 'Available');
+    
+        // Append image files
         for (let i = 0; i < imageFiles.length; i++) {
             data.append('images[]', imageFiles[i]);
         }
+        
         axiosInstance.post('WaitingList/addqueue.php', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        .then(response => {
-            return response.data;
-        })
+            .then(response => {
+                console.log(response.data);
+                return response.data;
+            })
         .then(result => {
             const message = result.message || 'Unknown error';
             if (result.status === 'success') {
@@ -103,6 +105,7 @@ const Sell = () => {
             alert('An error occurred while submitting the form');
         });
     };
+    
 
     return (
         <div className='sell-container'>
@@ -114,36 +117,35 @@ const Sell = () => {
                     name='ProductName'
                     value={formData.ProductName}
                     onChange={handleChange}
-                    placeholder='Enter you product name'
+                    placeholder='Enter your product name'
                     required
-                    />
+                />
                 <label htmlFor='description'>Product Description</label>
                 <textarea
                     name='description'
                     value={formData.description}
                     onChange={handleChange}
-                    placeholder='Enter you product description.. eg. small black bag with unique bracalet material'
+                    placeholder='Enter your product description.. e.g., small black bag with unique bracelet material'
                     required
                 />
                 <label htmlFor='price'>Product Price</label>
                 <input
                     name='price'
                     type='number'
-                    step='0.01'
                     value={formData.price}
                     onChange={handleChange}
-                    placeholder='Enter you product price'
+                    placeholder='Enter your product price'
                     required
-                    />
+                />
                 <label htmlFor='quantity'>Quantity</label>
                 <input
                     name='quantity'
                     type='number'
                     value={formData.quantity}
                     onChange={handleChange}
-                    placeholder='Enter you product available quantity'
+                    placeholder='Enter your product available quantity'
                     required
-                    />
+                />
                 <label htmlFor='images'>Images</label>
                 <input
                     name='images'
@@ -152,14 +154,14 @@ const Sell = () => {
                     onChange={handleFileChange}
                     ref={fileInputRef}
                     required
-                    />
+                />
+
                 <label htmlFor='offerPrice'>Offer Price</label>
                 <input
                     name='offerPrice'
                     type='number'
-                    step='0.01'
                     value={formData.offerPrice}
-                    placeholder='Enter you offer price.. eg. 20 if you want 20%'
+                    placeholder='Enter your offer price.. e.g., 20 if you want 20%'
                     onChange={handleChange}
                 />
                 <label htmlFor='CategoireID'>Categories</label>

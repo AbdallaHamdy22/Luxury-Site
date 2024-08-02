@@ -58,31 +58,33 @@ class User
         }
     }
 
-
-
     public function Get_User_Data_By_ID($id)
     {
-        $sql = "SELECT * FROM users WHERE UserID = :id";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
+        try {
+            $sql = "SELECT * FROM users WHERE UserID = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($result) {
-            $this->ID = $result['UserID'];
-            $this->UserName = $result['UserName'];
-            $this->Password = $result['Password'];
-            $this->Email = $result['Email'];
-            $this->ProfileImage = $result['ProfileImage'];
-            $this->role = new Role($this->conn);
-            $this->role->Get_Role_Data_By_ID($result['RoleID']);
-            return $result;
-        } else {
+            if ($result) {
+                $this->ID = $result['UserID'];
+                $this->UserName = $result['UserName'];
+                $this->Password = $result['Password'];
+                $this->Email = $result['Email'];
+                $this->ProfileImage = $result['ProfileImage'];
+                $this->role = new Role($this->conn);
+                $this->role->Get_Role_Data_By_ID($result['RoleID']);
+                return $result;
+            } else {
+                return null;
+            }
+        } catch (Exception $e) {
+            error_log("Error fetching user data: " . $e->getMessage());
             return null;
         }
     }
-
 
     public function Get_User_Data_By_Email($Email)
     {

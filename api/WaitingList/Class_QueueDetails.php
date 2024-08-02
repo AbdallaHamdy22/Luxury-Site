@@ -1,19 +1,19 @@
 <?php
 class QueueDetails
 {
-    private string $ProductName;
-    private string $ProductDescription;
-    private float $ProductPrice;
-    private float $ProductOfferPrice;
-    private float $Quantity;
-    private int $CategoireID;
-    private int $BrandID;
-    private int $SexID;
-    private int $ColorID;
-    private int $QueueID;
-    private int $UserID;
-    private string $Status;
-    private string $Image;
+    private string $ProductName = '';
+    private string $ProductDescription = '';
+    private float $ProductPrice = 0;
+    private float $ProductOfferPrice = 0;
+    private float $Quantity = 0;
+    private int $CategoireID = 0;
+    private int $BrandID = 0;
+    private int $SexID = 0;
+    private int $ColorID = 0;
+    private int $QueueID = 0;
+    private int $UserID = 0;
+    private string $Status = '';
+    private string $Image = '';
     private $conn;
 
     public function __construct($db)

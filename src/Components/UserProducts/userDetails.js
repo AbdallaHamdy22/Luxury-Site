@@ -20,7 +20,7 @@ const UserDetails = () => {
     useEffect(() => {
         axiosInstance.get('Products/getproduct.php')
             .then(response => {
-                let data = response.data.filter(item => item.UserID === user.ID);
+                let data = response.data.filter(item => item.UserID === user.UserID);
                 setItems(data)
             })
             .catch(error => console.error('Error fetching products:', error));
