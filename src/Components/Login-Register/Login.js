@@ -47,8 +47,16 @@ const Login = () => {
         if (data.status === 'error') {
             setErrorMessage(data.message);
         } else {
-            localStorage.setItem('user', JSON.stringify(data));
-            dispatch(setUser(data));
+          localStorage.setItem('user', JSON.stringify(data));
+          const userData = {
+            Email: data.Email,
+            ProfileImage: data.ProfileImage,
+            RoleID: data.Role.ID,
+            RoleName: data.Role.RoleName,
+            UserID: data.ID,
+            UserName: data.UserName
+          };
+            dispatch(setUser(userData));
             navigate('/');
             window.location.reload();
         }

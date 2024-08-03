@@ -1,5 +1,4 @@
 <?php
-
 require_once "../DataBase/Class_Connection.php";
 require_once "Class_Queue.php";
 require_once "Class_QueueDetails.php";
@@ -95,12 +94,19 @@ try {
             $queueDetails->setBrandID($BrandID);
             $queueDetails->setSexID($SexID);
             $queueDetails->setColorID($ColorID);
-
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Queue added successfully',
-                'QueueID' => $QueueID
-            ]);
+            if ($queueDetails->Create_QueueDetail()) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Queue added successfully',
+                    'QueueID' => $QueueID
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'didnt success',
+                    'message' => 'Queue didnt add successfully',
+                    'QueueID' => $QueueID
+                ]);
+            }
         } else {
             throw new Exception('Failed to create queue list');
         }

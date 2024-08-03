@@ -1,68 +1,11 @@
-/* .account-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
-
-.account-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.account-container .form-group {
-    margin-bottom: 15px;
-}
-
-.account-container .form-group label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.account-container .form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.account-container .profile-image-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
-.account-container .profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.account-container button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.account-container button:hover {
-    background-color: #45a049;
-} */
-
+/* Ensure these styles apply */
 .account-container {
     max-width: 700px;
     margin: 0 auto;
     padding: 30px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
-    background-color: #ffffff;
+    background-color: #ffffff !important;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -71,17 +14,21 @@
     margin-bottom: 30px;
     color: #333333;
     font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
 }
 
 .account-container .form-group label {
     font-weight: 600;
     color: #333333;
+    font-family: 'Roboto', sans-serif;
 }
 
 .account-container .form-group input {
     padding: 10px;
     border: 1px solid #e0e0e0;
     border-radius: 5px;
+    font-size: 1rem;
 }
 
 .account-container .profile-image-container {
@@ -108,15 +55,33 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: 600;
+    font-size: 1rem;
 }
 
 .account-container button:hover {
     background-color: #45a049;
 }
 
-.account-container .btn-outline-primary, .account-container .btn-outline-danger {
-    width: auto;
-    margin-top: 0;
+.account-container .btn-outline-primary {
+    border-color: #2C3E50;
+    color: #2C3E50;
+    background-color: transparent;
+}
+
+.account-container .btn-outline-primary:hover {
+    background-color: #2C3E50;
+    color: #ffffff;
+}
+
+.account-container .btn-outline-danger {
+    border-color: #E74C3C;
+    color: #E74C3C;
+    background-color: transparent;
+}
+
+.account-container .btn-outline-danger:hover {
+    background-color: #E74C3C;
+    color: #ffffff;
 }
 
 .password-wrapper {
@@ -130,49 +95,15 @@
     transform: translateY(-50%);
     cursor: pointer;
     color: #007bff;
+    font-size: 0.9rem;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f2f2f2;
-}
-
-.container {
+.acc .container {
     padding: 40px 0;
 }
 
-h2 {
+.acc h2 {
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
     color: #333333;
-}
-
-.btn-primary {
-    background-color: #2C3E50;
-    border-color: #2C3E50;
-}
-
-.btn-primary:hover {
-    background-color: #1A242F;
-    border-color: #1A242F;
-}
-
-.btn-danger {
-    background-color: #E74C3C;
-    border-color: #E74C3C;
-}
-
-.btn-danger:hover {
-    background-color: #C0392B;
-    border-color: #C0392B;
-}
-
-.btn-outline-primary {
-    border-color: #2C3E50;
-    color: #2C3E50;
-}
-
-.btn-outline-primary:hover {
-    background-color: #2C3E50;
-    color: #ffffff;
 }

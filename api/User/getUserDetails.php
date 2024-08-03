@@ -10,8 +10,8 @@ $db = new Connection();
 $connection = $db->connect();
 $user = new User($connection);
 
-// تأكد من أنك تستقبل userID بشكل صحيح من الطلب
-$userID = isset($_GET['UserID']) ? intval($_GET['UserID']) : 1; // استخدم dynamic user ID بدلاً من القيمة الثابتة
+
+$userID = isset($_GET['userID']) ? intval($_GET['userID']) : 1;
 
 $userData = $user->Get_User_Data_By_ID($userID);
 

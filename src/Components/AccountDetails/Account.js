@@ -3,10 +3,14 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './Account.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../Redux/RDXUser';
+import axiosInstance from '../../axiosConfig/instance';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const AccountDetails = () => {
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
+
     const [userdetails, setUserDetails] = useState({
         Email: '',
         Password: '',
@@ -15,22 +19,21 @@ const AccountDetails = () => {
         UserID: 0,
         UserName: '',
     });
-    
+
     const [originalUser, setOriginalUser] = useState({});
     const [hasChanges, setHasChanges] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-        fetchUserDetails();    
-    }, [user.ID]);
+        if (user && user.UserID) {
+            fetchUserDetails(user.UserID);
+        }
+    }, [user.UserID]);
 
-    const fetchUserDetails = async () => {
+    const fetchUserDetails = async (userID) => {
         try {
-            const response = await fetch(`http://localhost/dashboard/luxury-site-last/api/User/getUserDetails.php?userID=${user.ID}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
+            const response = await axiosInstance.get(`User/getUserDetails.php?userID=${userID}`);
+            const data = response.data;
             if (data.status === 'success') {
                 const fetchedUser = {
                     Email: data.user.Email || '',
@@ -42,7 +45,6 @@ const AccountDetails = () => {
                 };
                 setUserDetails(fetchedUser);
                 setOriginalUser(fetchedUser);
-                
             } else {
                 console.error('Failed to fetch user details:', data.message);
             }
@@ -78,22 +80,17 @@ const AccountDetails = () => {
             reader.readAsDataURL(file);
         }
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
         try {
-            const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/updateUserDetails.php', {
-                method: 'POST',
+            const response = await axiosInstance.post('User/updateUserDetails.php', userdetails, {
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userdetails)
+                }
             });
-            const text = await response.text();
-            const data = JSON.parse(text);
+            const data = response.data;
             if (data.status === 'success') {
-                console.log('User details updated successfully');
                 setOriginalUser(userdetails);
                 setHasChanges(false);
                 dispatch(setUser(userdetails));
@@ -104,7 +101,7 @@ const AccountDetails = () => {
             console.error('Error updating user details:', error);
         }
     };
-        
+
     const handleCancel = () => {
         setUserDetails(originalUser);
         setHasChanges(false);
@@ -120,7 +117,7 @@ const AccountDetails = () => {
     };
 
     return (
-        <Container className="my-4">
+        <Container className="acc my-4">
             <Row className="justify-content-center">
                 <Col md={8} className="account-container">
                     <h2>Account Details</h2>
@@ -180,15 +177,15 @@ const AccountDetails = () => {
                                         onChange={handleChange}
                                     />
                                     <span onClick={toggleShowPassword} className="toggle-password">
-                                        {showPassword ? "Hide" : "Show"}
+                                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                                     </span>
                                 </div>
                             </Col>
                         </Form.Group>
                         <div className="d-flex justify-content-between">
-                            <Button variant="primary" type="submit">Save Changes</Button>
-                            {hasChanges && <Button variant="secondary" onClick={handleCancel}>Cancel</Button>}
-                            <Button variant="danger">Delete Account</Button>
+                            {hasChanges && <Button variant="outline-primary" type="submit">Save Changes</Button>}
+                            {hasChanges && <Button variant="outline-danger" onClick={handleCancel}>Cancel</Button>}
+                            <Button variant="outline-danger">Delete Account</Button>
                         </div>
                     </Form>
                 </Col>

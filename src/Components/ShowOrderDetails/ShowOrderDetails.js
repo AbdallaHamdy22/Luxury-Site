@@ -2,7 +2,7 @@ import { Container, Row, Col, Button, ButtonGroup, Image, Form } from 'react-boo
 import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import axiosInstance from '../../axiosConfig/instance';
-import { Navigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../SideBar/SideBar";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,6 +14,7 @@ const ShowOrderDetails = () => {
     const [customerServicePrice, setCustomerServicePrice] = useState(0);
     const [feesPrice, setFeesPrice] = useState(0);
     const [shippingPrice, setShippingPrice] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axiosInstance.get(`WaitingList/getQueueDetails.php?QueueID=${id}`)
@@ -35,7 +36,7 @@ const ShowOrderDetails = () => {
             .then(response => {
                 if (response.data.status === 'success') {
                     alert('Order approved and moved to products successfully.');
-                    Navigate('/ShowOrders');
+                    navigate('/ShowOrders');
                 } else {
                     alert('Failed to approve the order: ' + response.data.message);
                 }
@@ -51,8 +52,10 @@ const ShowOrderDetails = () => {
 
         axiosInstance.post('WaitingList/ignoreQueue.php', data)
             .then(response => {
+                console.log(response);
                 if (response.data.status === 'success') {
                     alert('Order ignored successfully.');
+                    navigate('/ShowOrders');
                 } else {
                     alert('Failed to ignore the order: ' + response.data.message);
                 }
@@ -103,7 +106,7 @@ const ShowOrderDetails = () => {
                                 <h3>Product Description:</h3>
                             </Col>
                             <Col md={6}>
-                                <p>{item.productDescription}</p>
+                                <p>{item.ProductDescription}</p>
                             </Col>
                         </div>
                         <h4>Price: {item.ProductPrice} AED</h4>
@@ -120,31 +123,31 @@ const ShowOrderDetails = () => {
                         <Form onSubmit={(e) => e.preventDefault()} className="form-group">
                             <Form.Group controlId="customerServicePrice">
                                 <Form.Label>Customer Service Price:</Form.Label>
-                                <Form.Control 
-                                    type="number" 
+                                <Form.Control
+                                    type="number"
                                     name="CustomerService"
-                                    value={customerServicePrice} 
-                                    onChange={handleCustomerServicePriceChange} 
+                                    value={customerServicePrice}
+                                    onChange={handleCustomerServicePriceChange}
                                     placeholder="Enter the Customer Service price"
                                 />
                             </Form.Group>
                             <Form.Group controlId="feesPrice">
                                 <Form.Label>Fees Price:</Form.Label>
-                                <Form.Control 
-                                    type="number" 
-                                    name="Fees" 
-                                    value={feesPrice} 
-                                    onChange={handleFeesPriceChange} 
+                                <Form.Control
+                                    type="number"
+                                    name="Fees"
+                                    value={feesPrice}
+                                    onChange={handleFeesPriceChange}
                                     placeholder="Enter the Fees price"
                                 />
                             </Form.Group>
                             <Form.Group controlId="shippingPrice">
                                 <Form.Label>Shipping Price:</Form.Label>
-                                <Form.Control 
-                                    type="number" 
-                                    name="ShippingPrice" 
-                                    value={shippingPrice} 
-                                    onChange={handleShippingPriceChange} 
+                                <Form.Control
+                                    type="number"
+                                    name="ShippingPrice"
+                                    value={shippingPrice}
+                                    onChange={handleShippingPriceChange}
                                     placeholder="Enter the Shipping price"
                                 />
                             </Form.Group>
