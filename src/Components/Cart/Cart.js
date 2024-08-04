@@ -19,8 +19,8 @@ const Cart = () => {
     }, [cart]);
 
     const handleQuantityChange = async (item, newQuantity) => {
-        if (newQuantity > item.availableQuantity) {
-            alert(`غير مسموح، الكمية المتاحة هي ${item.availableQuantity}`);
+        if (newQuantity > item.Quantity) {
+            alert(`Only ${item.Quantity} items available in stock`);
             return;
         }
 
@@ -32,7 +32,7 @@ const Cart = () => {
         try {
             await axiosInstance.post('Products/updateProductQuantity.php', {
                 ProductID: item.ProductID,
-                quantity: newQuantity
+                quantity: item.Quantity - newQuantity
             });
 
             dispatch(updateQuantity({ id: item.ProductID, amount: newQuantity }));
@@ -49,10 +49,10 @@ const Cart = () => {
         try {
             await axiosInstance.post('Products/updateProductQuantity.php', {
                 ProductID: item.ProductID,
-                quantity: item.availableQuantity + item.Quantity
+                quantity: item.Quantity + item.Quantity
             });
 
-            dispatch(removeFromCart({ id: item.ProductID }));
+            dispatch(removeFromCart({ ProductID: item.ProductID }));
         } catch (error) {
             console.error('Failed to remove item', error);
         }

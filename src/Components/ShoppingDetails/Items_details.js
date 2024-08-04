@@ -15,10 +15,9 @@ const ProductDetails = () => {
     const [quantity, setQuantity] = useState(1);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [selectedColor, setSelectedColor] = useState('');
-    const [selectedSize, setSelectedSize] = useState('');
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.items);
-    const isInCart = cart.some(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor && cartItem.Size === selectedSize);
+    const isInCart = cart.some(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor);
 
     useEffect(() => {
         Promise.all([
@@ -43,39 +42,39 @@ const ProductDetails = () => {
     }, [id]);
 
     useEffect(() => {
-        const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id));
+        const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor);
         if (cartItem) {
             setQuantity(cartItem.Quantity);
             setSelectedColor(cartItem.Color);
-            setSelectedSize(cartItem.Size);
         }
-    }, [cart, id]);
+    }, [cart, id, selectedColor]);
 
     const handleToggleCart = async () => {
         if (!user) {
             alert("Please log in to buy this product");
-        } else {
-            if (isInCart) {
-                const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor && cartItem.Size === selectedSize);
-                if (cartItem) {
-                    dispatch(removeFromCart({ id: cartItem.ProductID }));
-                    await axiosInstance.post('Products/updateProductQuantity.php', {
-                        ProductID: item.ProductID,
-                        quantity: item.quantity + cartItem.Quantity
-                    });
-                    setQuantity(1);
-                }
-            } else {
-                if (item.quantity < quantity) {
-                    alert(`Only ${item.quantity} items available in stock`);
-                    return;
-                }
-                dispatch(addToCart({ ...item, Quantity: quantity, Color: selectedColor, Size: selectedSize }));
+            return;
+        }
+        
+        if (isInCart) {
+            const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor);
+            if (cartItem) {
+                dispatch(removeFromCart({ ProductID: cartItem.ProductID, Color: selectedColor }));
                 await axiosInstance.post('Products/updateProductQuantity.php', {
                     ProductID: item.ProductID,
-                    quantity: item.quantity - quantity
+                    quantity: item.Quantity
                 });
+                setQuantity(1);
             }
+        } else {
+            if (item.Quantity < quantity) {
+                alert(`Only ${item.Quantity} items available in stock`);
+                return;
+            }
+            dispatch(addToCart({ ...item, Quantity: quantity, Color: selectedColor }));
+            await axiosInstance.post('Products/updateProductQuantity.php', {
+                ProductID: item.ProductID,
+                quantity: item.Quantity - quantity
+            });
         }
     };
 
@@ -84,31 +83,33 @@ const ProductDetails = () => {
             setQuantity(prevQuantity => prevQuantity - 1);
             if (isInCart) {
                 const newQuantity = quantity - 1;
+                console.log(newQuantity);
+                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity, Color: selectedColor }));
                 await axiosInstance.post('Products/updateProductQuantity.php', {
                     ProductID: item.ProductID,
-                    quantity: item.quantity + 1 // increase stock in database
+                    quantity: item.Quantity + 1
                 });
-                dispatch(updateQuantity({ id: item.ProductID, amount: newQuantity }));
             }
         }
     };
-
+    
     const handleIncrease = async () => {
-        if (item.quantity > quantity) {
+        if (item.Quantity > quantity) {
             setQuantity(prevQuantity => prevQuantity + 1);
             if (isInCart) {
                 const newQuantity = quantity + 1;
+                console.log(newQuantity);
+                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity, Color: selectedColor }));
                 await axiosInstance.post('Products/updateProductQuantity.php', {
                     ProductID: item.ProductID,
-                    quantity: item.quantity - 1 // decrease stock in database
+                    quantity: item.Quantity - 1
                 });
-                dispatch(updateQuantity({ id: item.ProductID, amount: newQuantity }));
             }
         } else {
-            alert(`Only ${item.quantity} items available in stock`);
+            alert(`Only ${item.Quantity} items available in stock`);
         }
     };
-
+    
     const handleImageClick = (img) => {
         setSelectedImage(img);
     };
@@ -159,25 +160,13 @@ const ProductDetails = () => {
                             )}
                             </div>
                         </div>
-                        <div className="size-options">
-                            <label>Select Size</label>
-                            <div className="sizes">
-                                {['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'].map(size => (
-                                    <button
-                                        className={`size-button ${selectedSize === size ? 'selected' : ''}`}
-                                        key={size}
-                                        onClick={() => setSelectedSize(size)}
-                                    >{size}</button>
-                                ))}
-                            </div>
-                        </div>
                     </div>
                     <div className="description">
                         <p>{item.Description}</p>
                     </div>
                     <div className="details">
                         <p>Sent from <strong>New York, USA</strong></p>
-                        <p>Estimated Shipping <strong>$3.99</strong></p>
+                        <p>Estimated Shipping <strong>{ item.Price } AED</strong></p>
                     </div>
                 </div>
                 <div className="order-details">
@@ -190,13 +179,11 @@ const ProductDetails = () => {
                     </div>
                     <label>Color</label>
                     <input type="text" readOnly value={selectedColor} />
-                    <label>Size</label>
-                    <input type="text" readOnly value={selectedSize} />
-                    <label>Price</label>
+                    <label>Item Price</label>
                     <input type="text" readOnly value={`${item.Price} AED`} />
                     <div className="subtotal">
                         <p>Sub Total</p>
-                        <p>{item.Price} AED</p>
+                        <p>{(item.Price * quantity).toFixed(2)} AED</p>
                     </div>
                     <label>Notes</label>
                     <textarea placeholder="Write a note..."></textarea>

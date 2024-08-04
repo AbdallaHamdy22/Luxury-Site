@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Jul 17, 2024 at 06:52 PM
--- Server version: 5.7.36
--- PHP Version: 7.4.26
+-- Host: 127.0.0.1
+-- Generation Time: Aug 05, 2024 at 01:22 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,20 +27,20 @@ SET time_zone = "+00:00";
 -- Table structure for table `brand`
 --
 
-DROP TABLE IF EXISTS `brand`;
-CREATE TABLE IF NOT EXISTS `brand` (
+CREATE TABLE `brand` (
   `BrandID` int(11) NOT NULL,
   `Name` varchar(50) NOT NULL,
-  `Image` varchar(50) NOT NULL,
-  PRIMARY KEY (`BrandID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `Image` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `brand`
 --
 
 INSERT INTO `brand` (`BrandID`, `Name`, `Image`) VALUES
-(1, 'Gucci', '/Images/gucci.png');
+(1, 'Gucci', '/Images/5.png'),
+(2, 'Dior', '/Images/bag2.jpg'),
+(3, 'Nike', '/Images/Nike.png');
 
 -- --------------------------------------------------------
 
@@ -48,20 +48,20 @@ INSERT INTO `brand` (`BrandID`, `Name`, `Image`) VALUES
 -- Table structure for table `categoire`
 --
 
-DROP TABLE IF EXISTS `categoire`;
-CREATE TABLE IF NOT EXISTS `categoire` (
+CREATE TABLE `categoire` (
   `CategoireID` int(11) NOT NULL,
   `Name` varchar(50) NOT NULL,
-  `Image` varchar(50) NOT NULL,
-  PRIMARY KEY (`CategoireID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `Image` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `categoire`
 --
 
 INSERT INTO `categoire` (`CategoireID`, `Name`, `Image`) VALUES
-(1, 'Bags', '/Images/2.png');
+(1, 'Bags', '/Images/2.png'),
+(2, 'Watches', '/Images/bag2.jpg'),
+(3, 'Shoes', '/Images/3.png');
 
 -- --------------------------------------------------------
 
@@ -69,28 +69,13 @@ INSERT INTO `categoire` (`CategoireID`, `Name`, `Image`) VALUES
 -- Table structure for table `orderdetails`
 --
 
-DROP TABLE IF EXISTS `orderdetails`;
-CREATE TABLE IF NOT EXISTS `orderdetails` (
-  `OrderDetailsID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `orderdetails` (
+  `OrderDetailsID` int(11) NOT NULL,
   `Quantity` int(11) NOT NULL,
   `Price` float NOT NULL,
   `OrderID` int(11) NOT NULL,
-  `ProductID` int(11) NOT NULL,
-  PRIMARY KEY (`OrderDetailsID`),
-  KEY `OrderID` (`OrderID`),
-  KEY `ProductID` (`ProductID`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `orderdetails`
---
-
-INSERT INTO `orderdetails` (`OrderDetailsID`, `Quantity`, `Price`, `OrderID`, `ProductID`) VALUES
-(2, 2, 100, 1, 1),
-(3, 2, 100, 2, 1),
-(4, 2, 100, 3, 1),
-(5, 2, 100, 4, 1),
-(6, 2, 100, 5, 1);
+  `ProductID` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -98,27 +83,13 @@ INSERT INTO `orderdetails` (`OrderDetailsID`, `Quantity`, `Price`, `OrderID`, `P
 -- Table structure for table `orders`
 --
 
-DROP TABLE IF EXISTS `orders`;
-CREATE TABLE IF NOT EXISTS `orders` (
+CREATE TABLE `orders` (
   `OrderID` int(11) NOT NULL,
   `OrderDate` varchar(50) NOT NULL,
   `Status` varchar(20) NOT NULL,
   `UserID` int(11) NOT NULL,
-  `PaymentID` int(11) NOT NULL,
-  PRIMARY KEY (`OrderID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`OrderID`, `OrderDate`, `Status`, `UserID`, `PaymentID`) VALUES
-(3, '2024-07-12 08:04:03', 'pending', 2, 2116516),
-(2, '2024-07-12 08:04:03', 'pending', 2, 2116516),
-(1, '2024-07-12 08:04:02', 'pending', 2, 2116516),
-(4, '2024-07-12 08:04:03', 'pending', 2, 2116516),
-(5, '2024-07-12 08:04:04', 'pending', 2, 2116516);
+  `PaymentID` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -126,12 +97,10 @@ INSERT INTO `orders` (`OrderID`, `OrderDate`, `Status`, `UserID`, `PaymentID`) V
 -- Table structure for table `prodcut_color`
 --
 
-DROP TABLE IF EXISTS `prodcut_color`;
-CREATE TABLE IF NOT EXISTS `prodcut_color` (
-  `Color_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL,
-  PRIMARY KEY (`Color_ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+CREATE TABLE `prodcut_color` (
+  `Color_ID` int(11) NOT NULL,
+  `Name` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `prodcut_color`
@@ -139,7 +108,9 @@ CREATE TABLE IF NOT EXISTS `prodcut_color` (
 
 INSERT INTO `prodcut_color` (`Color_ID`, `Name`) VALUES
 (1, 'Red'),
-(2, 'blue');
+(2, 'blue'),
+(5, 'Green'),
+(6, 'Black');
 
 -- --------------------------------------------------------
 
@@ -147,38 +118,33 @@ INSERT INTO `prodcut_color` (`Color_ID`, `Name`) VALUES
 -- Table structure for table `products`
 --
 
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE IF NOT EXISTS `products` (
+CREATE TABLE `products` (
   `ProductID` int(11) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Description` varchar(200) NOT NULL,
   `Price` float NOT NULL,
   `UserPrice` float NOT NULL,
   `Quantity` float NOT NULL,
-  `BraceletMaterial` varchar(50) NOT NULL,
-  `OfferPrice` float NOT NULL,
+  `OfferPrice` float DEFAULT NULL,
   `ProductionYear` varchar(50) NOT NULL,
   `Image` varchar(50) NOT NULL,
   `BrandID` int(11) NOT NULL,
   `CategoireID` int(11) NOT NULL,
   `Color_ID` int(11) NOT NULL,
   `SexID` int(11) NOT NULL,
-  PRIMARY KEY (`ProductID`),
-  KEY `BrandID` (`BrandID`),
-  KEY `CategoireID` (`CategoireID`),
-  KEY `Color_ID` (`Color_ID`),
-  KEY `SexID` (`SexID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `UserID` int(11) NOT NULL,
+  `Status` varchar(100) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`ProductID`, `Name`, `Description`, `Price`, `UserPrice`, `Quantity`, `BraceletMaterial`, `OfferPrice`, `ProductionYear`, `Image`, `BrandID`, `CategoireID`, `Color_ID`, `SexID`) VALUES
-(1, 'hew', 'jkn', 564, 0, 1, '', 0, '0', '', 1, 1, 1, 1),
-(2, 'pro1', 'mewo', 100, 0, 5, '', 0, '0', '/Images/bag4.jpg', 1, 1, 1, 1),
-(3, 'pro1w', 'efaf', 10050, 10010, 148, '', 0, '0', 'img', 1, 1, 1, 1),
-(4, 'kmfkwlamnf', 'ejkfnkwjnfjkwnfnk', 28, 15, 15, '', 0, '0', '/Images/bag3.jpg', 1, 1, 1, 1);
+INSERT INTO `products` (`ProductID`, `Name`, `Description`, `Price`, `UserPrice`, `Quantity`, `OfferPrice`, `ProductionYear`, `Image`, `BrandID`, `CategoireID`, `Color_ID`, `SexID`, `UserID`, `Status`) VALUES
+(3, 'Emerald', 'adwjk', 9, 1, 11, 0, '0', '/Images/66ad132ad64ce.jpg', 1, 1, 1, 1, 1, 'Available'),
+(4, 'Abdalla Hamdy', 'ajkfaejfbauiefbufb ajkfaejfbauiefbufbajkfaejfbauie', 1350, 10, 11, 0, '0', '/Images/66afa0d77af09.jpg,/Images/66afa0d77b24b.jp', 1, 1, 1, 1, 1, 'Available'),
+(2, '1', '1', 1, 1, 11, 1, '0', '/Images/66ad124485b88.jpg', 1, 1, 1, 1, 1, 'OnSale'),
+(1, 'Abdalla Hamdy', 'Great product', 160, 100, 11, 0, '0', '/Images/66ad11b56593b.jpg,/Images/66ad11b565c55.pn', 1, 1, 1, 1, 1, 'Available');
 
 -- --------------------------------------------------------
 
@@ -186,24 +152,22 @@ INSERT INTO `products` (`ProductID`, `Name`, `Description`, `Price`, `UserPrice`
 -- Table structure for table `queuedetails`
 --
 
-DROP TABLE IF EXISTS `queuedetails`;
-CREATE TABLE IF NOT EXISTS `queuedetails` (
+CREATE TABLE `queuedetails` (
+  `id` int(11) NOT NULL,
   `ProductName` varchar(50) NOT NULL,
   `productDescription` varchar(50) NOT NULL,
   `ProductPrice` float NOT NULL,
+  `OfferPrice` float DEFAULT NULL,
   `Quantity` float NOT NULL,
-  `Image` varchar(50) NOT NULL,
+  `Image` varchar(10000) NOT NULL,
   `CategoireID` int(11) NOT NULL,
   `BrandID` int(11) NOT NULL,
   `SexID` int(11) NOT NULL,
   `Color_ID` int(11) NOT NULL,
   `QueueID` int(11) NOT NULL,
-  KEY `CategoireID` (`CategoireID`),
-  KEY `BrandID` (`BrandID`),
-  KEY `SexID` (`SexID`),
-  KEY `Color_ID` (`Color_ID`),
-  KEY `QueueID` (`QueueID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `UserID` int(11) DEFAULT NULL,
+  `Status` varchar(100) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -211,13 +175,10 @@ CREATE TABLE IF NOT EXISTS `queuedetails` (
 -- Table structure for table `queuelist`
 --
 
-DROP TABLE IF EXISTS `queuelist`;
-CREATE TABLE IF NOT EXISTS `queuelist` (
+CREATE TABLE `queuelist` (
   `QueueID` int(11) NOT NULL,
-  `UserID` int(11) NOT NULL,
-  PRIMARY KEY (`QueueID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `UserID` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -225,12 +186,10 @@ CREATE TABLE IF NOT EXISTS `queuelist` (
 -- Table structure for table `roles`
 --
 
-DROP TABLE IF EXISTS `roles`;
-CREATE TABLE IF NOT EXISTS `roles` (
+CREATE TABLE `roles` (
   `RoleID` int(11) NOT NULL,
-  `RoleName` varchar(50) NOT NULL,
-  PRIMARY KEY (`RoleID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `RoleName` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `roles`
@@ -246,19 +205,19 @@ INSERT INTO `roles` (`RoleID`, `RoleName`) VALUES
 -- Table structure for table `sex`
 --
 
-DROP TABLE IF EXISTS `sex`;
-CREATE TABLE IF NOT EXISTS `sex` (
+CREATE TABLE `sex` (
   `SexID` int(11) NOT NULL,
-  `Name` varchar(50) NOT NULL,
-  PRIMARY KEY (`SexID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `Name` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `sex`
 --
 
 INSERT INTO `sex` (`SexID`, `Name`) VALUES
-(1, 'Men');
+(1, 'Men'),
+(2, 'Women'),
+(3, 'Kids');
 
 -- --------------------------------------------------------
 
@@ -266,8 +225,7 @@ INSERT INTO `sex` (`SexID`, `Name`) VALUES
 -- Table structure for table `shippingaddresses`
 --
 
-DROP TABLE IF EXISTS `shippingaddresses`;
-CREATE TABLE IF NOT EXISTS `shippingaddresses` (
+CREATE TABLE `shippingaddresses` (
   `AddressID` int(11) NOT NULL,
   `FullName` varchar(50) NOT NULL,
   `AddressLine1` varchar(100) NOT NULL,
@@ -277,10 +235,8 @@ CREATE TABLE IF NOT EXISTS `shippingaddresses` (
   `PostalCode` varchar(20) DEFAULT NULL,
   `Country` varchar(50) NOT NULL,
   `PhoneNum` varchar(20) NOT NULL,
-  `UserID` int(11) NOT NULL,
-  PRIMARY KEY (`AddressID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `UserID` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -288,26 +244,22 @@ CREATE TABLE IF NOT EXISTS `shippingaddresses` (
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `UserID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `UserID` int(11) NOT NULL,
   `UserName` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `ProfileImage` varchar(50) NOT NULL,
-  `RoleID` int(11) NOT NULL,
-  PRIMARY KEY (`UserID`),
-  KEY `RoleID` (`RoleID`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  `RoleID` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`UserID`, `UserName`, `Password`, `Email`, `ProfileImage`, `RoleID`) VALUES
-(2, 'ahmed', 'ahmed', 'ahmed@gmail.com', 't', 2),
-(1, 'admin', 'admin', 'admin@admin.com', 'admin', 1),
-(15, 'customer cus', 'ahmed', 'hier@amed.com', '', 2);
+(2, 'ahmed', 'ahmed', 'ahmed@gmail.com', '/Images/66acd6a93acd3.jpeg', 2),
+(1, 'Abdallah22', 'admin', 'admin@admin.com', '/Images/66ad0e8b685d7.jpeg', 1);
 
 -- --------------------------------------------------------
 
@@ -315,14 +267,139 @@ INSERT INTO `users` (`UserID`, `UserName`, `Password`, `Email`, `ProfileImage`, 
 -- Table structure for table `users_phonenum`
 --
 
-DROP TABLE IF EXISTS `users_phonenum`;
-CREATE TABLE IF NOT EXISTS `users_phonenum` (
+CREATE TABLE `users_phonenum` (
   `PhoneNumID` int(11) NOT NULL,
   `PhoneNum` varchar(50) NOT NULL,
-  `UserID` int(11) NOT NULL,
-  PRIMARY KEY (`PhoneNumID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `UserID` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `brand`
+--
+ALTER TABLE `brand`
+  ADD PRIMARY KEY (`BrandID`);
+
+--
+-- Indexes for table `categoire`
+--
+ALTER TABLE `categoire`
+  ADD PRIMARY KEY (`CategoireID`);
+
+--
+-- Indexes for table `orderdetails`
+--
+ALTER TABLE `orderdetails`
+  ADD PRIMARY KEY (`OrderDetailsID`),
+  ADD KEY `OrderID` (`OrderID`),
+  ADD KEY `ProductID` (`ProductID`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`OrderID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `prodcut_color`
+--
+ALTER TABLE `prodcut_color`
+  ADD PRIMARY KEY (`Color_ID`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`ProductID`),
+  ADD KEY `BrandID` (`BrandID`),
+  ADD KEY `CategoireID` (`CategoireID`),
+  ADD KEY `Color_ID` (`Color_ID`),
+  ADD KEY `SexID` (`SexID`),
+  ADD KEY `fk_user` (`UserID`);
+
+--
+-- Indexes for table `queuedetails`
+--
+ALTER TABLE `queuedetails`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `CategoireID` (`CategoireID`),
+  ADD KEY `BrandID` (`BrandID`),
+  ADD KEY `SexID` (`SexID`),
+  ADD KEY `Color_ID` (`Color_ID`),
+  ADD KEY `QueueID` (`QueueID`),
+  ADD KEY `fk_user` (`UserID`);
+
+--
+-- Indexes for table `queuelist`
+--
+ALTER TABLE `queuelist`
+  ADD PRIMARY KEY (`QueueID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`RoleID`);
+
+--
+-- Indexes for table `sex`
+--
+ALTER TABLE `sex`
+  ADD PRIMARY KEY (`SexID`);
+
+--
+-- Indexes for table `shippingaddresses`
+--
+ALTER TABLE `shippingaddresses`
+  ADD PRIMARY KEY (`AddressID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`UserID`),
+  ADD KEY `RoleID` (`RoleID`);
+
+--
+-- Indexes for table `users_phonenum`
+--
+ALTER TABLE `users_phonenum`
+  ADD PRIMARY KEY (`PhoneNumID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `orderdetails`
+--
+ALTER TABLE `orderdetails`
+  MODIFY `OrderDetailsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `prodcut_color`
+--
+ALTER TABLE `prodcut_color`
+  MODIFY `Color_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `queuedetails`
+--
+ALTER TABLE `queuedetails`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
