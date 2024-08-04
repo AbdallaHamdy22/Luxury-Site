@@ -39,66 +39,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // For debugging
     file_put_contents('php://stderr', print_r("Received Name: $name, Image: " . print_r($image, true) . "\n", TRUE));
 
-    if ($name && $image) {
-        $product->setName($name);
-        $product->setDescription($description);
-        $product->setProduction_year($productionYear);
-        $product->setPrice($price);
-        $product->setQuantity($quantity);
-        $product->setOfferPrice($offerPrice);
-        $product->setBrandID($brandID);
-        $product->setCategoryID($categoryID);
-        $product->setColorID($colorID);
-        $product->setSexID($sexID);
-        $product->setUserID($UserID);
-        $product->setStatus($Status);
+    $product->setName($name);
+    $product->setDescription($description);
+    $product->setProduction_year($productionYear);
+    $product->setPrice($price);
+    $product->setQuantity($quantity);
+    $product->setOfferPrice($offerPrice);
+    $product->setBrandID($brandID);
+    $product->setCategoryID($categoryID);
+    $product->setColorID($colorID);
+    $product->setSexID($sexID);
+    $product->setUserID($UserID);
+    $product->setStatus($Status);
 
-        // Handle the image file
-        $target_dir = realpath("../../public/Images") . '/'; // Using realpath to get the absolute path
-        $target_file = $target_dir . basename($image["name"]);
+    // Handle the image file
+    $target_dir = realpath("../../public/Images") . '/'; // Using realpath to get the absolute path
+    $target_file = $target_dir . basename($image["name"]);
 
-        // Check for file upload errors
-        if ($image["error"] !== UPLOAD_ERR_OK) {
-            file_put_contents('php://stderr', print_r("File upload error: " . $image["error"] . "\n", TRUE));
-            http_response_code(400); // Bad request
-            echo json_encode(["status" => "error", "message" => "File upload error: " . $image["error"]]);
-            exit();
-        }
+    // Check for file upload errors
+    if ($image["error"] !== UPLOAD_ERR_OK) {
+        file_put_contents('php://stderr', print_r("File upload error: " . $image["error"] . "\n", TRUE));
+        http_response_code(400); // Bad request
+        echo json_encode(["status" => "error", "message" => "File upload error: " . $image["error"]]);
+        exit();
+    }
 
-        // Check for directory permissions
-        if (!is_writable($target_dir)) {
-            file_put_contents('php://stderr', print_r("Directory is not writable: $target_dir\n", TRUE));
-            http_response_code(400); // Bad request
-            echo json_encode(["status" => "error", "message" => "Directory is not writable: $target_dir"]);
-            exit();
-        }
+    // Check for directory permissions
+    if (!is_writable($target_dir)) {
+        file_put_contents('php://stderr', print_r("Directory is not writable: $target_dir\n", TRUE));
+        http_response_code(400); // Bad request
+        echo json_encode(["status" => "error", "message" => "Directory is not writable: $target_dir"]);
+        exit();
+    }
 
-        // Debugging: Check file move operation
-        if (move_uploaded_file($image["tmp_name"], $target_file)) {
-            file_put_contents('php://stderr', print_r("File uploaded successfully to $target_file\n", TRUE));
-            $product->setImage("/Images/" . $image["name"]);
+    // Debugging: Check file move operation
+    if (move_uploaded_file($image["tmp_name"], $target_file)) {
+        file_put_contents('php://stderr', print_r("File uploaded successfully to $target_file\n", TRUE));
+        $product->setImage("/Images/" . $image["name"]);
 
-            // Set the ID
-            $product->setID($product->GetLastID() + 1);
+        // Set the ID
+        $product->setID($product->GetLastID() + 1);
 
-            // Create the product
-            if ($product->Create_Product()) {
-                http_response_code(201); // Created
-                echo json_encode(["message" => "Product was created."]);
-            } else {
-                file_put_contents('php://stderr', print_r("Failed to create product in database\n", TRUE));
-                http_response_code(503); // Service unavailable
-                echo json_encode(["status" => "error", "message" => "Unable to create product."]);
-            }
+        // Create the product
+        if ($product->Create_Product()) {
+            http_response_code(201); // Created
+            echo json_encode(["message" => "Product was created."]);
         } else {
-            file_put_contents('php://stderr', print_r("Failed to move uploaded file to $target_file\n", TRUE));
-            http_response_code(400); // Bad request
-            echo json_encode(["status" => "error", "message" => "Unable to upload image."]);
+            file_put_contents('php://stderr', print_r("Failed to create product in database\n", TRUE));
+            http_response_code(503); // Service unavailable
+            echo json_encode(["status" => "error", "message" => "Unable to create product."]);
         }
     } else {
-        // file_put_contents('php://stderr', print_r("Name or image is missing\n", TRUE));
-        // http_response_code(400); // Bad request
-        // echo json_encode(["status" => "error", "message" => "Name and image are required."]);
+        file_put_contents('php://stderr', print_r("Failed to move uploaded file to $target_file\n", TRUE));
+        http_response_code(400); // Bad request
+        echo json_encode(["status" => "error", "message" => "Unable to upload image."]);
     }
 } else {
     echo json_encode(["message" => "Invalid request method."]);

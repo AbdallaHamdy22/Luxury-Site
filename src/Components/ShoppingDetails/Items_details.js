@@ -51,7 +51,7 @@ const ProductDetails = () => {
         }
     }, [cart, id]);
 
-    const handleToggleCart = () => {
+    const handleToggleCart = async () => {
         if (!user) {
             alert("Please log in to buy this product");
         } else {
@@ -59,28 +59,53 @@ const ProductDetails = () => {
                 const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor && cartItem.Size === selectedSize);
                 if (cartItem) {
                     dispatch(removeFromCart({ id: cartItem.ProductID }));
+                    await axiosInstance.post('Products/updateProductQuantity.php', {
+                        ProductID: item.ProductID,
+                        quantity: item.quantity + cartItem.Quantity
+                    });
                     setQuantity(1);
                 }
             } else {
-                setQuantity(1);
+                if (item.quantity < quantity) {
+                    alert(`Only ${item.quantity} items available in stock`);
+                    return;
+                }
                 dispatch(addToCart({ ...item, Quantity: quantity, Color: selectedColor, Size: selectedSize }));
+                await axiosInstance.post('Products/updateProductQuantity.php', {
+                    ProductID: item.ProductID,
+                    quantity: item.quantity - quantity
+                });
             }
         }
     };
 
-    const handleDecrease = () => {
+    const handleDecrease = async () => {
         if (quantity > 1) {
             setQuantity(prevQuantity => prevQuantity - 1);
             if (isInCart) {
-                dispatch(updateQuantity({ id: item.ProductID, amount: quantity - 1 }));
+                const newQuantity = quantity - 1;
+                await axiosInstance.post('Products/updateProductQuantity.php', {
+                    ProductID: item.ProductID,
+                    quantity: item.quantity + 1 // increase stock in database
+                });
+                dispatch(updateQuantity({ id: item.ProductID, amount: newQuantity }));
             }
         }
     };
 
-    const handleIncrease = () => {
-        setQuantity(prevQuantity => prevQuantity + 1);
-        if (isInCart) {
-            dispatch(updateQuantity({ id: item.ProductID, amount: quantity + 1 }));
+    const handleIncrease = async () => {
+        if (item.quantity > quantity) {
+            setQuantity(prevQuantity => prevQuantity + 1);
+            if (isInCart) {
+                const newQuantity = quantity + 1;
+                await axiosInstance.post('Products/updateProductQuantity.php', {
+                    ProductID: item.ProductID,
+                    quantity: item.quantity - 1 // decrease stock in database
+                });
+                dispatch(updateQuantity({ id: item.ProductID, amount: newQuantity }));
+            }
+        } else {
+            alert(`Only ${item.quantity} items available in stock`);
         }
     };
 

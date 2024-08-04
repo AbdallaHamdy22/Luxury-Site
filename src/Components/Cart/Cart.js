@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, updateQuantity } from '../Redux/RDXCart';
 import CartItem from './CartItem';
 import { Row, Col, Button } from 'react-bootstrap';
+import axiosInstance from '../../axiosConfig/instance';
 import './Cart.css';
 
 const Cart = () => {
@@ -17,9 +18,9 @@ const Cart = () => {
         }, {}));
     }, [cart]);
 
-    const handleQuantityChange = (item, newQuantity) => {
-        if (newQuantity > item.Quantity) {
-            alert(`غير مسموح، الكمية المتاحة هي ${item.Quantity}`);
+    const handleQuantityChange = async (item, newQuantity) => {
+        if (newQuantity > item.availableQuantity) {
+            alert(`غير مسموح، الكمية المتاحة هي ${item.availableQuantity}`);
             return;
         }
 
@@ -27,14 +28,37 @@ const Cart = () => {
             ...prevQuantities,
             [item.ProductID]: newQuantity,
         }));
-        dispatch(updateQuantity({ id: item.ProductID, amount: newQuantity }));
+
+        try {
+            await axiosInstance.post('Products/updateProductQuantity.php', {
+                ProductID: item.ProductID,
+                quantity: newQuantity
+            });
+
+            dispatch(updateQuantity({ id: item.ProductID, amount: newQuantity }));
+        } catch (error) {
+            console.error('Failed to update quantity', error);
+            setQuantities((prevQuantities) => ({
+                ...prevQuantities,
+                [item.ProductID]: item.Quantity,
+            }));
+        }
     };
 
-    const handleRemove = (item) => {
-        dispatch(removeFromCart({ id: item.ProductID }));
+    const handleRemove = async (item) => {
+        try {
+            await axiosInstance.post('Products/updateProductQuantity.php', {
+                ProductID: item.ProductID,
+                quantity: item.availableQuantity + item.Quantity
+            });
+
+            dispatch(removeFromCart({ id: item.ProductID }));
+        } catch (error) {
+            console.error('Failed to remove item', error);
+        }
     };
 
-    const subtotal = cart.reduce((acc, item) => acc + item.Price * (quantities[item.ProductID] || 1), 0);
+    const subtotal = cart.reduce((acc, item) => acc + item.Price * (quantities[item.ProductID] || item.Quantity), 0);
 
     return (
         <div className="shopping-cart container mt-4">

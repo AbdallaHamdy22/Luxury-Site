@@ -20,12 +20,14 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
 
     const handleIncrease = () => {
         const newQuantity = localQuantity + 1;
+        setLocalQuantity(newQuantity);
         onQuantityChange(item, newQuantity);
     };
 
     const handleDecrease = () => {
         if (localQuantity > 1) {
             const newQuantity = localQuantity - 1;
+            setLocalQuantity(newQuantity);
             onQuantityChange(item, newQuantity);
         }
     };
@@ -39,7 +41,7 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
                 </div>
             </Col>
             <Col xs={4} md={2} className="col-item-price">
-                <span className="item-price">${parseFloat(item.Price).toFixed(2)}</span>
+                <span className="item-price">{parseFloat(item.Price).toFixed(2)} AED</span>
             </Col>
             <Col xs={4} md={3} className="col-item-quantity">
                 <div className="quantity-control">
@@ -49,7 +51,7 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
                 </div>
             </Col>
             <Col xs={4} md={2} className="col-item-total">
-                <span className="item-total">${(parseFloat(item.Price) * localQuantity).toFixed(2)}</span>
+                <span className="item-total">{(parseFloat(item.Price) * localQuantity).toFixed(2)} AED</span>
                 <Button variant="outline-danger" onClick={() => onRemove(item)} className="remove-button">
                     Remove
                 </Button>
