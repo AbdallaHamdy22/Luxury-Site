@@ -48,7 +48,7 @@ const Navbar = () => {
                     {user ? (
                         <li className="nav-item dropdown">
                             <Dropdown className="custom-dropdown">
-                                <Dropdown.Toggle variant="success" id="dropdown-basic" className="custom-dropdown">
+                                <Dropdown.Toggle id="dropdown-basic" className="btn btn-common">
                                     <img src={user.ProfileImage} alt="User" className="user-photo" />
                                     {user.UserName}
                                 </Dropdown.Toggle>

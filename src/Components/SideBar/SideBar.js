@@ -14,7 +14,7 @@ const Sidebar = () => {
         <div className="sidebar-content">
           <div className="sidebar-menu">
             <div className="sidebar-menu-item">
-              <NavLink exact to="/ShowOrders" activeClassName="activeClicked" className="sidebar-navlink">
+              <NavLink to="/ShowOrders" className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}>
                 <FontAwesomeIcon icon={faStickyNote} /> Details Menu
               </NavLink>
             </div>
@@ -22,35 +22,35 @@ const Sidebar = () => {
           <div className="sidebar-menu">
             <div className="sidebar-submenu">
               <div className="sidebar-submenu-title">
-                <NavLink exact to="/ShowBrands" activeClassName="activeClicked" className="sidebar-navlink">
+                <NavLink to="/ShowBrands" className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}>
                   <FontAwesomeIcon icon={faTh} /> Brands List
                 </NavLink>
               </div>
             </div>
             <div className="sidebar-submenu">
               <div className="sidebar-submenu-title">
-                <NavLink exact to="/ShowCategories" activeClassName="activeClicked" className="sidebar-navlink">
+                <NavLink to="/ShowCategories" className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}>
                   <FontAwesomeIcon icon={faTh} /> Categories List
                 </NavLink>
               </div>
             </div>
             <div className="sidebar-submenu">
               <div className="sidebar-submenu-title">
-                <NavLink exact to="/ShowColors" activeClassName="activeClicked" className="sidebar-navlink">
+                <NavLink to="/ShowColors" className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}>
                   <FontAwesomeIcon icon={faTh} /> Colors List
                 </NavLink>
               </div>
             </div>
             <div className="sidebar-submenu">
               <div className="sidebar-submenu-title">
-                <NavLink exact to="/ShowGenders" activeClassName="activeClicked" className="sidebar-navlink">
+                <NavLink to="/ShowGenders" className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}>
                   <FontAwesomeIcon icon={faTh} /> Genders List
                 </NavLink>
               </div>
             </div>
             <div className="sidebar-submenu">
               <div className="sidebar-submenu-title">
-                <NavLink exact to="/ShowProducts" activeClassName="activeClicked" className="sidebar-navlink">
+                <NavLink to="/ShowProducts" className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}>
                   <FontAwesomeIcon icon={faTh} /> Products List
                 </NavLink>
               </div>

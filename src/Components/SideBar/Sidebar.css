@@ -1,86 +1,101 @@
+/* Sidebar container styling */
 .sidebar-container {
-  position: fixed;
+  position: fixed; /* Fixes the sidebar to the left of the viewport */
   top: 0;
   left: 0;
-  height: 100vh;
-  overflow: hidden;
-  transition: width 0.3s;
-  width: 50px;
-  z-index: 1000;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Hides overflow content */
+  transition: width 0.3s; /* Smooth width transition */
+  width: 50px; /* Initial collapsed width */
+  z-index: 1000; /* Ensures sidebar is above other content */
 }
 
+/* Expands the sidebar on hover */
 .sidebar-container:hover {
-  width: 200px;
+  width: 200px; /* Expanded width */
 }
 
+/* Sidebar styling */
 .sidebar {
-  width: 100%;
-  background-color: #1e1e1e;
-  color: #f0f0f0;
+  width: 100%; /* Full width of the container */
+  background-color: #1e1e1e; /* Dark background */
+  color: #f0f0f0; /* Light text color */
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Vertical layout */
   height: 100%;
 }
 
+/* Header of the sidebar */
 .sidebar-header {
   padding: 20px;
-  background-color: #9f9e9e;
+  background-color: #9f9e9e; /* Header background color */
   text-align: center;
   font-size: 1.2em;
-  white-space: nowrap;
-  overflow: hidden;
+  white-space: nowrap; /* Prevents text wrapping */
+  overflow: hidden; /* Hides overflowing text */
 }
 
+/* Title styling in the header */
 .sidebar-title {
   color: inherit;
-  text-decoration: none;
+  text-decoration: none; /* Removes underline */
 }
 
+/* Content area of the sidebar */
 .sidebar-content {
-  flex: 1;
-  overflow-y: auto;
+  flex: 1; /* Expands to fill remaining space */
+  overflow-y: auto; /* Scrolls vertically if needed */
 }
 
+/* Menu styling */
 .sidebar-menu {
   padding: 10px;
 }
 
+/* Menu item and submenu title styling */
 .sidebar-menu-item, .sidebar-submenu-title {
   padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-decoration: none;
-  color: inherit;
+  display: flex; /* Flexbox for layout */
+  justify-content: space-between; /* Space between content */
+  align-items: center; /* Vertically centers items */
+  white-space: nowrap; /* Prevents text wrapping */
+  overflow: hidden; /* Hides overflowing content */
+  text-overflow: ellipsis; /* Adds ellipsis for overflow text */
+  text-decoration: none; /* Removes underline */
+  color: inherit; /* Inherits color from parent */
 }
 
+/* Hover effect for menu items and submenu titles */
 .sidebar-menu-item:hover, .sidebar-submenu-title:hover {
-  background-color: #4a4a4a;
+  background-color: #4a4a4a; /* Darker background on hover */
 }
 
+/* Submenu styling */
 .sidebar-submenu {
-  margin-left: 10px;
+  margin-left: 10px; /* Indent submenus */
 }
 
+/* Active link styling */
 .activeClicked {
-  background-color: #5a5a5a;
-  color: #fff;
-}
-
-.sidebar-navlink {
-  color: inherit;
+  background-color: #5a5a5a; /* Background color for active link */
+  color: #fff; /* White text color */
   text-decoration: none;
 }
 
-.main-content {
-  margin-left: 200px;
-  padding: 20px;
-  transition: margin-left 0.3s;
+/* Navigation link styling */
+.sidebar-navlink {
+  color: inherit; /* Inherits color from parent */
+  text-decoration: none; /* Removes underline */
 }
 
+/* Main content styling */
+.main-content {
+  margin-left: 50px; /* Space for sidebar when collapsed */
+  padding: 20px; /* Padding around content */
+  transition: margin-left 0.3s; /* Smooth margin transition */
+}
+
+/* Adjusts margin when sidebar expands */
 .sidebar-container:hover ~ .main-content {
-  margin-left: 200px;
+  margin-left: 200px; /* Space for expanded sidebar */
 }

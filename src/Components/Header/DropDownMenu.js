@@ -8,6 +8,7 @@ const DropdownMenus = () => {
   const user = useSelector((state) => state.user.user);
   const [menuData, setMenuData] = useState({});
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axiosInstance.get('Sex/')
       .then(response => {
@@ -39,17 +40,23 @@ const DropdownMenus = () => {
             ))}
           </ul>
         </div>
-        {user && user.RoleID !== 1 ? (
-          <NavLink to="/sell" className="nav-link">
-            <button className="btn sell-now-btn">SELL NOW</button>
-          </NavLink>
-        ) : (
-          user && (
-            <NavLink to="/ShowOrders" className="nav-link">
-              <button className="btn sell-now-btn">SHOW DETAILS</button>
+        <div className="navbar-buttons">
+          {user && user.RoleID !== 1 && (
+            <NavLink to="/sell" className="nav-link">
+              <button className="btn btn-common">SELL NOW</button>
             </NavLink>
-          )
-        )}
+          )}
+          {user && (
+            <>
+              <NavLink to="/sell" className="nav-link">
+                <button className="btn btn-common">SELL NOW</button>
+              </NavLink>
+              <NavLink to="/ShowOrders" className="nav-link">
+                <button className="btn btn-common">SHOW DETAILS</button>
+              </NavLink>
+            </>
+          )}
+        </div>
       </nav>
     </div>
   );

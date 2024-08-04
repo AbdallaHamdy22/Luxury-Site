@@ -52,7 +52,7 @@ const ShowOrderDetails = () => {
 
         axiosInstance.post('WaitingList/ignoreQueue.php', data)
             .then(response => {
-                console.log(response);
+                console.log("response",response);
                 if (response.data.status === 'success') {
                     alert('Order ignored successfully.');
                     navigate('/ShowOrders');
@@ -82,7 +82,7 @@ const ShowOrderDetails = () => {
         centerMode: true,
         centerPadding: "0",
         prevArrow: <button type="button" className="slick-prev">‹</button>,
-        nextArrow: <button type="button" className="slick-next">›</button>
+        nextArrow: <button type="button" className="slick-next">›</button>,
     };
 
     return (
