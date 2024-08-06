@@ -20,6 +20,7 @@ if (!$productID || !$newQuantity) {
 }
 
 try {
+    // Remove any minimum quantity constraint checks here
     $query = "UPDATE products SET Quantity = :quantity WHERE ProductID = :productID";
     $stmt = $conn->prepare($query);
 

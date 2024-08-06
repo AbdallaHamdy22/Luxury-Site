@@ -20,6 +20,7 @@ const ShowProducts = () => {
         ProductionYear: '',
         Price: '',
         Quantity: '',
+        MainQuantity: '',
         Image: '',
         OfferPrice: '',
         BrandID: '',
@@ -195,6 +196,7 @@ const ShowProducts = () => {
             ProductionYear: '',
             Price: '',
             Quantity: '',
+            MainQuantity: '',
             Image: '',
             OfferPrice: '',
             BrandID: '',
@@ -237,6 +239,7 @@ const ShowProducts = () => {
                         <th>Production Year</th>
                         <th>Price</th>
                         <th>Quantity</th>
+                        <th>MainQuantity</th>
                         <th>Image</th>
                         <th>Offer Price</th>
                         <th>Brand</th>
@@ -258,6 +261,7 @@ const ShowProducts = () => {
                             <td>{product.ProductionYear}</td>
                             <td>{product.Price}</td>
                             <td>{product.Quantity}</td>
+                            <td>{product.MainQuantity}</td>
                             <td><img src={product.Image} alt={product.Name} className="product-image" /></td>
                             <td>{product.OfferPrice}</td>
                             <td>{brands.find(brand => brand.BrandID === product.BrandID)?.Name}</td>
@@ -309,6 +313,10 @@ const ShowProducts = () => {
                     <label>
                         Quantity:
                         <input type="number" name="Quantity" value={currentProduct.Quantity || ''} onChange={handleChange} />
+                    </label>
+                    <label>
+                        MainQuantity:
+                        <input type="number" name="MainQuantity" value={currentProduct.MainQuantity || ''} onChange={handleChange} />
                     </label>
                     <label>
                         Image:

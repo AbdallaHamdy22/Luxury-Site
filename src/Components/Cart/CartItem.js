@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 import './CartItem.css';
+import { useDispatch } from 'react-redux';
+import { removeFromCart, updateQuantity } from '../Redux/RDXCart';
+import axiosInstance from '../../axiosConfig/instance';
 
-const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
-    const [localQuantity, setLocalQuantity] = useState(quantity);
+const CartItem = ({ item }) => {
+    const dispatch = useDispatch();
+    const [localQuantity, setLocalQuantity] = useState(item.Quantity);
     const [imageArray, setImageArray] = useState([]);
 
     useEffect(() => {
-        setLocalQuantity(quantity);
+        console.log(item);
+        
         if (typeof item.Image === 'string') {
             setImageArray(item.Image.split(','));
         } else if (Array.isArray(item.Image)) {
@@ -16,20 +21,40 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
             console.error('Image is not a string or array', item.Image);
             setImageArray([]);
         }
-    }, [quantity, item]);
+    }, [item]);
 
-    const handleIncrease = () => {
-        const newQuantity = localQuantity + 1;
-        setLocalQuantity(newQuantity);
-        onQuantityChange(item, newQuantity);
+    const handleIncrease = async () => {
+        if (item.MainQuantity > localQuantity) {
+            const newQuantity = localQuantity + 1;
+            setLocalQuantity(newQuantity);
+            dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
+            await axiosInstance.post('Products/updateProductQuantity.php', {
+                ProductID: item.ProductID,
+                quantity: item.Quantity-1
+            });
+        } else {
+            alert(`Only ${item.MainQuantity} items available in stock`);
+        }
     };
 
-    const handleDecrease = () => {
+    const handleDecrease = async () => {
         if (localQuantity > 1) {
             const newQuantity = localQuantity - 1;
             setLocalQuantity(newQuantity);
-            onQuantityChange(item, newQuantity);
+            dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
+            await axiosInstance.post('Products/updateProductQuantity.php', {
+                ProductID: item.ProductID,
+                quantity: item.Quantity+1
+            });
         }
+    };
+
+    const handleRemove = async () => {
+        dispatch(removeFromCart({ ProductID: item.ProductID }));
+        await axiosInstance.post('Products/updateProductQuantity.php', {
+            ProductID: item.ProductID,
+            quantity: item.Quantity + localQuantity
+        });
     };
 
     return (
@@ -52,7 +77,7 @@ const CartItem = ({ item, quantity, onQuantityChange, onRemove }) => {
             </Col>
             <Col xs={4} md={2} className="col-item-total">
                 <span className="item-total">{(parseFloat(item.Price) * localQuantity).toFixed(2)} AED</span>
-                <Button variant="outline-danger" onClick={() => onRemove(item)} className="remove-button">
+                <Button variant="outline-danger" onClick={handleRemove} className="remove-button">
                     Remove
                 </Button>
             </Col>

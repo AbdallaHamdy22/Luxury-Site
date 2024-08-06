@@ -1,64 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart, updateQuantity } from '../Redux/RDXCart';
-import CartItem from './CartItem';
+import { useSelector } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
-import axiosInstance from '../../axiosConfig/instance';
+import CartItem from './CartItem';
 import './Cart.css';
+import axiosInstance from '../../axiosConfig/instance';
 
 const Cart = () => {
     const cart = useSelector((state) => state.cart.items);
-    const dispatch = useDispatch();
-    const [quantities, setQuantities] = useState({});
+    const [subtotal, setSubtotal] = useState(0);
+    const [items, setItems] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
-        setQuantities(cart.reduce((acc, item) => {
-            acc[item.ProductID] = item.Quantity;
-            return acc;
-        }, {}));
-    }, [cart]);
+        fetchData();
+    }, []);
 
-    const handleQuantityChange = async (item, newQuantity) => {
-        if (newQuantity > item.Quantity) {
-            alert(`Only ${item.Quantity} items available in stock`);
-            return;
-        }
+    useEffect(() => {
+        const cartItemDetails = cart.map(cartItem => {
+            const product = items.find(item => item.ProductID === cartItem.ProductID);
+            return product ? { ...product, Quantity: cartItem.Quantity } : null;
+        }).filter(item => item !== null);
 
-        setQuantities((prevQuantities) => ({
-            ...prevQuantities,
-            [item.ProductID]: newQuantity,
-        }));
+        const total = cartItemDetails.reduce((acc, item) => acc + item.Price * item.Quantity, 0);
 
+        setCartItems(cartItemDetails);
+        setSubtotal(total);
+    }, [cart, items]);
+
+    const fetchData = async () => {
         try {
-            await axiosInstance.post('Products/updateProductQuantity.php', {
-                ProductID: item.ProductID,
-                quantity: item.Quantity - newQuantity
-            });
-
-            dispatch(updateQuantity({ id: item.ProductID, amount: newQuantity }));
+            const productResponse = await axiosInstance.get('Products/getproduct.php');
+            const productData = productResponse.data;
+            setItems(productData);
         } catch (error) {
-            console.error('Failed to update quantity', error);
-            setQuantities((prevQuantities) => ({
-                ...prevQuantities,
-                [item.ProductID]: item.Quantity,
-            }));
+            console.error('Error fetching data:', error);
         }
     };
-
-    const handleRemove = async (item) => {
-        try {
-            await axiosInstance.post('Products/updateProductQuantity.php', {
-                ProductID: item.ProductID,
-                quantity: item.Quantity + item.Quantity
-            });
-
-            dispatch(removeFromCart({ ProductID: item.ProductID }));
-        } catch (error) {
-            console.error('Failed to remove item', error);
-        }
-    };
-
-    const subtotal = cart.reduce((acc, item) => acc + item.Price * (quantities[item.ProductID] || item.Quantity), 0);
 
     return (
         <div className="shopping-cart container mt-4">
@@ -73,13 +50,10 @@ const Cart = () => {
                         <Col xs={4} md={3} className='col-item-quantity'><h4>Quantity</h4></Col>
                         <Col xs={4} md={2} className='col-item-total'><h4>Total</h4></Col>
                     </Row>
-                    {cart.map((item) => (
+                    {cartItems.map((item) => (
                         <CartItem
                             key={item.ProductID}
                             item={item}
-                            quantity={quantities[item.ProductID]}
-                            onQuantityChange={handleQuantityChange}
-                            onRemove={handleRemove}
                         />
                     ))}
                     <Row className="cart-total">

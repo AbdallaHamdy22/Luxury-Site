@@ -6,6 +6,7 @@ import { FaStar, FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import './Card.css';
+import axiosInstance from '../../axiosConfig/instance';
 
 const ProductCard = ({ product }) => {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const ProductCard = ({ product }) => {
     const cart = useSelector((state) => state.cart.items);
     const isFavorite = (id) => favorites.some((item) => item.ProductID === id);
     const isInCart = (id) => cart.some((item) => item.ProductID === id);
+    
     const handleToggleFavorites = (id) => {
         if (isFavorite(id)) {
             dispatch(removeFromFavorites({ id }));
@@ -21,11 +23,19 @@ const ProductCard = ({ product }) => {
         }
     };
 
-    const handleToggleCart = (id) => {
-        if (isInCart(id)) {
-            dispatch(removeFromCart({ id }));
+    const handleToggleCart = async (id) => {
+        if (isInCart(product.ProductID)) {
+            dispatch(removeFromCart({ ProductID: id }));
+            await axiosInstance.post('Products/updateProductQuantity.php', {
+                ProductID: product.ProductID,
+                quantity: product.Quantity + 1
+            });
         } else {
-            dispatch(addToCart(product));
+            dispatch(addToCart({ ...product, Quantity: 1 }));
+            await axiosInstance.post('Products/updateProductQuantity.php', {
+                ProductID: product.ProductID,
+                quantity: product.Quantity - 1
+            });
         }
     };
 

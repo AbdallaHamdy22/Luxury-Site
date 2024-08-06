@@ -41,12 +41,7 @@ const DropdownMenus = () => {
           </ul>
         </div>
         <div className="navbar-buttons">
-          {user && user.RoleID !== 1 && (
-            <NavLink to="/sell" className="nav-link">
-              <button className="btn btn-common">SELL NOW</button>
-            </NavLink>
-          )}
-          {user && (
+          {user && user.RoleID === 1 ? (
             <>
               <NavLink to="/sell" className="nav-link">
                 <button className="btn btn-common">SELL NOW</button>
@@ -55,6 +50,10 @@ const DropdownMenus = () => {
                 <button className="btn btn-common">SHOW DETAILS</button>
               </NavLink>
             </>
+          ) : (
+            <NavLink to="/sell" className="nav-link">
+              <button className="btn btn-common">SELL NOW</button>
+            </NavLink>
           )}
         </div>
       </nav>

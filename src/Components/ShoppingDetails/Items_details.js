@@ -12,14 +12,26 @@ const ProductDetails = () => {
     const [item, setItem] = useState({});
     const [colors, setColors] = useState([]);
     const [selectedImage, setSelectedImage] = useState('');
-    const [quantity, setQuantity] = useState(1);
+    const [userquantity, setUserQuantity] = useState(0);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [selectedColor, setSelectedColor] = useState('');
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.items);
-    const isInCart = cart.some(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor);
+    const isInCart = cart.some(cartItem => cartItem.ProductID === Number(id));
 
     useEffect(() => {
+        fetchData();
+    }, [userquantity]);
+
+    useEffect(() => {
+        const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id));
+        if (cartItem) {
+            setUserQuantity(cartItem.Quantity);
+            setSelectedColor(cartItem.Color || '');
+        }
+    }, [cart, id, selectedColor]);
+
+    const fetchData = () => {
         Promise.all([
             axiosInstance.get(`Products/getProductDetails.php?ProductID=${id}`),
             axiosInstance.get('Color/getcolor.php')
@@ -31,7 +43,6 @@ const ProductDetails = () => {
             if (productData.ProductID) {
                 setItem(productData);
                 setSelectedImage(productData.Image ? productData.Image[0] : '');
-                
                 const filteredColors = colorsData.filter(color => color.Color_ID === productData.Color_ID);
                 setColors(filteredColors);
             } else {
@@ -39,76 +50,68 @@ const ProductDetails = () => {
             }
         })
         .catch(error => console.error('Error fetching data:', error));
-    }, [id]);
-
-    useEffect(() => {
-        const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor);
-        if (cartItem) {
-            setQuantity(cartItem.Quantity);
-            setSelectedColor(cartItem.Color);
-        }
-    }, [cart, id, selectedColor]);
+    }
 
     const handleToggleCart = async () => {
         if (!user) {
             alert("Please log in to buy this product");
             return;
         }
-        
+    
+        const adjustedQuantity = userquantity ? userquantity : 1;
+    
         if (isInCart) {
-            const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id) && cartItem.Color === selectedColor);
-            if (cartItem) {
-                dispatch(removeFromCart({ ProductID: cartItem.ProductID, Color: selectedColor }));
-                await axiosInstance.post('Products/updateProductQuantity.php', {
-                    ProductID: item.ProductID,
-                    quantity: item.Quantity
-                });
-                setQuantity(1);
-            }
-        } else {
-            if (item.Quantity < quantity) {
-                alert(`Only ${item.Quantity} items available in stock`);
-                return;
-            }
-            dispatch(addToCart({ ...item, Quantity: quantity, Color: selectedColor }));
+            dispatch(removeFromCart({ ProductID: item.ProductID }));
             await axiosInstance.post('Products/updateProductQuantity.php', {
                 ProductID: item.ProductID,
-                quantity: item.Quantity - quantity
+                quantity: item.Quantity + adjustedQuantity
             });
+            setUserQuantity(0);
+            setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity + adjustedQuantity }));
+        } else {
+            dispatch(addToCart({ ...item, Quantity: adjustedQuantity }));
+            await axiosInstance.post('Products/updateProductQuantity.php', {
+                ProductID: item.ProductID,
+                quantity: item.Quantity - adjustedQuantity
+            });
+            setUserQuantity(adjustedQuantity);
+            setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity - adjustedQuantity }));
         }
     };
-
+    
     const handleDecrease = async () => {
-        if (quantity > 1) {
-            setQuantity(prevQuantity => prevQuantity - 1);
+        if (userquantity > 1) {
+            const newQuantity = userquantity - 1;
             if (isInCart) {
-                const newQuantity = quantity - 1;
-                console.log(newQuantity);
-                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity, Color: selectedColor }));
+                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
                 await axiosInstance.post('Products/updateProductQuantity.php', {
                     ProductID: item.ProductID,
                     quantity: item.Quantity + 1
                 });
+                setUserQuantity(newQuantity);
+                setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity + 1 }));
             }
         }
     };
     
+
     const handleIncrease = async () => {
-        if (item.Quantity > quantity) {
-            setQuantity(prevQuantity => prevQuantity + 1);
+        if (item.Quantity > 0 && item.MainQuantity > userquantity) {
+            const newQuantity = userquantity + 1;
             if (isInCart) {
-                const newQuantity = quantity + 1;
-                console.log(newQuantity);
-                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity, Color: selectedColor }));
+                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
                 await axiosInstance.post('Products/updateProductQuantity.php', {
                     ProductID: item.ProductID,
                     quantity: item.Quantity - 1
                 });
+                setUserQuantity(newQuantity);
+                setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity - 1 }));
             }
         } else {
             alert(`Only ${item.Quantity} items available in stock`);
         }
     };
+    
     
     const handleImageClick = (img) => {
         setSelectedImage(img);
@@ -174,16 +177,16 @@ const ProductDetails = () => {
                     <label>Quantity</label>
                     <div className="quantity-control">
                         <Button className="quantity-button" onClick={handleDecrease}>-</Button>
-                        <span className="quantity">{quantity}</span>
+                        <span className="quantity">{userquantity}</span>
                         <Button className="quantity-button" onClick={handleIncrease}>+</Button>
                     </div>
                     <label>Color</label>
-                    <input type="text" readOnly value={selectedColor} />
+                    <input type="text" readOnly value={selectedColor || ''} />
                     <label>Item Price</label>
-                    <input type="text" readOnly value={`${item.Price} AED`} />
+                    <input type="text" readOnly value={`${item.Price || 0} AED`} />
                     <div className="subtotal">
                         <p>Sub Total</p>
-                        <p>{(item.Price * quantity).toFixed(2)} AED</p>
+                        <p>{(item.Price * userquantity).toFixed(2)} AED</p>
                     </div>
                     <label>Notes</label>
                     <textarea placeholder="Write a note..."></textarea>
