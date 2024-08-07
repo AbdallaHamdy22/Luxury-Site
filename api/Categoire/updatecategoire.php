@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $category->setName($name);
         if ($image) {
             // Handle the image file
-            $target_dir = realpath("../../public/Images") . '/';
+            $target_dir = realpath("../../Images") . '/';
             $target_file = $target_dir . basename($image["name"]);
 
             // Check for file upload errors
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Move the uploaded file
             if (move_uploaded_file($image["tmp_name"], $target_file)) {
                 file_put_contents('php://stderr', print_r("File uploaded successfully to $target_file\n", TRUE));
-                $category->setImage("/Images/" . $image["name"]);
+                $category->setImage("Images/" . $image["name"]);
 
                 // Update the category
 

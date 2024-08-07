@@ -5,7 +5,7 @@ function uploadImages($base64Image)
         return ['status' => 'success', 'imagePaths' => []]; // No image to upload
     }
 
-    $upload_directory = '../../public/Images/';
+    $upload_directory = '../../Images/';
     $imagePaths = [];
 
     if (!is_dir($upload_directory)) {
@@ -26,7 +26,7 @@ function uploadImages($base64Image)
     $image_base64 = base64_decode($image_parts[1]);
     $file_name = uniqid() . '.' . $image_type;
     $file = $upload_directory . $file_name;
-    $image_save_link = '/Images/' . $file_name;
+    $image_save_link = 'Images/' . $file_name;
 
     if (file_put_contents($file, $image_base64)) {
         $imagePaths[] = $image_save_link;
