@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Luxury-Site/static/css/main.8d1312a5.css",
-    "main.js": "/Luxury-Site/static/js/main.d41a15f3.js",
+    "main.js": "/Luxury-Site/static/js/main.9e0de448.js",
     "static/media/fa-solid-900.ttf": "/Luxury-Site/static/media/fa-solid-900.bacd5de623fb563b961a.ttf",
     "static/media/fa-brands-400.ttf": "/Luxury-Site/static/media/fa-brands-400.60127e352b7a11f7f1bc.ttf",
     "static/media/1.png": "/Luxury-Site/static/media/1.2eab3fb933c64a5d1336.png",
@@ -17,10 +17,10 @@
     "static/media/slick.woff": "/Luxury-Site/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/Luxury-Site/index.html",
     "main.8d1312a5.css.map": "/Luxury-Site/static/css/main.8d1312a5.css.map",
-    "main.d41a15f3.js.map": "/Luxury-Site/static/js/main.d41a15f3.js.map"
+    "main.9e0de448.js.map": "/Luxury-Site/static/js/main.9e0de448.js.map"
   },
   "entrypoints": [
     "static/css/main.8d1312a5.css",
-    "static/js/main.d41a15f3.js"
+    "static/js/main.9e0de448.js"
   ]
 }
