@@ -20,7 +20,7 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white">
             <NavLink className="navbar-brand" to="/">
-                <img src={'/Images/Logo2.png'} alt="Logo" />
+                <img src={'Luxury-Site/Images/Logo2.png'} alt="Logo" />
             </NavLink>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
