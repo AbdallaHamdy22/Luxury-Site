@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost/dashboard/luxury-site-last/api/',
+    baseURL: 'http://royal-luxury.great-site.net/api/',
     headers: {
         'Content-Type': 'application/json',
     },
