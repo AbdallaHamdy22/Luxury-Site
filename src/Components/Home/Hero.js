@@ -1,13 +1,17 @@
 import { NavLink } from 'react-router-dom';
 import './Hero.css';
+import Modal from '../Login-Register/Modal';
+import Login from '../Login-Register/Login';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const Hero = () => {
   const user = useSelector((state) => state.user.user);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const handleSellClick = () => {
     if (!user) {
       alert("Please login first.");
+      setIsModalOpen(true)
     }
   };
 
@@ -19,10 +23,11 @@ const Hero = () => {
           <button className="btn btn-dark">SELL NOW</button>
         </NavLink>
       ) : (
-        <NavLink to="/join">
           <button className="btn btn-dark" onClick={handleSellClick}>SELL NOW</button>
-        </NavLink>
       )}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <Login setUser={() => setIsModalOpen(false)} />
+      </Modal>
     </div>
   );
 };

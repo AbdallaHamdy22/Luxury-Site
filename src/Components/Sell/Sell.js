@@ -33,7 +33,7 @@ const Sell = () => {
             .then(response => setBrands(response.data))
             .catch(error => console.error('Error fetching brands:', error));
 
-        axiosInstance.get('Sex/getSex.php')
+        axiosInstance.get('Sex/getsex.php')
             .then(response => setSexes(response.data))
             .catch(error => console.error('Error fetching sexes:', error));
 
