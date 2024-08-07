@@ -1,6 +1,7 @@
 {
   "name": "luxury-site",
   "homepage": "https://abdallahamdy22.github.io/Luxury-Site",
+  "proxy": "http://royal-luxury.great-site.net",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
