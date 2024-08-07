@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2024 at 01:22 AM
+-- Generation Time: Aug 07, 2024 at 06:52 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -125,6 +125,7 @@ CREATE TABLE `products` (
   `Price` float NOT NULL,
   `UserPrice` float NOT NULL,
   `Quantity` float NOT NULL,
+  `MainQuantity` int(11) NOT NULL,
   `OfferPrice` float DEFAULT NULL,
   `ProductionYear` varchar(50) NOT NULL,
   `Image` varchar(50) NOT NULL,
@@ -140,11 +141,11 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`ProductID`, `Name`, `Description`, `Price`, `UserPrice`, `Quantity`, `OfferPrice`, `ProductionYear`, `Image`, `BrandID`, `CategoireID`, `Color_ID`, `SexID`, `UserID`, `Status`) VALUES
-(3, 'Emerald', 'adwjk', 9, 1, 11, 0, '0', '/Images/66ad132ad64ce.jpg', 1, 1, 1, 1, 1, 'Available'),
-(4, 'Abdalla Hamdy', 'ajkfaejfbauiefbufb ajkfaejfbauiefbufbajkfaejfbauie', 1350, 10, 11, 0, '0', '/Images/66afa0d77af09.jpg,/Images/66afa0d77b24b.jp', 1, 1, 1, 1, 1, 'Available'),
-(2, '1', '1', 1, 1, 11, 1, '0', '/Images/66ad124485b88.jpg', 1, 1, 1, 1, 1, 'OnSale'),
-(1, 'Abdalla Hamdy', 'Great product', 160, 100, 11, 0, '0', '/Images/66ad11b56593b.jpg,/Images/66ad11b565c55.pn', 1, 1, 1, 1, 1, 'Available');
+INSERT INTO `products` (`ProductID`, `Name`, `Description`, `Price`, `UserPrice`, `Quantity`, `MainQuantity`, `OfferPrice`, `ProductionYear`, `Image`, `BrandID`, `CategoireID`, `Color_ID`, `SexID`, `UserID`, `Status`) VALUES
+(3, 'Emerald', 'adwjk', 9, 1, 10, 10, 0, '0', '/Images/66ad132ad64ce.jpg', 1, 1, 1, 1, 1, 'Available'),
+(4, 'Abdalla Hamdy', 'ajkfaejfbauiefbufb ajkfaejfbauiefbufbajkfaejfbauie', 1350, 10, 11, 11, 0, '0', '/Images/66afa0d77af09.jpg,/Images/66afa0d77b24b.jp', 1, 1, 1, 1, 1, 'Available'),
+(2, '1', '1', 1, 1, 11, 11, 1, '0', '/Images/66ad124485b88.jpg', 1, 1, 1, 1, 1, 'OnSale'),
+(1, 'Abdalla Hamdy', 'Great product', 160, 100, 11, 11, 0, '0', '/Images/66ad11b56593b.jpg,/Images/66ad11b565c55.pn', 1, 1, 1, 1, 1, 'Available');
 
 -- --------------------------------------------------------
 
@@ -159,6 +160,7 @@ CREATE TABLE `queuedetails` (
   `ProductPrice` float NOT NULL,
   `OfferPrice` float DEFAULT NULL,
   `Quantity` float NOT NULL,
+  `MainQuantity` int(11) NOT NULL,
   `Image` varchar(10000) NOT NULL,
   `CategoireID` int(11) NOT NULL,
   `BrandID` int(11) NOT NULL,
