@@ -29,7 +29,7 @@ const Login = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-        const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/UserLogin.php', {
+        const response = await fetch('/api/User/UserLogin.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ const Login = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await fetch('http://localhost/dashboard/luxury-site-last/api/User/signup.php', {
+      const response = await fetch('/api/User/signup.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
