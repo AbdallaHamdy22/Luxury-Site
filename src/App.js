@@ -24,7 +24,7 @@ import ShowColors from './Components/ShowColor/Colors';
 import AccountSettings from './Components/AccountDetails/Account';
 import UserDetails from './Components/UserProducts/userDetails';
 import { setUser } from './Components/Redux/RDXUser';
-
+import { BrowserRouter as Router } from 'react-router-dom';
 const App = () => {
   const dispatch = useDispatch();
 
@@ -36,7 +36,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <Router basename="/Luxury-Site"> {/* تأكد من تطابق اسم المسار مع اسم المستودع */}
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -58,7 +58,7 @@ const App = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
-    </>
+    </Router>
   );
 };
 
