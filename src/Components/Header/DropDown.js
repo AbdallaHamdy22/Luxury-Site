@@ -28,7 +28,6 @@ const DropdownMenu = ({ id, title, sections, selectedItem, setSelectedItem }) =>
               {item.name}
             </NavLink>
           ))}
-          {/* <div className="dropdown-divider"></div> */}
         </div>
       ))}
     </div>
