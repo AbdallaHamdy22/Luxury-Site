@@ -8,6 +8,7 @@ const DropdownMenus = () => {
   const user = useSelector((state) => state.user.user);
   const [menuData, setMenuData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     axiosInstance.get('Sex/')
@@ -36,6 +37,8 @@ const DropdownMenus = () => {
                 id={key}
                 title={menuData[key].title}
                 sections={menuData[key].sections}
+                selectedItem={selectedItem}
+                setSelectedItem={setSelectedItem}
               />
             ))}
           </ul>
