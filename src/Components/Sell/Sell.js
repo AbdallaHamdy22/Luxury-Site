@@ -46,13 +46,31 @@ const Sell = () => {
         setImageFiles(e.target.files);
     };
 
+    // const handleChange = (e) => {
+    //     const { name, value} = e.target; 
+    //     setFormData({
+    //         ...formData,
+    //         [name]: value
+    //     });
+    // };
     const handleChange = (e) => {
-        const { name, value} = e.target; 
+        const { name, value } = e.target;
+    
+        let formattedValue = value;
+    
+        // Only format if the input is a number field and not empty
+        if (['price', 'quantity', 'offerPrice'].includes(name) && value !== '') {
+            // Remove any existing commas before formatting
+            const cleanValue = value.replace(/\./g, '');
+            formattedValue = new Intl.NumberFormat('de-DE').format(cleanValue);
+        }
+    
         setFormData({
             ...formData,
-            [name]: value
+            [name]: formattedValue
         });
     };
+    
     
     const handleSubmit = (e) => {
         e.preventDefault();
