@@ -63,7 +63,7 @@ const Sell = () => {
         });
 
         data.append('UserID', user.UserID);
-        data.append('Status', formData.offerPrice > '0' ? 'OnSale' : 'Submitted');
+        data.append('Status', 'Submitted');
     
         // Append image files
         for (let i = 0; i < imageFiles.length; i++) {
@@ -134,6 +134,7 @@ const Sell = () => {
                     type='number'
                     value={formData.price}
                     onChange={handleChange}
+                    onWheel={(e) => e.target.blur()}
                     placeholder='Enter your product price'
                     required
                 />
@@ -143,6 +144,7 @@ const Sell = () => {
                     type='number'
                     value={formData.quantity}
                     onChange={handleChange}
+                    onWheel={(e) => e.target.blur()}
                     placeholder='Enter your product available quantity'
                     required
                 />
@@ -161,6 +163,7 @@ const Sell = () => {
                     name='offerPrice'
                     type='number'
                     value={formData.offerPrice}
+                    onWheel={(e) => e.target.blur()}
                     placeholder='Enter your offer price.. e.g., 20 if you want 20%'
                     onChange={handleChange}
                 />

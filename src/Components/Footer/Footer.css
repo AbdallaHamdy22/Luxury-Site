@@ -1,19 +1,72 @@
-.icon-spacing {
-    margin: 0 20px;
-    font-size: 24px;
-}
 .footer {
-    background: #000;
-    color: #fff;
-    padding: 20px 0;
+    background: var(--primary-color);
+    color: var(--accent-color);
+    padding: 40px 0;
+    font-family: var(--body-font);
+    position: relative;
 }
-.footer a {
-    color: #fff;
-    text-decoration: none;
-}
-.footer a:hover {
-    text-decoration: underline;
-}
-.footer .row > div {
+
+.footer h5 {
+    color: var(--secondary-color);
+    font-family: var(--heading-font);
     margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.footer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer ul li {
+    margin-bottom: 10px;
+}
+
+.footer ul li a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer ul li a:hover {
+    color: var(--secondary-color);
+}
+
+.footer .icon-spacing {
+    margin: 0 15px;
+    font-size: 20px;
+    color: var(--accent-color);
+    transition: color 0.3s ease;
+}
+
+.footer .icon-spacing:hover {
+    color: var(--secondary-color);
+}
+
+.footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.footer .row > div {
+    margin-bottom: 30px;
+}
+
+.footer .text-center {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer .text-center a {
+    margin: 0 10px;
+}
+
+@media (max-width: 768px) {
+    .footer h5 {
+        font-size: 1rem;
+    }
 }
