@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2024 at 06:52 PM
+-- Generation Time: Aug 12, 2024 at 03:28 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -38,9 +38,14 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`BrandID`, `Name`, `Image`) VALUES
-(1, 'Gucci', '/Images/5.png'),
-(2, 'Dior', '/Images/bag2.jpg'),
-(3, 'Nike', '/Images/Nike.png');
+(1, 'GUCCI', '/Images/Gucci brand.jpg'),
+(2, 'DIOR', '/Images/Dior brand.png'),
+(3, 'NIKE', '/Images/Nike brand.jpg'),
+(4, 'LOUIS VUITTON', '/Images/LV brand.png'),
+(5, 'ARMANI', '/Images/Armani brand.png'),
+(6, 'PRADA', '/Images/Prada brand.png'),
+(7, 'DOLCE&GABBANA', '/Images/Dolce brand.png'),
+(8, 'CHANEL', '/Images/chanel brand.webp');
 
 -- --------------------------------------------------------
 
@@ -59,9 +64,9 @@ CREATE TABLE `categoire` (
 --
 
 INSERT INTO `categoire` (`CategoireID`, `Name`, `Image`) VALUES
-(1, 'Bags', '/Images/2.png'),
-(2, 'Watches', '/Images/bag2.jpg'),
-(3, 'Shoes', '/Images/3.png');
+(1, 'BAGS', '/Images/Bag5.webp'),
+(2, 'WATCHES', '/Images/Watch1.webp'),
+(3, 'SHOES', '/Images/3.png');
 
 -- --------------------------------------------------------
 
@@ -142,10 +147,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`ProductID`, `Name`, `Description`, `Price`, `UserPrice`, `Quantity`, `MainQuantity`, `OfferPrice`, `ProductionYear`, `Image`, `BrandID`, `CategoireID`, `Color_ID`, `SexID`, `UserID`, `Status`) VALUES
-(3, 'Emerald', 'adwjk', 9, 1, 10, 10, 0, '0', '/Images/66ad132ad64ce.jpg', 1, 1, 1, 1, 1, 'Available'),
-(4, 'Abdalla Hamdy', 'ajkfaejfbauiefbufb ajkfaejfbauiefbufbajkfaejfbauie', 1350, 10, 11, 11, 0, '0', '/Images/66afa0d77af09.jpg,/Images/66afa0d77b24b.jp', 1, 1, 1, 1, 1, 'Available'),
-(2, '1', '1', 1, 1, 11, 11, 1, '0', '/Images/66ad124485b88.jpg', 1, 1, 1, 1, 1, 'OnSale'),
-(1, 'Abdalla Hamdy', 'Great product', 160, 100, 11, 11, 0, '0', '/Images/66ad11b56593b.jpg,/Images/66ad11b565c55.pn', 1, 1, 1, 1, 1, 'Available');
+(1, 'ARMANI watch', 'best armani watch ever', 100, 1000, 10, 10, 20, '0', '/Images/Watch3.jpg', 5, 2, 2, 1, 1, 'Available'),
+(2, 'ARMANI watch', 'best armani watch ever', 100, 1000, 10, 10, 0, '0', '/Images/Watch3.jpg', 5, 2, 2, 1, 1, 'Available');
 
 -- --------------------------------------------------------
 
@@ -378,6 +381,12 @@ ALTER TABLE `users_phonenum`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `brand`
+--
+ALTER TABLE `brand`
+  MODIFY `BrandID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `orderdetails`
