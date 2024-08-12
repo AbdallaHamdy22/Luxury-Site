@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import './userDetails.css';
-// import WithDrawed from './returned';
 import Submitted from './Submitted';
-// import Recieved from './recieved';
-import Archived from './archived';
-import OnSale from './onSale';
+import Archived from './Archived';
+import OnSale from './OnSale';
 import Sold from './Sold';
 import axiosInstance from '../../axiosConfig/instance';
 import { useSelector } from 'react-redux';
@@ -28,27 +26,23 @@ const UserDetails = () => {
         if (!category) {
             navigate('/userDetails/Submitted');
         }
-    }, [category, navigate]);
+    }, [category, navigate, user.UserID]);
 
     const toggleItem = (index) => {
         setOpenItem(openItem === index ? null : index);
     };
 
     const renderItems = () => {
-        if (items.length>0) {
+        if (items.length > 0) {
             switch (category) {
                 case 'Submitted':
-                    return <Submitted items={items} toggleItem={toggleItem} openItem={openItem} />;
-                // case 'received':
-                //     return <Recieved toggleItem={toggleItem} openItem={openItem} />;
+                    return <Submitted items={items.filter(item => item.Status === 'Submitted')} toggleItem={toggleItem} openItem={openItem} />;
                 case 'OnSale':
-                    return <OnSale items={items} toggleItem={toggleItem} openItem={openItem} />;
+                    return <OnSale items={items.filter(item => item.Status === 'OnSale')} toggleItem={toggleItem} openItem={openItem} />;
                 case 'Sold':
-                    return <Sold items={items} toggleItem={toggleItem} openItem={openItem} />;
-                // case 'returned-withdrawn':
-                //     return <WithDrawed toggleItem={toggleItem} openItem={openItem} />;
+                    return <Sold items={items.filter(item => item.Status === 'Sold')} toggleItem={toggleItem} openItem={openItem} />;
                 case 'Archived':
-                    return <Archived items={items} toggleItem={toggleItem} openItem={openItem} />;
+                    return <Archived items={items.filter(item => item.Status === 'Archived')} toggleItem={toggleItem} openItem={openItem} />;
                 default:
                     return <p>No items found.</p>;
             }
@@ -60,10 +54,8 @@ const UserDetails = () => {
             <h1>My Items</h1>
             <div className="tabs">
                 <button className={`tab ${category === 'Submitted' ? 'active' : ''}`} onClick={() => navigate('/userDetails/Submitted')}>Item(s) Submitted</button>
-                {/* <button className={`tab ${category === 'received' ? 'active' : ''}`} onClick={() => navigate('/userDetails/received')}>Item(s) Received</button> */}
                 <button className={`tab ${category === 'OnSale' ? 'active' : ''}`} onClick={() => navigate('/userDetails/OnSale')}>On Sale</button>
                 <button className={`tab ${category === 'Sold' ? 'active' : ''}`} onClick={() => navigate('/userDetails/Sold')}>Sold</button>
-                {/* <button className={`tab ${category === 'returned-withdrawn' ? 'active' : ''}`} onClick={() => navigate('/userDetails/returned-withdrawn')}>Item(s) Returned/Withdrawn</button> */}
                 <button className={`tab ${category === 'Archived' ? 'active' : ''}`} onClick={() => navigate('/userDetails/Archived')}>Archived</button>
             </div>
             {renderItems()}

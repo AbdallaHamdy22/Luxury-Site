@@ -62,9 +62,8 @@ const Sell = () => {
             data.append(key, formData[key]);
         });
 
-        console.log(user.UserID);
         data.append('UserID', user.UserID);
-        data.append('Status', formData.offerPrice > '0' ? 'OnSale' : 'Available');
+        data.append('Status', formData.offerPrice > '0' ? 'OnSale' : 'Submitted');
     
         // Append image files
         for (let i = 0; i < imageFiles.length; i++) {
