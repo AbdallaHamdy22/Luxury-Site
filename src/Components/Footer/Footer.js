@@ -31,7 +31,7 @@ const Footer = () => {
             <h5>Top Categories</h5>
             <ul className="list-unstyled">
               {categories.map(category => (
-                <li key={category.CategoireID}><a href="#">{category.Name}</a></li>
+                <li key={category.CategoireID}><a href="/">{category.Name}</a></li>
               ))}
             </ul>
           </div>
@@ -39,7 +39,7 @@ const Footer = () => {
             <h5>Top Brands</h5>
             <ul className="list-unstyled">
               {brands.map(brand => (
-                <li key={brand.BrandID}><a href="#">{brand.Name}</a></li>
+                <li key={brand.BrandID}><a href="/">{brand.Name}</a></li>
               ))}
             </ul>
           </div>
@@ -47,7 +47,7 @@ const Footer = () => {
             <h5>About The Royal Luxury</h5>
             <ul className="list-unstyled">
               {['About Us', 'How Does It Work?', 'Privacy Policy', 'Terms & Conditions', 'FAQs', 'Sell Now', 'Delivery & Returns', 'Warranty'].map(item => (
-                <li key={item}><a href="#">{item}</a></li>
+                <li key={item}><a href="/">{item}</a></li>
               ))}
             </ul>
           </div>
@@ -55,7 +55,7 @@ const Footer = () => {
             <h5>Customer Service</h5>
             <ul className="list-unstyled">
               {['Contact Us', 'FAQs', 'Student & Youth Discount', 'Essential Worker Discount'].map(item => (
-                <li key={item}><a href="#">{item}</a></li>
+                <li key={item}><a href="/">{item}</a></li>
               ))}
             </ul>
             <h5>We Are Here To Help You!</h5>
@@ -68,7 +68,7 @@ const Footer = () => {
         </div>
         <div className="text-center mt-3">
           {['facebook-f', 'instagram', 'whatsapp'].map(icon => (
-            <a href="#" key={icon}><i className={`fab fa-${icon} icon-spacing`}></i></a>
+            <a href="/" key={icon}><i className={`fab fa-${icon} icon-spacing`}></i></a>
           ))}
         </div>
       </div>
