@@ -27,7 +27,7 @@ const DropdownMenus = () => {
   }
 
   return (
-    <div className="bg-white border-top">
+    <div className="navbar-container bg-white border-top">
       <nav className="navbar navbar-expand-lg navbar-light bg-white">
         <div className="collapse navbar-collapse justify-content-center" id="navbarNav2">
           <ul className="navbar-nav">

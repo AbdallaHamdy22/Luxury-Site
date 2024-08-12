@@ -1,5 +1,5 @@
 .Itms .breadcrumb-item a {
-    color: #007bff;
+    color: var(--secondary-color);
     text-decoration: none;
 }
 
@@ -9,11 +9,16 @@
 
 .Itms .form-check-label {
     font-size: 0.875rem;
-    color: #555;
+    color: var(--text-color);
+}
+
+.Itms .form-check-input:checked {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
 }
 
 .Itms .pagination .page-link {
-    color: #007bff;
+    color: var(--secondary-color);
 }
 
 .Itms .pagination .page-link:hover {
@@ -21,7 +26,26 @@
 }
 
 .Itms .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
     color: white;
+}
+
+.Itms h3 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+}
+
+.Itms h5 {
+    font-family: var(--body-font);
+    color: var(--primary-color);
+}
+
+.Itms .form-check {
+    margin-bottom: 10px;
+}
+
+.Itms .form-check-input {
+    border-radius: 50%;
+    border: 2px solid var(--secondary-color);
 }

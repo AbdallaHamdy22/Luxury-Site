@@ -58,4 +58,3 @@ foreach ($allCategories as $category) {
 }
 
 echo json_encode($menuData);
-?>

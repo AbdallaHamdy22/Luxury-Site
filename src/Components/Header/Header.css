@@ -1,4 +1,4 @@
-/* General Navbar Styles */
+
 .navbar {
     height: 80px;
     display: flex;
@@ -43,7 +43,6 @@
     text-transform: uppercase;
 }
 
-/* Button Styles */
 .navbar .btn, .btn-common {
     background-color: transparent;
     color: #333;
@@ -66,7 +65,6 @@
     color: white;
 }
 
-/* Dropdown Menu Styles */
 .dropdown-menu {
     padding: 1rem;
     border-radius: 8px;
@@ -95,20 +93,19 @@
     background-color: #2C3E50;
 }
 
-/* Override Bootstrap active styles */
+
 .dropdown-item.active,
 .dropdown-item:active {
     background-color: inherit !important;
     color: inherit !important;
 }
 
-/* Selected item in the dropdown */
+
 .dropdown-item.selected {
     background-color: #2C3E50 !important;
     color: white !important;
 }
 
-/* Custom Dropdown Styles */
 .dropdown-toggle.custom-dropdown {
     color: black;
     display: flex;
@@ -126,7 +123,6 @@
     color: white;
 }
 
-/* Search Bar Styles */
 .form-inline {
     display: flex;
     align-items: center;
@@ -159,7 +155,6 @@
     color: #888;
 }
 
-/* User Photo Styles */
 .user-photo {
     width: 30px;
     height: 30px;
@@ -167,13 +162,12 @@
     margin-right: 8px;
 }
 
-/* Navbar Buttons Container */
+
 .navbar-buttons {
     display: flex;
     gap: 1rem;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
     .navbar-nav {
         flex-direction: column;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './Category.css';
 import axiosInstance from './../../axiosConfig/instance';
 
 const CategorySection = () => {
@@ -16,10 +15,9 @@ const CategorySection = () => {
   return (
     <div className="container category-section">
       <h4>SHOP BY CATEGORIES</h4>
-      <br />
-      <div className="row">
+      <div className="row d-flex justify-content-center">
         {categories.map(category => (
-          <div key={category.CategoireID} className="col-12 col-sm-6 col-md-4 mb-4">
+          <div key={category.CategoireID} className="col-12 col-sm-6 col-md-4 mb-4 text-center">
             <img src={category.Image} alt={category.Name} />
             <h5>{category.Name}</h5>
           </div>

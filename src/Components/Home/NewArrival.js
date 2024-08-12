@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import './NewArrival.css';
 import axiosInstance from '../../axiosConfig/instance';
 
 const NewArrivalsSection = () => {

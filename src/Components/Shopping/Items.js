@@ -5,6 +5,7 @@ import ProductCard from '../Card/Card';
 import './Items.css';
 import { useLocation } from 'react-router-dom';
 
+// Hook to parse query parameters from the URL
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 };
@@ -20,6 +21,7 @@ const Items = () => {
     const [brands, setBrands] = useState([]);
     const [sexes, setSexes] = useState([]);
 
+    // Fetch initial data for products, categories, brands, and genders
     useEffect(() => {
         axiosInstance.get('Products/getproduct.php')
             .then(response => {
@@ -46,14 +48,16 @@ const Items = () => {
             .catch(error => console.error('Error fetching sexes:', error));
     }, []);
 
+    // Update selected filters based on URL query parameters
     useEffect(() => {
         const category = query.get("category");
         const sex = query.get("sex");
 
         if (category) setSelectedCategories([category]);
         if (sex) setSelectedSexes([sex]);
-    }, [location.search]); // هنا نراقب تغييرات العنوان URL
+    }, [location.search]);
 
+    // Handle filter changes for categories
     const handleCategoryChange = (event) => {
         const { id, checked } = event.target;
         setSelectedCategories((prevCategories) => {
@@ -65,6 +69,7 @@ const Items = () => {
         });
     };
 
+    // Handle filter changes for brands
     const handleBrandChange = (event) => {
         const { id, checked } = event.target;
         setSelectedBrands((prevBrands) => {
@@ -76,6 +81,7 @@ const Items = () => {
         });
     };
 
+    // Handle filter changes for genders
     const handleSexChange = (event) => {
         const { id, checked } = event.target;
         setSelectedSexes((prevSexes) => {
@@ -87,6 +93,7 @@ const Items = () => {
         });
     };
 
+    // Filter products based on selected filters
     const filteredProducts = useMemo(() => products.filter((product) => {
         const categoryMatch = selectedCategories.length === 0 || 
             (product.CategoireID && selectedCategories.includes(product.CategoireID.toString()));
@@ -155,9 +162,13 @@ const Items = () => {
                 </aside>
                 <div className="col-md-9">
                     <div className="row">
-                        {filteredProducts.map((product) => (
-                            <ProductCard key={product.ProductID} product={product} />
-                        ))}
+                        {filteredProducts.length > 0 ? (
+                            filteredProducts.map((product) => (
+                                <ProductCard key={product.ProductID} product={product} />
+                            ))
+                        ) : (
+                            <p>No products found matching the selected filters.</p>
+                        )}
                     </div>
                 </div>
             </div>

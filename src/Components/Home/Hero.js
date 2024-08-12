@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import './Hero.css';
 import Modal from '../Login-Register/Modal';
 import Login from '../Login-Register/Login';
 import { useSelector } from 'react-redux';
