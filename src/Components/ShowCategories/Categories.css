@@ -70,13 +70,18 @@
     font-size: 14px;
     color: white;
 }
-
-.Categories-table button.edit-button {
+.Categories-container td button {
     background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.Categories-table button.delete-button {
-    background-color: #e74c3c;
+.Categories-container td button:hover {
+    background-color: #2980b9;
 }
 
 .Categories-table button:hover {
@@ -107,7 +112,7 @@
 }
 
 .add-button:hover {
-    background-color: #2980b9;
+    background-color: #16a085;
 }
 
 .pagination {

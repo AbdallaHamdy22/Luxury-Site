@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../Redux/RDXFav';
 import { addToCart, removeFromCart } from '../Redux/RDXCart';
@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
     const cart = useSelector((state) => state.cart.items);
     const isFavorite = (id) => favorites.some((item) => item.ProductID === id);
     const isInCart = (id) => cart.some((item) => item.ProductID === id);
-    
+
     const handleToggleFavorites = (id) => {
         if (isFavorite(id)) {
             dispatch(removeFromFavorites({ id }));
@@ -86,7 +86,7 @@ const ProductCard = ({ product }) => {
                     <p className="card-text text-muted">{product.Description}</p>
                     {hasOffer ? (
                         <>
-                            <i><p className="card-text text-danger">Discount {product.OfferPrice} %</p></i>
+                            <p className="card-text text-danger">Discount {product.OfferPrice}%</p>
                             <p className="card-text text-danger">
                                 <del>Price: {product.Price} AED</del> {discountPrice} AED
                             </p>
@@ -95,7 +95,7 @@ const ProductCard = ({ product }) => {
                         <p className="card-text text-muted">Price: {product.Price} AED</p>
                     )}
                     {isRecentlyAdded(product.date) && (
-                        <span className="badge">Recently added</span>
+                        <span className="badge">Recently Added</span>
                     )}
                 </div>
             </div>

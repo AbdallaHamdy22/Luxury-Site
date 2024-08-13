@@ -71,7 +71,6 @@ const ShowOrderDetails = () => {
     const handleShippingPriceChange = (e) => setShippingPrice(e.target.value);
 
     const totalUserPrice = parseFloat(item.ProductPrice) + parseFloat(customerServicePrice) + parseFloat(feesPrice) + parseFloat(shippingPrice);
-
     const settings = {
         dots: true,
         infinite: true,
@@ -80,11 +79,11 @@ const ShowOrderDetails = () => {
         slidesToScroll: 1,
         adaptiveHeight: true,
         centerMode: true,
-        centerPadding: "0",
+        centerPadding: "0", // Removes extra padding for centering
         prevArrow: <button type="button" className="slick-prev">‹</button>,
         nextArrow: <button type="button" className="slick-next">›</button>,
     };
-
+    
     return (
         <div className="showOrderDetails">
             <Sidebar />

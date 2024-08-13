@@ -19,14 +19,22 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
 $start = ($page - 1) * $limit;
 
-// Get the total number of categories
+// Get the total number of products
 $totalproducts = $product->Get_Total_Product_Count();
 
-// Get the categories for the current page
-$products = $product->Get_Product_Data_With_Pagination($start, $limit);
-// print_r($products);
+// Get the products for the current page
+$productsData = $product->Get_Product_Data_With_Pagination($start, $limit);
+
+// Process images
+foreach ($productsData as &$product) {
+    if (isset($product['Image']) && !empty($product['Image'])) {
+        // Split the image string into an array
+        $product['Image'] = explode(',', $product['Image']);
+    }
+}
+
+// Output the data as JSON
 echo json_encode(array(
     "total" => $totalproducts,
-    "data" => $products
+    "data" => $productsData
 ));
-?>

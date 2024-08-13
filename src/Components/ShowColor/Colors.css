@@ -1,26 +1,25 @@
-/* Colors.css */
-
 .Colors-container {
     display: flex;
-    font-family: 'Playfair Display', serif; /* Luxurious font */
-    background-color: #f9f6f1;
+    /* font-family: 'Playfair Display', serif; */
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f6f9;
     padding: 20px;
 }
 
 .Colors-table {
-    width: 80%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    padding: 20px;
-    border-radius: 12px;
+    width: 100%;
+    max-width: 1200px;
     background-color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 .Colors-table table {
     width: 100%;
     border-spacing: 0;
+    border-collapse: collapse;
 }
 
 .Colors-table th, .Colors-table td {
@@ -54,16 +53,18 @@
     color: white;
 }
 
-.Colors-table button.edit-button {
+.Colors-container td button {
     background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.Colors-table button.delete-button {
-    background-color: #e74c3c;
-}
-
-.Colors-table button:hover {
-    opacity: 0.8;
+.Colors-container td button:hover {
+    background-color: #2980b9;
 }
 
 .search-input {
@@ -90,7 +91,7 @@
 }
 
 .add-button:hover {
-    background-color: #2980b9;
+    background-color: #16a085;
 }
 
 .pagination {

@@ -12,12 +12,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1, h3, h4 {
+.showOrderDetails h1, h3, h4 {
     font-family: 'Playfair Display', serif;
     color: #333;
 }
 
-h4 {
+.showOrderDetails h4 {
     color: #666;
 }
 
@@ -25,21 +25,22 @@ h4 {
     margin-bottom: 20px;
 }
 
-/* Slider Styles */
-.image-slide {
+.showOrderDetails .image-slide {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 400px;
+    overflow: hidden;
 }
 
-.main-product-image {
+.showOrderDetails .main-product-image {
     max-width: 100%;
     height: auto;
-    max-height: 100%;
+    object-fit: cover;
 }
 
-.slick-slider .slick-prev, .slick-slider .slick-next {
+.showOrderDetails .slick-slider .slick-prev, 
+.slick-slider .slick-next {
     width: 40px;
     height: 40px;
     background: rgba(0, 0, 0, 0.5);
@@ -50,9 +51,19 @@ h4 {
     align-items: center;
     z-index: 1000;
     font-size: 20px;
+    border: none; /* Remove default border */
 }
 
-.slick-slider .slick-prev:hover, .slick-slider .slick-next:hover {
+.showOrderDetails .slick-slider .slick-prev {
+    left: 10px; /* Adjust position */
+}
+
+.showOrderDetails .slick-slider .slick-next {
+    right: 10px; /* Adjust position */
+}
+
+.showOrderDetails .slick-slider .slick-prev:hover, 
+.slick-slider .slick-next:hover {
     background: rgba(0, 0, 0, 0.7);
 }
 

@@ -1,17 +1,26 @@
 .orders-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f6f9;
 }
 
 .showDetails-table {
     flex: 1;
-    margin: 20px;
+    width: 100%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
-h1 {
+.showDetails-table h1 {
     font-family: 'Playfair Display', serif;
-    color: #333;
     text-align: center;
     margin-bottom: 20px;
+    color: #34495e;
 }
 
 /* Table Styles */
@@ -28,9 +37,9 @@ h1 {
 }
 
 .showDetails-table th {
-    background-color: #e0e0e0;
     font-weight: bold;
-    color: #555;
+    background-color: #2c3e50;
+    color: white;
 }
 
 .showDetails-table td {
@@ -38,18 +47,17 @@ h1 {
 }
 
 .showDetails-table button {
-    background-color: #4caf50;
+    background-color: #3498db;
     color: white;
-    padding: 8px 16px;
     border: none;
+    padding: 8px 12px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
     transition: background-color 0.3s ease;
 }
 
 .showDetails-table button:hover {
-    background-color: #45a049;
+    background-color: #2980b9;
 }
 
 .showDetails-table tr:hover {
