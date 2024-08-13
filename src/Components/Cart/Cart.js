@@ -38,8 +38,8 @@ const Cart = () => {
     };
 
     return (
-        <div className="shopping-cart container mt-4">
-            <h2 className="cart-title">Shopping Cart</h2>
+        <div className="shopping-cart container mt-5 p-5">
+            <h2 className="cart-title mb-4">Shopping Cart</h2>
             {cart.length === 0 ? (
                 <p className="empty-cart-message">Your cart is empty</p>
             ) : (
@@ -56,13 +56,13 @@ const Cart = () => {
                             item={item}
                         />
                     ))}
-                    <Row className="cart-total">
+                    <Row className="cart-total mt-4">
                         <Col xs={12} md={5} className='col-item-info'><h3>Subtotal</h3></Col>
                         <Col xs={4} md={2} className='col-item-price'></Col>
                         <Col xs={4} md={3} className='col-item-quantity'></Col>
                         <Col xs={4} md={2} className='col-item-total'><h3>{subtotal.toFixed(2)} AED</h3></Col>
                     </Row>
-                    <Button variant="primary" className="checkout-button mt-3">Proceed to Checkout</Button>
+                    <Button variant="primary" className="checkout-button mt-5">Proceed to Checkout</Button>
                 </div>
             )}
         </div>

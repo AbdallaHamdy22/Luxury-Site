@@ -1,31 +1,92 @@
+.Brands-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f6f9;
+}
+
 .Brands-table {
-    width: 80%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-}
-
-.Brands-table table {
     width: 100%;
-    border: 1px solid #ddd;
-    margin-top: 20px;
+    max-width: 1200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
-.Brands-table th, .Brands-table td {
+.Brands-table h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #34495e;
+}
+
+.search-input {
+    width: 100%;
     padding: 10px;
-    text-align: left;
+    margin-bottom: 20px;
+    border-radius: 20px;
     border: 1px solid #ddd;
 }
 
-.Brands-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
 }
 
-.Brands-table img.category-image {
-    width: 50px;
-    height: 50px;
+.add-button {
+    background-color: #1abc9c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #16a085;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #2c3e50;
+    color: white;
+}
+
+td button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+td button:hover {
+    background-color: #2980b9;
+}
+
+.brand-image {
+    width: 40px; 
+    height: 40px; 
     object-fit: cover;
+    border-radius: 4px;
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
 }
 
 .image-preview {
@@ -33,37 +94,31 @@
     height: 100px;
     object-fit: cover;
     margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 
-.Brands-table button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.Brands-table button:hover {
-    background-color: #ddd;
-}
-
-.Brands-table h1 {
-    text-align: center;
-    color: #333;
-}
-
-.button-group {
+.pagination {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
 }
 
-.button-group button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+.pagination li {
+    margin: 0 5px;
 }
 
-.button-group button:hover {
-    background-color: #ddd;
+.pagination li a {
+    color: #3498db;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination li.active a {
+    background-color: #2980b9;
+    color: white;
 }

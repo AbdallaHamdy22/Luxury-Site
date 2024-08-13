@@ -22,4 +22,3 @@ const PopForm = ({ name, show, handleClose, handleSave, children }) => {
 };
 
 export default PopForm;
-  

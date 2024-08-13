@@ -1,21 +1,22 @@
 :root {
-  --primary-color: #000;
-  --secondary-color: #ffa500;
-  --input-bg-color: #333;
-  --input-text-color: #fff;
-  --button-bg-color: #ffa500;
-  --button-text-color: #000;
+  --primary-color: #2c3e50; /* Consistent with home page */
+  --secondary-color: #c39e81; /* Consistent with home page */
+  --input-bg-color: #fff; /* Lighter input background for better readability */
+  --input-text-color: #333; /* Darker text color for contrast */
+  --button-bg-color: #c39e81; /* Consistent with home page */
+  --button-text-color: #fff; /* White text for buttons */
   --error-bg-color: #ff4d4d;
   --error-text-color: #fff;
 }
-  .login-form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: none;
-    color: var(--input-text-color);
+
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--accent-color); /* Consistent with home page */
+  color: var(--text-color);
 }
 
 .login-form-container .tab-buttons {
@@ -47,29 +48,30 @@
 }
 
 .login-form-container .form-card {
-  background-color: var(--primary-color);
+  background-color: #fff; /* Lighter background for form card */
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   padding: 30px;
   width: 400px;
+  max-width: 90%;
 }
 
 .login-form-container form h2 {
-  color: var(--secondary-color);
+  color: var(--primary-color); /* Consistent with home page */
   text-align: center;
   margin-bottom: 20px;
 }
 
 .login-form-container input {
   background-color: var(--input-bg-color);
-  border: 1px solid var(--secondary-color);
+  border: 1px solid var(--primary-color);
   border-radius: 5px;
   color: var(--input-text-color);
   display: block;
   font-size: 16px;
-  margin: 10px auto;
+  margin: 10px 0;
   padding: 10px;
-  width: 100%;
+  width: calc(100% - 22px); /* Adjust width to account for padding and border */
 }
 
 .login-form-container button {
@@ -81,15 +83,16 @@
   display: block;
   font-size: 18px;
   font-weight: bold;
-  margin: 20px auto;
+  margin: 20px 0;
   padding: 10px;
   text-align: center;
-  transition: transform 0.3s;
-  width: 100%;
+  transition: transform 0.3s, background-color 0.3s;
+  width: calc(100% - 22px); /* Adjust width to match input fields */
 }
 
 .login-form-container button:hover {
   transform: scale(1.05);
+  background-color: #a88360; /* Slightly darker on hover */
 }
 
 .login-form-container .error-message {
@@ -103,7 +106,7 @@
 
 .login-form-container .gender-selection {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 10px;
 }
 

@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = isset($_POST['Description']) ? $_POST['Description'] : '';
     $productionYear = isset($_POST['ProductionYear']) ? $_POST['ProductionYear'] : 0;
     $price = isset($_POST['Price']) ? $_POST['Price'] : 0;
+    $mainquantity = isset($_POST['MainQuantity']) ? $_POST['MainQuantity'] : 0;
     $quantity = isset($_POST['Quantity']) ? $_POST['Quantity'] : 0;
     $offerPrice = isset($_POST['OfferPrice']) ? $_POST['OfferPrice'] : 0;
     $brandID = isset($_POST['BrandID']) ? $_POST['BrandID'] : null;
@@ -46,8 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $Product->setCategoryID($categoryID);
         $Product->setColorID($colorID);
         $Product->setSexID($sexID);
-        $product->setUserID($UserID);
-        $product->setStatus($Status);
+        $Product->setStatus($Status);
+        $Product->setUserID($UserID);
 
         if ($image) {
             // Handle the image file

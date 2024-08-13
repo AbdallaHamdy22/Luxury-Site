@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Button, Image } from 'react-bootstrap';
-import './CartItem.css';
 import { useDispatch } from 'react-redux';
 import { removeFromCart, updateQuantity } from '../Redux/RDXCart';
 import axiosInstance from '../../axiosConfig/instance';
@@ -11,8 +10,6 @@ const CartItem = ({ item }) => {
     const [imageArray, setImageArray] = useState([]);
 
     useEffect(() => {
-        console.log(item);
-        
         if (typeof item.Image === 'string') {
             setImageArray(item.Image.split(','));
         } else if (Array.isArray(item.Image)) {
@@ -30,7 +27,7 @@ const CartItem = ({ item }) => {
             dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
             await axiosInstance.post('Products/updateProductQuantity.php', {
                 ProductID: item.ProductID,
-                quantity: item.Quantity-1
+                quantity: item.Quantity - 1
             });
         } else {
             alert(`Only ${item.MainQuantity} items available in stock`);
@@ -44,7 +41,7 @@ const CartItem = ({ item }) => {
             dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
             await axiosInstance.post('Products/updateProductQuantity.php', {
                 ProductID: item.ProductID,
-                quantity: item.Quantity+1
+                quantity: item.Quantity + 1
             });
         }
     };
@@ -58,7 +55,7 @@ const CartItem = ({ item }) => {
     };
 
     return (
-        <Row className="cart-item align-items-center">
+        <Row className="cart-item align-items-center py-4">
             <Col xs={12} md={5} className="col-item-info">
                 <div className="item-info">
                     <Image src={imageArray[0]} alt={item.Name} className="item-image" rounded />
@@ -75,7 +72,7 @@ const CartItem = ({ item }) => {
                     <Button variant="outline-secondary" className="quantity-button" onClick={handleIncrease}>+</Button>
                 </div>
             </Col>
-            <Col xs={4} md={2} className="col-item-total">
+            <Col xs={4} md={2} className="col-item-total d-flex justify-content-between">
                 <span className="item-total">{(parseFloat(item.Price) * localQuantity).toFixed(2)} AED</span>
                 <Button variant="outline-danger" onClick={handleRemove} className="remove-button">
                     Remove

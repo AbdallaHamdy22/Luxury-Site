@@ -9,7 +9,7 @@ const ShowBrands = () => {
     const [Brands, setBrands] = useState([]);
     const [filteredBrands, setFilteredBrands] = useState([]);
     const [show, setShow] = useState(false);
-    const [loading, setLoading] = useState(false); // حالة التحميل
+    const [loading, setLoading] = useState(false);
     const [currentBrand, setCurrentBrand] = useState({
         BrandID: null,
         Name: '',
@@ -64,7 +64,6 @@ const ShowBrands = () => {
 
     const handleSave = (handleCloseCallback) => {
         setLoading(true);
-        console.log("Current Brand:", currentBrand);
         const formData = new FormData();
         for (const key in currentBrand) {
             if (currentBrand[key] !== null) {
@@ -74,15 +73,11 @@ const ShowBrands = () => {
 
         const url = currentBrand.BrandID ? 'Brand/updatebrand.php' : 'Brand/addbrand.php';
 
-        console.log("URL:", url);
-        console.log("FormData:", ...formData);
-
         if (currentBrand.BrandID === null) {
             axiosInstance.get('Brand/getlastid.php')
                 .then(response => {
                     const lastID = response.data.LastID;
                     formData.append('BrandID', lastID + 1);
-                    console.log("FormData for Add:", ...formData);
                     axiosInstance.post(url, formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -103,7 +98,6 @@ const ShowBrands = () => {
                     setLoading(false);
                 });
         } else {
-            console.log("FormData for Update:", ...formData);
             axiosInstance.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -137,7 +131,6 @@ const ShowBrands = () => {
                 });
         }
     };
-    
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -169,71 +162,70 @@ const ShowBrands = () => {
     return (
         <div className="Brands-container">
             <Sidebar />
-        
-        <div className="Brands-table">
-            <h1>Brands List</h1>
-            <input 
-                type="text" 
-                placeholder="Search by ID or Name" 
-                value={searchTerm} 
-                onChange={handleSearch} 
-                className="search-input" 
-            />
-            <div className="button-container">
-                <button onClick={handleAddBrand} className="add-button">Add Brand</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {displayedBrands.map(brand => (
-                        <tr key={brand.BrandID}>
-                            <td>{brand.BrandID}</td>
-                            <td>{brand.Name}</td>
-                            <td><img src={brand.Image} alt={brand.Name} className="category-image" /></td>
-                            <td><button onClick={() => handleEdit(brand)}>Edit</button></td>
-                            <td><button onClick={() => handleDelete(brand.BrandID)}>Delete</button></td>
+            <div className="Brands-table">
+                <h1>Brands List</h1>
+                <input 
+                    type="text" 
+                    placeholder="Search by ID or Name" 
+                    value={searchTerm} 
+                    onChange={handleSearch} 
+                    className="search-input" 
+                />
+                <div className="button-container">
+                    <button onClick={handleAddBrand} className="add-button">Add Brand</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <ReactPaginate
-                previousLabel={'previous'}
-                nextLabel={'next'}
-                breakLabel={'...'}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
-                <PopForm name={'Brand'}  show={show} handleClose={handleClose} handleSave={() => handleSave(handleClose)}>
-                <h2>{currentBrand.BrandID ? 'Edit Brand' : 'Add Brand'}</h2>
-                <form>
-                    <label>
-                        ID:
-                        <input type="number" name="BrandID" value={currentBrand.BrandID || ''} onChange={handleChange} readOnly />
-                    </label>
-                    <label>
-                        Name:
-                        <input type="text" name="Name" value={currentBrand.Name || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Image:
-                        <input type="file" name="Image" onChange={handleImageChange} />
-                    </label>
-                    {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
-                </form>
-            </PopForm>
-        </div>
+                    </thead>
+                    <tbody>
+                        {displayedBrands.map(brand => (
+                            <tr key={brand.BrandID}>
+                                <td>{brand.BrandID}</td>
+                                <td>{brand.Name}</td>
+                                <td><img src={brand.Image} alt={brand.Name} className="brand-image" /></td>
+                                <td><button onClick={() => handleEdit(brand)}>Edit</button></td>
+                                <td><button onClick={() => handleDelete(brand.BrandID)}>Delete</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <ReactPaginate
+                    previousLabel={'previous'}
+                    nextLabel={'next'}
+                    breakLabel={'...'}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                />
+                <PopForm name={'Brand'} show={show} handleClose={handleClose} handleSave={() => handleSave(handleClose)}>
+                    <h2>{currentBrand.BrandID ? 'Edit Brand' : 'Add Brand'}</h2>
+                    <form>
+                        <label>
+                            ID:
+                            <input type="number" name="BrandID" value={currentBrand.BrandID || ''} onChange={handleChange} readOnly />
+                        </label>
+                        <label>
+                            Name:
+                            <input type="text" name="Name" value={currentBrand.Name || ''} onChange={handleChange} />
+                        </label>
+                        <label>
+                            Image:
+                            <input type="file" name="Image" onChange={handleImageChange} />
+                        </label>
+                        {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
+                    </form>
+                </PopForm>
+            </div>
         </div>
     );
 };

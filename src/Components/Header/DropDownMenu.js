@@ -50,7 +50,7 @@ const DropdownMenus = () => {
                 <button className="btn btn-common">SELL NOW</button>
               </NavLink>
               <NavLink to="/ShowOrders" className="nav-link">
-                <button className="btn btn-common">SHOW DETAILS</button>
+                <button className="btn btn-common">SHOW REQUESTS QUEUE</button>
               </NavLink>
             </>
           ) : user && (

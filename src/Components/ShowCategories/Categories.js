@@ -9,7 +9,7 @@ const ShowCategories = () => {
     const [Categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [show, setShow] = useState(false);
-    const [loading, setLoading] = useState(false); // حالة التحميل
+    const [loading, setLoading] = useState(false);
     const [currentCategorie, setCurrentCategorie] = useState({
         CategoireID: null,
         Name: '',
@@ -64,7 +64,6 @@ const ShowCategories = () => {
 
     const handleSave = (handleCloseCallback) => {
         setLoading(true);
-        console.log("Current Categorie:", currentCategorie);
         const formData = new FormData();
         for (const key in currentCategorie) {
             if (currentCategorie[key] !== null) {
@@ -74,15 +73,11 @@ const ShowCategories = () => {
 
         const url = currentCategorie.CategoireID ? 'Categoire/updatecategoire.php' : 'Categoire/addcategoire.php';
 
-        console.log("URL:", url);
-        console.log("FormData:", ...formData);
-
         if (currentCategorie.CategoireID === null) {
             axiosInstance.get('Categoire/getlastid.php')
                 .then(response => {
                     const lastID = response.data.LastID;
                     formData.append('CategoireID', lastID + 1);
-                    console.log("FormData for Add:", ...formData);
                     axiosInstance.post(url, formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -103,7 +98,6 @@ const ShowCategories = () => {
                     setLoading(false);
                 });
         } else {
-            console.log("FormData for Update:", ...formData);
             axiosInstance.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -120,6 +114,7 @@ const ShowCategories = () => {
             });
         }
     };
+
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this category?")) {
             axiosInstance.post('Categoire/deletecategoire.php', { CategoireID: id })
@@ -128,7 +123,6 @@ const ShowCategories = () => {
                     fetchCategories();
                     alert('Categorie deleted successfully.');
                 } else {
-                    console.log(response.data.message);
                     alert(response.data.message);
                 }
             })
@@ -149,22 +143,14 @@ const ShowCategories = () => {
     };
 
     const handleAddCategory = () => {
-        axiosInstance.get('Categoire/getlastid.php')
-            .then(response => {
-                const lastID = response.data.LastID;
-                const newCategory = {
-                    CategoireID: null,  // تعيينه إلى null للإضافة
-                    Name: '',
-                    Image: ''
-                };
-                setCurrentCategorie(newCategory);
-                setImagePreview('');
-                setShow(true);
-                console.log("New Category:", newCategory);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the last ID!", error);
-            });
+        const newCategory = {
+            CategoireID: null,  
+            Name: '',
+            Image: ''
+        };
+        setCurrentCategorie(newCategory);
+        setImagePreview('');
+        setShow(true);
     };
 
     const handlePageClick = (data) => {
@@ -176,72 +162,71 @@ const ShowCategories = () => {
     return (
         <div className="Categories-container">
             <Sidebar />
-        
-        <div className="Categories-table">
-            <h1>Categories List</h1>
-            <input 
-                type="text" 
-                placeholder="Search by ID or Name" 
-                value={searchTerm} 
-                onChange={handleSearch} 
-                className="search-input" 
-            />
-            <div className="button-container">
-                <button onClick={handleAddCategory} className="add-button">Add Category</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {displayedCategories.map(categorie => (
-                        <tr key={categorie.CategoireID}>
-                            <td>{categorie.CategoireID}</td>
-                            <td>{categorie.Name}</td>
-                            <td><img src={categorie.Image} alt={categorie.Name} className="category-image" /></td>
-                            <td><button onClick={() => handleEdit(categorie)}>Edit</button></td>
-                            <td><button onClick={() => handleDelete(categorie.CategoireID)}>Delete</button></td>
+            <div className="Categories-table">
+                <h1>Categories List</h1>
+                <input 
+                    type="text" 
+                    placeholder="Search by ID or Name" 
+                    value={searchTerm} 
+                    onChange={handleSearch} 
+                    className="search-input" 
+                />
+                <div className="button-container">
+                    <button onClick={handleAddCategory} className="add-button">Add Category</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <ReactPaginate
-                previousLabel={'previous'}
-                nextLabel={'next'}
-                breakLabel={'...'}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
-            <PopForm name={'Category'} show={show} handleClose={handleClose} handleSave={handleSave}>
-                <h2>{currentCategorie.CategoireID ? 'Edit Categorie' : 'Add Categorie'}</h2>
-                <form>
-                    <label>
-                        ID:
-                        <input type="number" name="CategoireID" value={currentCategorie.CategoireID || ''} onChange={handleChange} readOnly />
-                    </label>
-                    <label>
-                        Name:
-                        <input type="text" name="Name" value={currentCategorie.Name || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Image:
-                        <input type="file" name="Image" onChange={handleImageChange} />
-                    </label>
-                    {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
-                </form>
-            </PopForm>
+                    </thead>
+                    <tbody>
+                        {displayedCategories.map(categorie => (
+                            <tr key={categorie.CategoireID}>
+                                <td>{categorie.CategoireID}</td>
+                                <td>{categorie.Name}</td>
+                                <td><img src={categorie.Image} alt={categorie.Name} className="category-image" /></td>
+                                <td><button onClick={() => handleEdit(categorie)}>Edit</button></td>
+                                <td><button onClick={() => handleDelete(categorie.CategoireID)}>Delete</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <ReactPaginate
+                    previousLabel={'previous'}
+                    nextLabel={'next'}
+                    breakLabel={'...'}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                />
+                <PopForm name={'Category'} show={show} handleClose={handleClose} handleSave={handleSave}>
+                    <h2>{currentCategorie.CategoireID ? 'Edit Categorie' : 'Add Categorie'}</h2>
+                    <form>
+                        <label>
+                            ID:
+                            <input type="number" name="CategoireID" value={currentCategorie.CategoireID || ''} onChange={handleChange} readOnly />
+                        </label>
+                        <label>
+                            Name:
+                            <input type="text" name="Name" value={currentCategorie.Name || ''} onChange={handleChange} />
+                        </label>
+                        <label>
+                            Image:
+                            <input type="file" name="Image" onChange={handleImageChange} />
+                        </label>
+                        {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
+                    </form>
+                </PopForm>
             </div>
-            </div>
+        </div>
     );
 };
 

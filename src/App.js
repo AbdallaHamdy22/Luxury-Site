@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -24,10 +24,15 @@ import ShowColors from './Components/ShowColor/Colors';
 import AccountSettings from './Components/AccountDetails/Account';
 import UserDetails from './Components/UserProducts/userDetails';
 import { setUser } from './Components/Redux/RDXUser';
+import MessageCard from './Components/AlertMessage/Message';
 
 const App = () => {
   const dispatch = useDispatch();
+  const [showMessage, setShowMessage] = useState(true);
 
+  const handleCloseMessage = () => {
+      setShowMessage(false);
+  };
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -37,6 +42,13 @@ const App = () => {
 
   return (
     <>
+      {/* {showMessage && (
+        <MessageCard
+            type="alert"
+            message="Your process has been completed successfully!"
+            onClose={handleCloseMessage}
+        />
+      )} */}
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />

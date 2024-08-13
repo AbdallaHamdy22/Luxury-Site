@@ -4,8 +4,10 @@ import './product.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
+import { useSelector } from 'react-redux';
 
 const ShowProducts = () => {
+    const user = useSelector((state) => state.user.user);
     const [products, setProducts] = useState([]);
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -15,6 +17,8 @@ const ShowProducts = () => {
     const [loading, setLoading] = useState(false);
     const [currentProduct, setCurrentProduct] = useState({
         ProductID: null,
+        UserID: null,
+        Status: '',
         Name: '',
         Description: '',
         ProductionYear: '',
@@ -86,7 +90,7 @@ const ShowProducts = () => {
 
     const handleEdit = (product) => {
         setCurrentProduct(product);
-        setImagePreview(product.Image);
+        setImagePreview(product.Image[0]);
         setShow(true);
     };
 
@@ -117,14 +121,18 @@ const ShowProducts = () => {
                 formData.append(key, currentProduct[key]);
             }
         }
-
+        console.log("Form data before submission:", currentProduct);
         const url = currentProduct.ProductID ? 'Products/updateproduct.php' : 'Products/addproduct.php';
 
         if (currentProduct.ProductID === null) {
             axiosInstance.get('Products/getlastid.php')
-                .then(response => {
-                    const lastID = response.data.LastID;
-                    formData.append('ProductID', lastID + 1);
+            .then(response => {
+                const lastID = response.data.LastID;
+                formData.append('ProductID', lastID + 1);
+                formData.append('UserID', user.UserID);
+                console.log("FormData before submission:", Array.from(formData.entries()));
+                    console.log(formData);
+                    
                     axiosInstance.post(url, formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -145,6 +153,7 @@ const ShowProducts = () => {
                     setLoading(false);
                 });
         } else {
+            console.log("FormData before submission:", Array.from(formData.entries()));
             axiosInstance.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -191,6 +200,7 @@ const ShowProducts = () => {
     const handleAddProduct = () => {
         const newProduct = {
             ProductID: null,
+            UserID: null,
             Name: '',
             Description: '',
             ProductionYear: '',
@@ -202,7 +212,8 @@ const ShowProducts = () => {
             BrandID: '',
             CategoryID: '',
             ColorID: '',
-            SexID: ''
+            SexID: '',
+            Status: '',
         };
         setCurrentProduct(newProduct);
         setImagePreview('');
@@ -229,53 +240,55 @@ const ShowProducts = () => {
             />
             <div className="button-container">
                 <button onClick={handleAddProduct} className="add-button">Add Product</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Production Year</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>MainQuantity</th>
-                        <th>Image</th>
-                        <th>Offer Price</th>
-                        <th>Brand</th>
-                        <th>Category</th>
-                        <th>Color</th>
-                        <th>Sex</th>
-                        <th>User ID</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {displayedProducts.map(product => (
-                        <tr key={product.ProductID}>
-                            <td>{product.ProductID}</td>
-                            <td>{product.Name}</td>
-                            <td>{product.Description}</td>
-                            <td>{product.ProductionYear}</td>
-                            <td>{product.Price}</td>
-                            <td>{product.Quantity}</td>
-                            <td>{product.MainQuantity}</td>
-                            <td><img src={product.Image} alt={product.Name} className="product-image" /></td>
-                            <td>{product.OfferPrice}</td>
-                            <td>{brands.find(brand => brand.BrandID === product.BrandID)?.Name}</td>
-                            <td>{categories.find(category => category.CategoireID === product.CategoireID)?.Name}</td>
-                            <td>{colors.find(color => color.ColorID === product.ColorID)?.Name}</td>
-                            <td>{sexes.find(sex => sex.SexID === product.SexID)?.Name}</td>
-                            <td>{product.UserID}</td>
-                            <td>{product.Status}</td>
-                            <td><button onClick={() => handleEdit(product)}>Edit</button></td>
-                            <td><button onClick={() => handleDelete(product.ProductID)}>Delete</button></td>
+                </div>
+            <div className="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Production Year</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>MainQuantity</th>
+                            <th>Image</th>
+                            <th>Offer Price</th>
+                            <th>Brand</th>
+                            <th>Category</th>
+                            <th>Color</th>
+                            <th>Sex</th>
+                            <th>User ID</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {displayedProducts.map(product => (
+                            <tr key={product.ProductID}>
+                                <td>{product.ProductID}</td>
+                                <td>{product.Name}</td>
+                                <td>{product.Description}</td>
+                                <td>{product.ProductionYear}</td>
+                                <td>{product.Price}</td>
+                                <td>{product.Quantity}</td>
+                                <td>{product.MainQuantity}</td>
+                                <td><img src={product.Image[0]} alt={product.Name} className="product-image" /></td>
+                                <td>{product.OfferPrice}</td>
+                                <td>{brands.find(brand => brand.BrandID === product.BrandID)?.Name}</td>
+                                <td>{categories.find(category => category.CategoireID === product.CategoireID)?.Name}</td>
+                                <td>{colors.find(color => color.ColorID === product.ColorID)?.Name}</td>
+                                <td>{sexes.find(sex => sex.SexID === product.SexID)?.Name}</td>
+                                <td>{product.UserID}</td>
+                                <td>{product.Status}</td>
+                                <td><button className="edit-button" onClick={() => handleEdit(product)}>Edit</button></td>
+                                <td><button className="delete-button" onClick={() => handleDelete(product.ProductID)}>Delete</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
             <ReactPaginate
                 previousLabel={'previous'}
                 nextLabel={'next'}
@@ -293,6 +306,14 @@ const ShowProducts = () => {
                     <label>
                         ID:
                         <input type="number" name="ProductID" value={currentProduct.ProductID || ''} onChange={handleChange} readOnly />
+                    </label>
+                    <label>
+                        User ID:
+                        <input type="number" name="UserID" value={currentProduct.UserID || ''} onChange={handleChange} readOnly />
+                    </label>
+                    <label>
+                        Status:
+                        <input type="text" name="Status" value={currentProduct.Status || ''} onChange={handleChange} />
                     </label>
                     <label>
                         Name:
@@ -320,7 +341,7 @@ const ShowProducts = () => {
                     </label>
                     <label>
                         Image:
-                        <input type="file" name="Image" onChange={handleImageChange} />
+                        <input type="file" name="Image" multiple onChange={handleImageChange} />
                     </label>
                     {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
                     <label>

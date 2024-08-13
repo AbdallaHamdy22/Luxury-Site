@@ -1,71 +1,56 @@
-/* .Categories-table {
-    width: 80%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-}
+/* Categories.css */
 
-.Categories-table table {
-    width: 100%;
-    border: 1px solid #ddd;
-    margin-top: 20px;
+.Categories-container {
+    display: flex;
+    font-family: 'Playfair Display', serif; /* Luxurious font */
+    background-color: #f9f6f1;
+    padding: 20px;
 }
-
-.Categories-table th, .Categories-table td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-.Categories-table th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-}
-
-.Categories-table button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.Categories-table button:hover {
-    background-color: #ddd;
-}
-
-.Categories-table h1 {
-    text-align: center;
-    color: #333;
-} */
 
 .Categories-table {
     width: 80%;
     margin: 0 auto;
     border-collapse: collapse;
-    font-family: Arial, sans-serif;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 .Categories-table table {
     width: 100%;
-    border: 1px solid #ddd;
-    margin-top: 20px;
+    border-spacing: 0;
+    min-width: 1000px; /* Ensure the table is wide enough */
 }
 
 .Categories-table th, .Categories-table td {
-    padding: 10px;
+    padding: 15px;
     text-align: left;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .Categories-table th {
-    background-color: #f4f4f4;
+    background-color: #2c3e50;
+    color: white;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.Categories-table td {
+    background-color: #ffffff;
+}
+
+.Categories-table tr:hover {
+    background-color: #f1f1f1;
 }
 
 .Categories-table img.category-image {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
+    border-radius: 8px;
 }
 
 .image-preview {
@@ -73,37 +58,89 @@
     height: 100px;
     object-fit: cover;
     margin-top: 10px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
 }
 
 .Categories-table button {
-    padding: 5px 10px;
+    padding: 8px 16px;
     border: none;
-    border-radius: 3px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
+    color: white;
+}
+
+.Categories-table button.edit-button {
+    background-color: #3498db;
+}
+
+.Categories-table button.delete-button {
+    background-color: #e74c3c;
 }
 
 .Categories-table button:hover {
-    background-color: #ddd;
+    opacity: 0.8;
 }
 
+.search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.add-button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #2980b9;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    list-style-type: none;
+}
 .Categories-table h1 {
     text-align: center;
-    color: #333;
+    margin-bottom: 20px;
+    color: #34495e;
 }
 
-.button-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.button-group button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
+.pagination li {
+    margin: 0 5px;
     cursor: pointer;
 }
 
-.button-group button:hover {
+.pagination .active {
+    font-weight: bold;
+    color: #333;
+}
+
+.pagination a {
+    color: #555;
+    padding: 8px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
     background-color: #ddd;
 }
