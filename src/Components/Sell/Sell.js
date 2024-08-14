@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import axiosInstance from '../../axiosConfig/instance';
 import './Sell.css';
 import { useState, useEffect, useRef } from 'react';
+import MessageCard from '../AlertMessage/Message';
 
 const Sell = () => {
     const user = useSelector((state) => state.user.user);
@@ -17,6 +18,9 @@ const Sell = () => {
         ColorID: ''
     });
     
+    const [showMessage, setShowMessage] = useState(false);
+    const [selfMessage, setSelfMessage] = useState('');
+    const [selfType, setSelfType] = useState('');
     const [imageFiles, setImageFiles] = useState([]);
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -46,13 +50,10 @@ const Sell = () => {
         setImageFiles(e.target.files);
     };
 
-    // const handleChange = (e) => {
-    //     const { name, value} = e.target; 
-    //     setFormData({
-    //         ...formData,
-    //         [name]: value
-    //     });
-    // };
+    const handleCloseMessage = () => {
+        setShowMessage(false);
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
     
@@ -83,7 +84,6 @@ const Sell = () => {
         data.append('UserID', user.UserID);
         data.append('Status', 'Submitted');
     
-        // Append image files
         for (let i = 0; i < imageFiles.length; i++) {
             data.append('images[]', imageFiles[i]);
         }
@@ -93,14 +93,14 @@ const Sell = () => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-            .then(response => {
-                console.log(response.data);
-                return response.data;
-            })
+            .then(response => response.data)
         .then(result => {
             const message = result.message || 'Unknown error';
             if (result.status === 'success') {
                 alert(message);
+                setSelfMessage(message);
+                setSelfType("success");
+                setShowMessage(true);
                 setFormData({
                     ProductName: '',
                     description: '',
@@ -115,18 +115,28 @@ const Sell = () => {
                 setImageFiles([]);
                 fileInputRef.current.value = '';
             } else {
-                alert('Error: ' + message);
+                setSelfMessage('Error: ' + message);
+                setSelfType("error");
+                setShowMessage(true);
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while submitting the form');
+            setSelfMessage('An error occurred while submitting the form');
+            setSelfType("error");
+            setShowMessage(true);
         });
     };
     
 
     return (
         <div className='sell-container'>
+            {showMessage && (
+                <MessageCard
+                    type={selfType}
+                    message={selfMessage}
+                    onClose={handleCloseMessage}
+                />
+            )}
             <h1 className='sell-header'>Sell Your Product Now!</h1>
             <form className='sell-form' onSubmit={handleSubmit}>
                 <label htmlFor='ProductName'>Product Name</label>
