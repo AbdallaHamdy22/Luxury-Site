@@ -29,13 +29,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 400px;
+    align-content: center;
+    height: 450px;
     overflow: hidden;
 }
 
 .showOrderDetails .main-product-image {
     max-width: 100%;
-    height: auto;
+    height: 400px;
     object-fit: cover;
 }
 

@@ -1,8 +1,5 @@
-/* Categories.css */
-
 .Categories-container {
     display: flex;
-    font-family: 'Playfair Display', serif; /* Luxurious font */
     background-color: #f9f6f1;
     padding: 20px;
 }
@@ -21,7 +18,7 @@
 .Categories-table table {
     width: 100%;
     border-spacing: 0;
-    min-width: 1000px; /* Ensure the table is wide enough */
+    min-width: 1000px;
 }
 
 .Categories-table th, .Categories-table td {

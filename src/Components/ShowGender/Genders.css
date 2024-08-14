@@ -1,24 +1,13 @@
-.Genders-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f4f6f9;
-    padding: 20px;
-}
-
 .Genders-table {
-    width: 100%;
-    max-width: 1200px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    background-color: #f9f6f1;
     padding: 20px;
 }
 
 .Genders-table table {
     width: 100%;
     border-spacing: 0;
-    border-collapse: collapse;
+    min-width: 1000px;
 }
 
 .Genders-table th, .Genders-table td {
@@ -51,7 +40,6 @@
     font-size: 14px;
     color: white;
 }
-
 .Genders-container td button {
     background-color: #3498db;
     color: white;
@@ -66,12 +54,14 @@
     background-color: #2980b9;
 }
 
-.search-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
+.Genders-table button:hover {
+    opacity: 0.8;
+}
+
+
+.Genders-table h1 {
+    text-align: center;
+    color: #333;
 }
 
 .button-container {
@@ -93,11 +83,24 @@
     background-color: #16a085;
 }
 
+.search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
     padding: 20px 0;
     list-style-type: none;
+}
+.Categories-table h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #34495e;
 }
 
 .pagination li {

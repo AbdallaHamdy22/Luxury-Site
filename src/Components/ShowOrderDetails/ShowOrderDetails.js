@@ -7,8 +7,15 @@ import Sidebar from "../SideBar/SideBar";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './ShowOrderDetails.css';
+import MessageCard from '../AlertMessage/Message';
 
 const ShowOrderDetails = () => {
+    const [showMessage, setShowMessage] = useState(false);
+    const [selfType, setSelfType] = useState("");
+    const [selfMessage, setSelfMessage] = useState("");
+    const handleCloseMessage = () => {
+        setShowMessage(false);
+    };
     const { id } = useParams();
     const [item, setItem] = useState({});
     const [customerServicePrice, setCustomerServicePrice] = useState(0);
@@ -22,7 +29,11 @@ const ShowOrderDetails = () => {
                 let data = response.data[0];
                 setItem(data);
             })
-            .catch(error => console.error('Error fetching queue details:', error));
+            .catch(error => {
+                setSelfMessage('Error fetching queue details:', error);
+                setSelfType("error");
+                setShowMessage(true);
+            });
     }, [id]);
 
     const handleApprove = () => {
@@ -35,15 +46,22 @@ const ShowOrderDetails = () => {
         axiosInstance.post('WaitingList/approveQueue.php', data)
             .then(response => {
                 if (response.data.status === 'success') {
-                    alert('Order approved and moved to products successfully.');
-                    navigate('/ShowOrders');
+                    setSelfMessage("Order approved and moved to products successfully!");
+                    setSelfType("success");
+                    setShowMessage(true);
+                    setTimeout(() => {
+                        navigate('/ShowOrders');
+                    },3000)
                 } else {
-                    alert('Failed to approve the order: ' + response.data.message);
+                    setSelfMessage('Failed to approve the order: ' + response.data.message);
+                    setSelfType("error");
+                    setShowMessage(true);
                 }
             })
             .catch(error => {
-                console.error("There was an error approving the order!", error);
-                alert('An error occurred while approving the order.');
+                setSelfMessage("There was an error approving the order!", error);
+                setSelfType("error");
+                setShowMessage(true);
             });
     };
 
@@ -52,17 +70,23 @@ const ShowOrderDetails = () => {
 
         axiosInstance.post('WaitingList/ignoreQueue.php', data)
             .then(response => {
-                console.log("response",response);
                 if (response.data.status === 'success') {
-                    alert('Order ignored successfully.');
-                    navigate('/ShowOrders');
+                    setSelfMessage("Order ignored successfully!");
+                    setSelfType("success");
+                    setShowMessage(true);
+                    setTimeout(() => {
+                        navigate('/ShowOrders');
+                    },3000)
                 } else {
-                    alert('Failed to ignore the order: ' + response.data.message);
+                    setSelfMessage('Failed to ignore the order: ' + response.data.message);
+                    setSelfType("error");
+                    setShowMessage(true);
                 }
             })
             .catch(error => {
-                console.error("There was an error ignoring the order!", error);
-                alert('An error occurred while ignoring the order.');
+                setSelfMessage('An error occurred while ignoring the order.',error);
+                setSelfType("error");
+                setShowMessage(true);
             });
     };
 
@@ -80,12 +104,17 @@ const ShowOrderDetails = () => {
         adaptiveHeight: true,
         centerMode: true,
         centerPadding: "0", // Removes extra padding for centering
-        prevArrow: <button type="button" className="slick-prev">‹</button>,
-        nextArrow: <button type="button" className="slick-next">›</button>,
+        prevArrow: <button type="button" className="slick-prev"></button>,
+        nextArrow: <button type="button" className="slick-next"></button>,
     };
     
     return (
         <div className="showOrderDetails">
+            {showMessage&&<MessageCard
+                type={selfType}
+                message={selfMessage}
+                onClose={handleCloseMessage}
+            />}
             <Sidebar />
             <div className="main-content">
                 <Container className="product-detail-container mt-4">

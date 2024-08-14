@@ -4,8 +4,16 @@ import './Categories.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
+import MessageCard from '../AlertMessage/Message';
+
 
 const ShowCategories = () => {
+    const [showMessage, setShowMessage] = useState(false);
+    const [selfType, setSelfType] = useState("");
+    const [selfMessage, setSelfMessage] = useState("");
+    const handleCloseMessage = () => {
+        setShowMessage(false);
+    };
     const [Categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [show, setShow] = useState(false);
@@ -121,8 +129,13 @@ const ShowCategories = () => {
             .then(response => {
                 if (response.data.status === 'success') {
                     fetchCategories();
-                    alert('Categorie deleted successfully.');
+                    setSelfMessage("Categorie deleted successfully!");
+                    setSelfType("success");
+                    setShowMessage(true);
                 } else {
+                    setSelfMessage(response.data.message);
+                    setSelfType("error");
+                    setShowMessage(true);
                     alert(response.data.message);
                 }
             })
@@ -161,6 +174,11 @@ const ShowCategories = () => {
 
     return (
         <div className="Categories-container">
+            {showMessage&&<MessageCard
+                type={selfType}
+                message={selfMessage}
+                onClose={handleCloseMessage}
+            />}
             <Sidebar />
             <div className="Categories-table">
                 <h1>Categories List</h1>
