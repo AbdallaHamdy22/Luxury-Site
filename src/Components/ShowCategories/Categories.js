@@ -92,17 +92,24 @@ const ShowCategories = () => {
                         }
                     })
                     .then(response => {
+                        setSelfMessage("Category Added successfully!");
+                        setSelfType("success");
+                        setShowMessage(true);
                         fetchCategories();
                         setLoading(false);
                         handleCloseCallback();
                     })
                     .catch(error => {
-                        console.error("There was an error saving the category!", error);
+                        setSelfMessage("There was an error saving the category!", error);
+                        setSelfType("error");
+                        setShowMessage(true);
                         setLoading(false);
                     });
                 })
                 .catch(error => {
-                    console.error("There was an error fetching the last ID!", error);
+                    setSelfMessage("There was an error fetching the last ID!", error);
+                    setSelfType("error");
+                    setShowMessage(true);
                     setLoading(false);
                 });
         } else {
@@ -111,13 +118,18 @@ const ShowCategories = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             })
-            .then(response => {
+                .then(response => {
+                setSelfMessage("Category updated successfully!");
+                setSelfType("success");
+                setShowMessage(true);
                 fetchCategories();
                 setLoading(false);
                 handleCloseCallback();
             })
             .catch(error => {
-                console.error("There was an error saving the category!", error);
+                setSelfMessage("There was an error saving the category!", error);
+                setSelfType("error");
+                setShowMessage(true);
                 setLoading(false);
             });
         }
