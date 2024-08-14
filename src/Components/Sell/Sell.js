@@ -97,7 +97,6 @@ const Sell = () => {
         .then(result => {
             const message = result.message || 'Unknown error';
             if (result.status === 'success') {
-                alert(message);
                 setSelfMessage(message);
                 setSelfType("success");
                 setShowMessage(true);
