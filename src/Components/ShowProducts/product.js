@@ -5,6 +5,7 @@ import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
 import { useSelector } from 'react-redux';
+import MessageCard from '../AlertMessage/Message';
 
 const ShowProducts = () => {
     const user = useSelector((state) => state.user.user);
@@ -36,6 +37,9 @@ const ShowProducts = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
+    const [showMessage, setShowMessage] = useState(false);
+    const [selfMessage, setSelfMessage] = useState('');
+    const [selfType, setSelfType] = useState(''); 
     const productsPerPage = 10;
 
     useEffect(() => {
@@ -121,7 +125,7 @@ const ShowProducts = () => {
                 formData.append(key, currentProduct[key]);
             }
         }
-        console.log("Form data before submission:", currentProduct);
+
         const url = currentProduct.ProductID ? 'Products/updateproduct.php' : 'Products/addproduct.php';
 
         if (currentProduct.ProductID === null) {
@@ -130,30 +134,32 @@ const ShowProducts = () => {
                 const lastID = response.data.LastID;
                 formData.append('ProductID', lastID + 1);
                 formData.append('UserID', user.UserID);
-                console.log("FormData before submission:", Array.from(formData.entries()));
-                    console.log(formData);
-                    
-                    axiosInstance.post(url, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then(response => {
-                        fetchProducts();
-                        setLoading(false);
-                        handleCloseCallback();
-                    })
-                    .catch(error => {
-                        console.error("There was an error saving the product!", error);
-                        setLoading(false);
-                    });
+
+                axiosInstance.post(url, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    fetchProducts();
+                    setLoading(false);
+                    handleCloseCallback();
+                    setSelfMessage("Product added successfully!");
+                    setSelfType("success");
+                    setShowMessage(true);
                 })
                 .catch(error => {
-                    console.error("There was an error fetching the last ID!", error);
                     setLoading(false);
+                    setSelfMessage("There was an error saving the product!");
+                    setSelfType("error");
+                    setShowMessage(true);
                 });
+            })
+            .catch(error => {
+                console.error("There was an error fetching the last ID!", error);
+                setLoading(false);
+            });
         } else {
-            console.log("FormData before submission:", Array.from(formData.entries()));
             axiosInstance.post(url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -163,10 +169,16 @@ const ShowProducts = () => {
                 fetchProducts();
                 setLoading(false);
                 handleCloseCallback();
+                setSelfMessage("Product updated successfully!");
+                setSelfType("success");
+                setShowMessage(true);
             })
             .catch(error => {
                 console.error("There was an error saving the product!", error);
                 setLoading(false);
+                setSelfMessage("There was an error saving the product!");
+                setSelfType("error");
+                setShowMessage(true);
             });
         }
     };
@@ -176,9 +188,14 @@ const ShowProducts = () => {
             axiosInstance.post('Products/deleteproduct.php', { ProductID: id })
                 .then(response => {
                     fetchProducts();
+                    setSelfMessage("Product deleted successfully!");
+                    setSelfType("success");
+                    setShowMessage(true);
                 })
                 .catch(error => {
-                    console.error("There was an error deleting the product!", error);
+                    setSelfMessage("There was an error deleting the product!");
+                    setSelfType("error");
+                    setShowMessage(true);
                 });
         }
     };
@@ -224,10 +241,21 @@ const ShowProducts = () => {
         setCurrentPage(data.selected);
     };
 
+    const handleCloseMessage = () => {
+        setShowMessage(false);
+    };
+
     const displayedProducts = products.slice(0, productsPerPage);
 
     return (
         <div className="products-container">
+            {showMessage && (
+                <MessageCard
+                    type={selfType}
+                    message={selfMessage}
+                    onClose={handleCloseMessage}
+                />
+            )}
         <Sidebar />
         <div className="product-table">
             <h1>Products List</h1>

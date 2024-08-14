@@ -41,7 +41,9 @@ const ShowCategories = () => {
                 setPageCount(Math.ceil(response.data.total / categoriesPerPage));
             })
             .catch(error => {
-                console.error("There was an error fetching the Categories!", error);
+                setSelfMessage("There was an error fetching the Categories!");
+                setSelfType("error");
+                setShowMessage(true);
             });
     };
 

@@ -4,9 +4,13 @@ import './Genders.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
+import MessageCard from '../AlertMessage/Message';
 
 const ShowGenders = () => {
     const [Genders, setGenders] = useState([]);
+    const [showMessage, setShowMessage] = useState(false);
+    const [selfType, setSelfType] = useState("");
+    const [selfMessage, setSelfMessage] = useState("");
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentGender, setCurrentGender] = useState({
@@ -29,13 +33,19 @@ const ShowGenders = () => {
                 setPageCount(Math.ceil(response.data.total / gendersPerPage));
             })
             .catch(error => {
-                console.error("There was an error fetching the Genders!", error);
+                setSelfMessage("There was an error fetching the Genders!");
+                setSelfType("error");
+                setShowMessage(true);
             });
     };
 
     const handleEdit = (Gender) => {
         setCurrentGender(Gender);
         setShow(true);
+    };
+
+    const handleCloseMessage = () => {
+        setShowMessage(false);
     };
 
     const handleClose = () => {
@@ -62,10 +72,15 @@ const ShowGenders = () => {
                 fetchGenders();
                 setLoading(false);
                 handleCloseCallback();
+                setSelfMessage(currentGender.SexID ? "Gender updated successfully!" : "Gender added successfully!");
+                setSelfType("success");
+                setShowMessage(true);
             })
             .catch(error => {
-                console.error("There was an error saving the Gender!", error);
                 setLoading(false);
+                setSelfMessage("There was an error saving the Gender!");
+                setSelfType("error");
+                setShowMessage(true);
             });
     };
 
@@ -75,14 +90,20 @@ const ShowGenders = () => {
             .then(response => {
                 if (response.data.status === 'success') {
                     fetchGenders();
-                    alert('Gender deleted successfully.');
+                    setSelfMessage("Gender deleted successfully!");
+                    setSelfType("success");
+                    setShowMessage(true);
                 } else {
-                    // console.log(response.data.message);
-                    alert(response.data.message);
+                    setSelfMessage(response.data.message);
+                    setSelfType("error");
+                    setShowMessage(true);
                 }
             })
             .catch(error => {
                 console.error("There was an error deleting the Gender!", error);
+                setSelfMessage("There was an error deleting the Gender!");
+                setSelfType("error");
+                setShowMessage(true);
             });
         }
     };
@@ -118,66 +139,72 @@ const ShowGenders = () => {
 
     return (
         <div className="Gender-container">
+            {showMessage && (
+                <MessageCard
+                    type={selfType}
+                    message={selfMessage}
+                    onClose={handleCloseMessage}
+                />
+            )}
             <Sidebar />
-        
-        <div className="Genders-table">
-            <h1>Genders List</h1>
-            <input 
-                type="text" 
-                placeholder="Search by ID or Name" 
-                value={searchTerm} 
-                onChange={handleSearch} 
-                className="search-input" 
-            />
-            <div className="button-container">
-                <button onClick={handleAddGender} className="add-button">Add Gender</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {displayedGenders.map(Gender => (
-                        <tr key={Gender.SexID}>
-                            <td>{Gender.SexID}</td>
-                            <td>{Gender.Name}</td>
-                            <td><button onClick={() => handleEdit(Gender)}>Edit</button></td>
-                            <td><button onClick={() => handleDelete(Gender.SexID)}>Delete</button></td>
+            <div className="Genders-table">
+                <h1>Genders List</h1>
+                <input 
+                    type="text" 
+                    placeholder="Search by ID or Name" 
+                    value={searchTerm} 
+                    onChange={handleSearch} 
+                    className="search-input" 
+                />
+                <div className="button-container">
+                    <button onClick={handleAddGender} className="add-button">Add Gender</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <ReactPaginate
-                previousLabel={'previous'}
-                nextLabel={'next'}
-                breakLabel={'...'}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
-            <PopForm name={'Gender'} show={show} handleClose={handleClose} handleSave={handleSave}>
-                <h2>{currentGender.SexID ? 'Edit Gender' : 'Add Gender'}</h2>
-                <form>
-                    <label>
-                        ID:
-                        <input type="number" name="SexID" value={currentGender.SexID || ''} onChange={handleChange} readOnly />
-                    </label>
-                    <label>
-                        Name:
-                        <input type="text" name="Name" value={currentGender.Name || ''} onChange={handleChange} />
-                    </label>
-                </form>
-            </PopForm>
+                    </thead>
+                    <tbody>
+                        {displayedGenders.map(Gender => (
+                            <tr key={Gender.SexID}>
+                                <td>{Gender.SexID}</td>
+                                <td>{Gender.Name}</td>
+                                <td><button onClick={() => handleEdit(Gender)}>Edit</button></td>
+                                <td><button onClick={() => handleDelete(Gender.SexID)}>Delete</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <ReactPaginate
+                    previousLabel={'previous'}
+                    nextLabel={'next'}
+                    breakLabel={'...'}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                />
+                <PopForm name={'Gender'} show={show} handleClose={handleClose} handleSave={() => handleSave(handleClose)}>
+                    <h2>{currentGender.SexID ? 'Edit Gender' : 'Add Gender'}</h2>
+                    <form>
+                        <label>
+                            ID:
+                            <input type="number" name="SexID" value={currentGender.SexID || ''} onChange={handleChange} readOnly />
+                        </label>
+                        <label>
+                            Name:
+                            <input type="text" name="Name" value={currentGender.Name || ''} onChange={handleChange} />
+                        </label>
+                    </form>
+                </PopForm>
             </div>
-            </div>
+        </div>
     );
 };
 

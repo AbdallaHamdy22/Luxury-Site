@@ -5,6 +5,7 @@ import './Items_details.css';
 import axiosInstance from '../../axiosConfig/instance';
 import { addToCart, removeFromCart, updateQuantity } from '../Redux/RDXCart';
 import { useDispatch, useSelector } from 'react-redux';
+import MessageCard from '../AlertMessage/Message';
 
 const ProductDetails = () => {
     const user = useSelector((state) => state.user.user);
@@ -18,6 +19,9 @@ const ProductDetails = () => {
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.items);
     const isInCart = cart.some(cartItem => cartItem.ProductID === Number(id));
+    const [showMessage, setShowMessage] = useState(false);
+    const [selfMessage, setSelfMessage] = useState('');
+    const [selfType, setSelfType] = useState(''); 
 
     useEffect(() => {
         fetchData();
@@ -46,15 +50,23 @@ const ProductDetails = () => {
                 const filteredColors = colorsData.filter(color => color.Color_ID === productData.Color_ID);
                 setColors(filteredColors);
             } else {
-                console.error('Item not found');
+                setSelfMessage("Item not found");
+                setSelfType("error");
+                setShowMessage(true);
             }
         })
         .catch(error => console.error('Error fetching data:', error));
     }
 
+    const handleCloseMessage = () => {
+        setShowMessage(false);
+    };
+
     const handleToggleCart = async () => {
         if (!user) {
-            alert("Please log in to buy this product");
+            setSelfMessage("Please log in to buy this product!");
+            setSelfType("alert");
+            setShowMessage(true);
             return;
         }
     
@@ -108,7 +120,9 @@ const ProductDetails = () => {
                 setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity - 1 }));
             }
         } else {
-            alert(`Only ${item.Quantity} items available in stock`);
+            setSelfMessage(`Only ${item.Quantity} items available in stock`);
+            setSelfType("alert");
+            setShowMessage(true);
         }
     };
     
@@ -131,8 +145,15 @@ const ProductDetails = () => {
 
     return (
         <div className="container">
+            {showMessage && (
+                <MessageCard
+                    type={selfType}
+                    message={selfMessage}
+                    onClose={handleCloseMessage}
+                />
+            )}
             <div className="breadcrumbs">
-                <a href="/">Home</a> &gt; <a href="/Items">Man</a> &gt; <a href="#">{item.Name}</a>
+                <a href="/">Home</a> &gt; <a href="/Items">Man</a> &gt; <a href={`/ItemDetails/${item.ProductID}`}>{item.Name}</a>
             </div>
             <div className="product-page">
                 <div className="product-images">

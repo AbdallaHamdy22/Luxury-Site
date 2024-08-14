@@ -4,10 +4,14 @@ import './Brands.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
+import MessageCard from '../AlertMessage/Message';
 
 const ShowBrands = () => {
     const [Brands, setBrands] = useState([]);
     const [filteredBrands, setFilteredBrands] = useState([]);
+    const [showMessage, setShowMessage] = useState(false);
+    const [selfType, setSelfType] = useState("");
+    const [selfMessage, setSelfMessage] = useState("");
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentBrand, setCurrentBrand] = useState({
@@ -33,7 +37,9 @@ const ShowBrands = () => {
                 setPageCount(Math.ceil(response.data.total / brandsPerPage));
             })
             .catch(error => {
-                console.error("There was an error fetching the Brands!", error);
+                setSelfMessage("There was an error fetching the Brands!");
+                setSelfType("error");
+                setShowMessage(true);
             });
     };
 
@@ -41,6 +47,10 @@ const ShowBrands = () => {
         setCurrentBrand(brand);
         setImagePreview(brand.Image);
         setShow(true);
+    };
+
+    const handleCloseMessage = () => {
+        setShowMessage(false);
     };
 
     const handleClose = () => {
@@ -84,17 +94,24 @@ const ShowBrands = () => {
                         }
                     })
                     .then(response => {
+                        setSelfMessage("Brand added successfully!");
+                        setSelfType("success");
+                        setShowMessage(true);
                         fetchBrands();
                         setLoading(false);
                         handleCloseCallback();
                     })
                     .catch(error => {
-                        console.error("There was an error saving the brand!", error);
+                        setSelfMessage("There was an error saving the brand!");
+                        setSelfType("error");
+                        setShowMessage(true);
                         setLoading(false);
                     });
                 })
                 .catch(error => {
-                    console.error("There was an error fetching the last ID!", error);
+                    setSelfMessage("There was an error fetching the last ID!");
+                    setSelfType("error");
+                    setShowMessage(true);
                     setLoading(false);
                 });
         } else {
@@ -104,12 +121,17 @@ const ShowBrands = () => {
                 }
             })
             .then(response => {
+                setSelfMessage("Brand updated successfully!");
+                setSelfType("success");
+                setShowMessage(true);
                 fetchBrands();
                 setLoading(false);
                 handleCloseCallback();
             })
             .catch(error => {
-                console.error("There was an error saving the brand!", error);
+                setSelfMessage("There was an error saving the brand!");
+                setSelfType("error");
+                setShowMessage(true);
                 setLoading(false);
             });
         }
@@ -118,17 +140,23 @@ const ShowBrands = () => {
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this brand?")) {
             axiosInstance.post('Brand/deletebrand.php', { BrandID: id })
-                .then(response => {
-                    if (response.data.status === 'success') {
-                        fetchBrands();
-                        alert('Brand deleted successfully.');
-                    } else {
-                        alert(response.data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error("There was an error deleting the brand!", error);
-                });
+            .then(response => {
+                if (response.data.status === 'success') {
+                    setSelfMessage("Brand deleted successfully!");
+                    setSelfType("success");
+                    setShowMessage(true);
+                    fetchBrands();
+                } else {
+                    setSelfMessage(response.data.message);
+                    setSelfType("error");
+                    setShowMessage(true);
+                }
+            })
+            .catch(error => {
+                setSelfMessage("There was an error deleting the brand!");
+                setSelfType("error");
+                setShowMessage(true);
+            });
         }
     };
 
@@ -161,6 +189,13 @@ const ShowBrands = () => {
 
     return (
         <div className="Brands-container">
+            {showMessage && (
+                <MessageCard
+                    type={selfType}
+                    message={selfMessage}
+                    onClose={handleCloseMessage}
+                />
+            )}
             <Sidebar />
             <div className="Brands-table">
                 <h1>Brands List</h1>
