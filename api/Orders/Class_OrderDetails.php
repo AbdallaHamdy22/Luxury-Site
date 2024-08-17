@@ -71,19 +71,30 @@ class OrderDetails {
     }
 
     public function Create_OrderDetails() {
-        $query = "INSERT INTO " . $this->table_name . " SET Quantity=:Quantity, Price=:Price, OrderID=:OrderID, ProductID=:ProductID";
+        // Define the SQL query
+        $query = "INSERT INTO " . $this->table_name . " (Quantity, Price, OrderID, ProductID) VALUES (:Quantity, :Price, :OrderID, :ProductID)";
+    
+        // Prepare the SQL statement
         $stmt = $this->conn->prepare($query);
-
+    
+        // Bind parameters
         $stmt->bindParam(":Quantity", $this->Quantity);
         $stmt->bindParam(":Price", $this->Price);
         $stmt->bindParam(":OrderID", $this->OrderID);
         $stmt->bindParam(":ProductID", $this->ProductID);
-
+    
+        // Execute the statement and check for success
+        
         if ($stmt->execute()) {
             return true;
+        } else {
+            // Output error information for debugging
+            $errorInfo = $stmt->errorInfo();
+            error_log("Error executing query: " . $errorInfo[2]);
+            return false;
         }
-        return false;
     }
+    
     public function GetLastID()
     {
         $sql = "SELECT MAX(OrderDetailsID) as LastID FROM ".$this->table_name;

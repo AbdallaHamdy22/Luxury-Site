@@ -15,21 +15,29 @@ $orderDetails = new OrderDetails($db);
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price']) && isset($data['UserID']) && isset($data['PaymentID'])) {
+if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price']) && isset($data['UserID']) ) {
     $order->setOrderDate(date("Y-m-d H:i:s"));
     $order->setStatus('pending');
-    $order->setUserID($data['UserID']);
-    $order->setPaymentID($data['PaymentID']);
+    $order->setUserID($data['UserID']);    
     $order->setOrderID($order->GetLastID());
 
+    // Set shipping details
+    $order->setAddress($data['Address']);
+    $order->setStreet($data['Street']);
+    $order->setApartmentNumber($data['Apartment']);
+    $order->setCity($data['City']);
+    $order->setState($data['State']);
+    $order->setZipCode($data['Zip']);
+    $order->setCountry($data['Country']);
+    $order->setPhoneNumber($data['Phone']);
+    $order->setNotes($data['Notes']);
+    
     if ($order->Create_Order()) {
-        
-
         $orderDetails->setQuantity($data['Quantity']);
         $orderDetails->setPrice($data['Price']);
-        $orderDetails->setOrderID($$order->getOrderID());
+        $orderDetails->setOrderID($order->getOrderID());
         $orderDetails->setProductID($data['ProductID']);
-
+        
         if ($orderDetails->Create_OrderDetails()) {
             echo json_encode(["status" => "success", "message" => "Order placed successfully."]);
         } else {

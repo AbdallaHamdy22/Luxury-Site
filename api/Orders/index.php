@@ -12,6 +12,6 @@ $db = $database->connect();
 
 $order = new Order($db);
 $orderDetails = new OrderDetails($db);
-$allorders=$order->Get_All_Orders_byStatus("done");
+$allorders=$order->Get_All_Orders();
 echo json_encode($allorders)
 ?>
