@@ -80,15 +80,13 @@ const BuyForm = () => {
         })
         .then(response => {
             const result = response.data;
-            console.log('Response received:', result);
         
             if (result.status === 'success') {
                 setSelfMessage('Order placed successfully!');
                 setSelfType("success");
                 setShowMessage(true);
             } else {
-                console.error('Order placement failed:', result.message);
-                setSelfMessage('Failed to place order:', result.message);
+                setSelfMessage('Failed to place order!');
                 setSelfType("error");
                 setShowMessage(true);
             }
