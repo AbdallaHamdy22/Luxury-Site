@@ -2,9 +2,11 @@
 require_once "../DataBase/Class_Connection.php";
 require_once 'Class_Order.php';
 require_once 'Class_OrderDetails.php';
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
 
 // Create a database connection
 $database = new Connection();
@@ -13,12 +15,12 @@ $db = $database->connect();
 $order = new Order($db);
 $orderDetails = new OrderDetails($db);
 
-$data = json_decode(file_get_contents("php://input"), true);
+$data = $_POST;
 
-if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price']) && isset($data['UserID']) ) {
+if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price']) && isset($data['UserID'])) {
     $order->setOrderDate(date("Y-m-d H:i:s"));
     $order->setStatus('pending');
-    $order->setUserID($data['UserID']);    
+    $order->setUserID($data['UserID']);
     $order->setOrderID($order->GetLastID());
 
     // Set shipping details
@@ -31,13 +33,13 @@ if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price'
     $order->setCountry($data['Country']);
     $order->setPhoneNumber($data['Phone']);
     $order->setNotes($data['Notes']);
-    
+
     if ($order->Create_Order()) {
         $orderDetails->setQuantity($data['Quantity']);
         $orderDetails->setPrice($data['Price']);
         $orderDetails->setOrderID($order->getOrderID());
         $orderDetails->setProductID($data['ProductID']);
-        
+
         if ($orderDetails->Create_OrderDetails()) {
             echo json_encode(["status" => "success", "message" => "Order placed successfully."]);
         } else {
@@ -49,4 +51,3 @@ if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price'
 } else {
     echo json_encode(["status" => "error", "message" => "Invalid input."]);
 }
-?>

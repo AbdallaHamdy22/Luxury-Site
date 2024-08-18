@@ -4,6 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import CartItem from './CartItem';
 import './Cart.css';
 import axiosInstance from '../../axiosConfig/instance';
+import { NavLink } from 'react-router-dom';
 
 const Cart = () => {
     const cart = useSelector((state) => state.cart.items);
@@ -62,7 +63,13 @@ const Cart = () => {
                         <Col xs={4} md={3} className='col-item-quantity'></Col>
                         <Col xs={4} md={2} className='col-item-total'><h3>{subtotal.toFixed(2)} AED</h3></Col>
                     </Row>
-                    <Button variant="primary" className="checkout-button mt-5">Proceed to Checkout</Button>
+                    <NavLink 
+                        to={{
+                            pathname: '/buynow',
+                            state: { items: cartItems }
+                        }}>
+                        <Button className="checkout-button mt-5">Proceed to Checkout</Button>
+                    </NavLink>
                 </div>
             )}
         </div>

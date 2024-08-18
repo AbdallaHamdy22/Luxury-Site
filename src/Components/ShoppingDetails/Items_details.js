@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
-import { useParams } from "react-router-dom";
+import { Button, NavLink } from 'react-bootstrap';
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import './Items_details.css';
 import axiosInstance from '../../axiosConfig/instance';
 import { addToCart, removeFromCart, updateQuantity } from '../Redux/RDXCart';
@@ -10,6 +10,7 @@ import MessageCard from '../AlertMessage/Message';
 const ProductDetails = () => {
     const user = useSelector((state) => state.user.user);
     const { id } = useParams();
+    const navigate = useNavigate(); 
     const [item, setItem] = useState({});
     const [colors, setColors] = useState([]);
     const [selectedImage, setSelectedImage] = useState('');
@@ -62,6 +63,24 @@ const ProductDetails = () => {
         setShowMessage(false);
     };
 
+    const handleBuyNow = () => {
+        if (!user) {
+            setSelfMessage("Please log in to buy this product!");
+            setSelfType("alert");
+            setShowMessage(true);
+            return;
+        }
+        navigate('/buynow', {
+            state: {
+                items: [{
+                    ProductID: item.ProductID,
+                    Quantity: userquantity,
+                    Price: item.Price,
+                }]
+            }
+        });
+    };
+    
     const handleToggleCart = async () => {
         if (!user) {
             setSelfMessage("Please log in to buy this product!");
@@ -214,10 +233,10 @@ const ProductDetails = () => {
                     <label>Discount Size</label>
                     <input type="text" readOnly value="-" />
                     <button className="apply-coupon">Apply Coupon</button>
-                    <Button className="buy-now">Buy Now</Button>
-                    <Button className="add-to-cart" onClick={handleToggleCart}>
+                    <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
+                    <button className="add-to-cart" onClick={handleToggleCart}>
                         {isInCart ? 'Remove from Cart' : 'Add to Cart'}
-                    </Button>
+                    </button>
                 </div>
             </div>
         </div>

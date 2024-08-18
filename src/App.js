@@ -23,6 +23,7 @@ import ShowOrderDetails from './Components/ShowOrderDetails/ShowOrderDetails';
 import ShowColors from './Components/ShowColor/Colors';
 import AccountSettings from './Components/AccountDetails/Account';
 import UserDetails from './Components/UserProducts/userDetails';
+import BuyNow from './Components/CashonDelivery/BuyNow'
 import { setUser } from './Components/Redux/RDXUser';
 
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/userDetails/:category" element={<UserDetails />} />
         <Route path="/fav" element={<FavComponent />} />
         <Route path="/cart" element={<CartComponent />} />
+        <Route path="/buynow" element={<BuyNow />} />
         <Route path="/Items" element={<Items />} />
         <Route path="/ItemDetails/:id" element={<ItemDetails />} />
         <Route path="/ShowOrders" element={<ShowOrders />} />

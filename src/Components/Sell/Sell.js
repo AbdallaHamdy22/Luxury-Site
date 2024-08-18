@@ -93,7 +93,7 @@ const Sell = () => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-            .then(response => response.data)
+        .then(response => response.data)
         .then(result => {
             const message = result.message || 'Unknown error';
             if (result.status === 'success') {
