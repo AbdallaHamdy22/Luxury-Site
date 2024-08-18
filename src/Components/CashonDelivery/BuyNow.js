@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosConfig/instance';
 import './BuyNow.css';
 import MessageCard from '../AlertMessage/Message';
@@ -12,6 +12,7 @@ const BuyForm = () => {
     const [showMessage, setShowMessage] = useState(false);
     const [selfMessage, setSelfMessage] = useState('');
     const [selfType, setSelfType] = useState('');
+    const navigate = useNavigate();
     const initialFormData = {
         ProductID: '',
         Quantity: '',
@@ -85,6 +86,9 @@ const BuyForm = () => {
                 setSelfMessage('Order placed successfully!');
                 setSelfType("success");
                 setShowMessage(true);
+                setTimeout(() => {
+                navigate("/");
+                }, 2000);
             } else {
                 setSelfMessage('Failed to place order!');
                 setSelfType("error");
