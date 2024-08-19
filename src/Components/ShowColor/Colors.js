@@ -5,6 +5,8 @@ import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
 import MessageCard from '../AlertMessage/Message'; // Import the MessageCard component
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ShowColors = () => {
     const [Colors, setColors] = useState([]);
@@ -158,7 +160,9 @@ const ShowColors = () => {
                     className="search-input" 
                 />
                 <div className="button-container">
-                    <button onClick={handleAddColor} className="add-button">Add Color</button>
+                    <button onClick={handleAddColor} className="add-button">
+                        <FontAwesomeIcon icon={faPlus} />Add Color
+                    </button>
                 </div>
                 <table>
                     <thead>
@@ -174,8 +178,12 @@ const ShowColors = () => {
                             <tr key={Color.Color_ID}>
                                 <td>{Color.Color_ID}</td>
                                 <td>{Color.Name}</td>
-                                <td><button onClick={() => handleEdit(Color)}>Edit</button></td>
-                                <td><button onClick={() => handleDelete(Color.Color_ID)}>Delete</button></td>
+                                <td><button onClick={() => handleEdit(Color)} className="edit-button">
+                                <FontAwesomeIcon icon={faEdit} /> Edit
+                                </button></td>
+                                <td><button onClick={() => handleDelete(Color.Color_ID)} className="delete-button">
+                                <FontAwesomeIcon icon={faTrash} /> Delete
+                                </button></td>
                             </tr>
                         ))}
                     </tbody>

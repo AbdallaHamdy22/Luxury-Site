@@ -70,7 +70,7 @@ const ShowSellQueue = () => {
                                 <td>{order.QueueID}</td>
                                 <td>{order.UserName}</td>
                                 <td><Link to={`/ShowOrderDetails/${order.QueueID}`}><button>Show Order Details</button></Link></td>
-                                <td><button onClick={handleIgnore(order.QueueID)}>
+                                <td><button onClick={handleIgnore(order.QueueID)} className="delete-button">
                                     <FontAwesomeIcon icon={faTrash} /> Delete
                                 </button></td>
                             </tr>

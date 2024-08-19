@@ -20,6 +20,17 @@
     border-spacing: 0;
     min-width: 1000px; /* Ensure the table is wide enough */
 }
+.edit-button {
+    background-color: #2980b9;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+}
+
+.edit-button:hover, .delete-button:hover {
+    opacity: 0.8;
+}
 
 .product-table th, .product-table td {
     padding: 15px;

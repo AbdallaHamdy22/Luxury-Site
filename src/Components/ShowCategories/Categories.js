@@ -5,6 +5,8 @@ import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
 import MessageCard from '../AlertMessage/Message';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const ShowCategories = () => {
@@ -204,7 +206,9 @@ const ShowCategories = () => {
                     className="search-input" 
                 />
                 <div className="button-container">
-                    <button onClick={handleAddCategory} className="add-button">Add Category</button>
+                    <button onClick={handleAddCategory} className="add-button">
+                        <FontAwesomeIcon icon={faPlus} />Add Category
+                    </button>
                 </div>
                 <table>
                     <thead>
@@ -222,8 +226,12 @@ const ShowCategories = () => {
                                 <td>{categorie.CategoireID}</td>
                                 <td>{categorie.Name}</td>
                                 <td><img src={categorie.Image} alt={categorie.Name} className="category-image" /></td>
-                                <td><button onClick={() => handleEdit(categorie)}>Edit</button></td>
-                                <td><button onClick={() => handleDelete(categorie.CategoireID)}>Delete</button></td>
+                                <td><button onClick={() => handleEdit(categorie)} className="edit-button">
+                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                                </button></td>
+                                <td><button onClick={() => handleDelete(categorie.CategoireID)} className="delete-button">
+                                    <FontAwesomeIcon icon={faTrash} /> Delete
+                                </button></td>
                             </tr>
                         ))}
                     </tbody>

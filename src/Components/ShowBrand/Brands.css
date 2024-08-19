@@ -48,6 +48,18 @@
     background-color: #16a085;
 }
 
+.edit-button {
+    background-color: #2980b9;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+}
+
+.edit-button:hover, .delete-button:hover {
+    opacity: 0.8;
+}
+
 .Brands-container table {
     width: 100%;
     border-collapse: collapse;

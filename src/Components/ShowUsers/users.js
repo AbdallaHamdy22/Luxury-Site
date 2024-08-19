@@ -6,6 +6,8 @@ import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
 import { useSelector } from 'react-redux';
 import MessageCard from '../AlertMessage/Message';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ShowUsers = () => {
     const user = useSelector((state) => state.user.user);
@@ -221,8 +223,10 @@ const ShowUsers = () => {
                 className="search-input" 
             />
             <div className="button-container">
-                <button onClick={handleAddUser} className="add-button">Add User</button>
-                </div>
+                <button onClick={handleAddUser} className="add-button">
+                    <FontAwesomeIcon icon={faPlus} />Add User
+                </button>
+            </div>
             <div className="table-wrapper">
                 <table>
                     <thead>
@@ -244,8 +248,12 @@ const ShowUsers = () => {
                                 <td>{User.Email}</td>
                                 <td><img src={User.ProfileImage} alt={User.Name} className="User-ProfileImage" /></td>
                                 <td>{roles.find(role => role.RoleID === User.RoleID)?.Name}</td>
-                                <td><button className="edit-button" onClick={() => handleEdit(User)}>Edit</button></td>
-                                <td><button className="delete-button" onClick={() => handleDelete(User.UserID)}>Delete</button></td>
+                                <td><button className="edit-button" onClick={() => handleEdit(User)}>
+                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                                </button></td>
+                                <td><button className="delete-button" onClick={() => handleDelete(User.UserID)}>
+                                <FontAwesomeIcon icon={faTrash} /> Delete
+                                </button></td>
                             </tr>
                         ))}
                     </tbody>

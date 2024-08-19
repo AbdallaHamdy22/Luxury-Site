@@ -5,6 +5,8 @@ import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
 import MessageCard from '../AlertMessage/Message';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ShowBrands = () => {
     const [Brands, setBrands] = useState([]);
@@ -207,7 +209,9 @@ const ShowBrands = () => {
                     className="search-input" 
                 />
                 <div className="button-container">
-                    <button onClick={handleAddBrand} className="add-button">Add Brand</button>
+                    <button onClick={handleAddBrand} className="add-button">
+                        <FontAwesomeIcon icon={faPlus} />Add Brand
+                    </button>
                 </div>
                 <table>
                     <thead>
@@ -225,8 +229,12 @@ const ShowBrands = () => {
                                 <td>{brand.BrandID}</td>
                                 <td>{brand.Name}</td>
                                 <td><img src={brand.Image} alt={brand.Name} className="brand-image" /></td>
-                                <td><button onClick={() => handleEdit(brand)}>Edit</button></td>
-                                <td><button onClick={() => handleDelete(brand.BrandID)}>Delete</button></td>
+                                <td><button onClick={() => handleEdit(brand)} className="edit-button">
+                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                                </button></td>
+                                <td><button onClick={() => handleDelete(brand.BrandID)} className="delete-button">
+                                    <FontAwesomeIcon icon={faTrash} /> Delete
+                                </button></td>
                             </tr>
                         ))}
                     </tbody>
