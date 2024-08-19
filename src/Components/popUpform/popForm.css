@@ -50,7 +50,8 @@
 
 .modal-header h4 {
     margin: 0;
-    font-weight: 600; /* Slightly bolder title */
+    font-weight: 600;
+    color: white;
 }
 
 .modal-body {
@@ -93,6 +94,7 @@
 .modal-body input[type="text"],
 .modal-body input[type="number"],
 .modal-body input[type="file"],
+.modal-body input[type="email"],
 .modal-body textarea {
     padding: 12px;
     border: 1px solid #444; /* Dark border for inputs */
@@ -108,6 +110,7 @@
 .modal-body input[type="text"]:focus,
 .modal-body input[type="number"]:focus,
 .modal-body input[type="file"]:focus,
+.modal-body input[type="email"]:focus,
 .modal-body textarea:focus {
     border-color: #a67c52; /* Gold border on focus */
     outline: none;

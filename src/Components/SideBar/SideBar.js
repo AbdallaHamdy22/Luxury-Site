@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faStickyNote, faTh } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faStickyNote, faTrademark, faList, faPalette, faVenusMars, faBoxOpen, faUsers, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
   return (
@@ -19,7 +19,7 @@ const Sidebar = () => {
           <div className="sidebar-menu">
             <div className="sidebar-menu-item">
               <NavLink 
-                to="/ShowOrders" 
+                to="/ShowSellQueue"
                 className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}
               >
                 <FontAwesomeIcon 
@@ -39,7 +39,7 @@ const Sidebar = () => {
                   className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}
                 >
                   <FontAwesomeIcon 
-                    icon={faTh} 
+                    icon={faTrademark} 
                     className="fa-icon" 
                     style={{ fontSize: '1.2em', marginRight: '10px' }} 
                   /> 
@@ -47,7 +47,6 @@ const Sidebar = () => {
                 </NavLink>
               </div>
             </div>
-            {/* Repeat the same structure for other sidebar submenu items */}
             <div className="sidebar-submenu">
               <div className="sidebar-submenu-title">
                 <NavLink 
@@ -55,7 +54,7 @@ const Sidebar = () => {
                   className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}
                 >
                   <FontAwesomeIcon 
-                    icon={faTh} 
+                    icon={faList} 
                     className="fa-icon" 
                     style={{ fontSize: '1.2em', marginRight: '10px' }} 
                   /> 
@@ -70,7 +69,7 @@ const Sidebar = () => {
                   className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}
                 >
                   <FontAwesomeIcon 
-                    icon={faTh} 
+                    icon={faPalette} 
                     className="fa-icon" 
                     style={{ fontSize: '1.2em', marginRight: '10px' }} 
                   /> 
@@ -85,7 +84,7 @@ const Sidebar = () => {
                   className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}
                 >
                   <FontAwesomeIcon 
-                    icon={faTh} 
+                    icon={faVenusMars} 
                     className="fa-icon" 
                     style={{ fontSize: '1.2em', marginRight: '10px' }} 
                   /> 
@@ -96,15 +95,45 @@ const Sidebar = () => {
             <div className="sidebar-submenu">
               <div className="sidebar-submenu-title">
                 <NavLink 
+                  to="/ShowOrders" 
+                  className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}
+                >
+                  <FontAwesomeIcon 
+                    icon={faClipboardList} 
+                    className="fa-icon" 
+                    style={{ fontSize: '1.2em', marginRight: '10px' }} 
+                  /> 
+                  Orders List
+                </NavLink>
+              </div>
+            </div>
+            <div className="sidebar-submenu">
+              <div className="sidebar-submenu-title">
+                <NavLink 
                   to="/ShowProducts" 
                   className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}
                 >
                   <FontAwesomeIcon 
-                    icon={faTh} 
+                    icon={faBoxOpen} 
                     className="fa-icon" 
                     style={{ fontSize: '1.2em', marginRight: '10px' }} 
                   /> 
                   Products List
+                </NavLink>
+              </div>
+            </div>
+            <div className="sidebar-submenu">
+              <div className="sidebar-submenu-title">
+                <NavLink 
+                  to="/ShowUsers" 
+                  className={({ isActive }) => (isActive ? "activeClicked" : "sidebar-navlink")}
+                >
+                  <FontAwesomeIcon 
+                    icon={faUsers} 
+                    className="fa-icon" 
+                    style={{ fontSize: '1.2em', marginRight: '10px' }} 
+                  />
+                  Users List
                 </NavLink>
               </div>
             </div>

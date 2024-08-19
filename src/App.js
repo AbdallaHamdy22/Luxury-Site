@@ -18,13 +18,15 @@ import ShowProducts from './Components/ShowProducts/product';
 import ShowCategories from './Components/ShowCategories/Categories';
 import ShowBrands from './Components/ShowBrand/Brands';
 import ShowGenders from './Components/ShowGender/Genders';
-import ShowOrders from './Components/ShowOrders/ShowOrders';
-import ShowOrderDetails from './Components/ShowOrderDetails/ShowOrderDetails';
 import ShowColors from './Components/ShowColor/Colors';
 import AccountSettings from './Components/AccountDetails/Account';
 import UserDetails from './Components/UserProducts/userDetails';
 import BuyNow from './Components/CashonDelivery/BuyNow'
 import { setUser } from './Components/Redux/RDXUser';
+import ShowUsers from './Components/ShowUsers/users';
+import ShowSellQueue from './Components/ShowSell/ShowSellQueue';
+import ShowSellQueueDetails from './Components/ShowSellQueueDetails/ShowSellQueueDetails';
+import ShowOrder from './Components/ShowOrders/ShowOrder';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -49,13 +51,15 @@ const App = () => {
         <Route path="/buynow" element={<BuyNow />} />
         <Route path="/Items" element={<Items />} />
         <Route path="/ItemDetails/:id" element={<ItemDetails />} />
-        <Route path="/ShowOrders" element={<ShowOrders />} />
-        <Route path="/ShowOrderDetails/:id" element={<ShowOrderDetails />} />
+        <Route path="/ShowSellQueue" element={<ShowSellQueue />} />
+        <Route path="/ShowSellQueueDetails/:id" element={<ShowSellQueueDetails />} />
         <Route path="/ShowBrands" element={<ShowBrands />} />
         <Route path="/ShowCategories" element={<ShowCategories />} />
         <Route path="/ShowColors" element={<ShowColors />} />
         <Route path="/ShowGenders" element={<ShowGenders />} />
+        <Route path="/ShowOrders" element={<ShowOrder />} />
         <Route path="/ShowProducts" element={<ShowProducts />} />
+        <Route path="/ShowUsers" element={<ShowUsers />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

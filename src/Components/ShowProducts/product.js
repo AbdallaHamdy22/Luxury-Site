@@ -6,6 +6,8 @@ import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
 import { useSelector } from 'react-redux';
 import MessageCard from '../AlertMessage/Message';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ShowProducts = () => {
     const user = useSelector((state) => state.user.user);
@@ -267,8 +269,10 @@ const ShowProducts = () => {
                 className="search-input" 
             />
             <div className="button-container">
-                <button onClick={handleAddProduct} className="add-button">Add Product</button>
-                </div>
+                <button onClick={handleAddProduct} className="add-button">
+                    <FontAwesomeIcon icon={faPlus} />Add Product
+                </button>
+            </div>
             <div className="table-wrapper">
                 <table>
                     <thead>
@@ -310,8 +314,12 @@ const ShowProducts = () => {
                                 <td>{sexes.find(sex => sex.SexID === product.SexID)?.Name}</td>
                                 <td>{product.UserID}</td>
                                 <td>{product.Status}</td>
-                                <td><button className="edit-button" onClick={() => handleEdit(product)}>Edit</button></td>
-                                <td><button className="delete-button" onClick={() => handleDelete(product.ProductID)}>Delete</button></td>
+                                <td><button className="edit-button" onClick={() => handleEdit(product)}>
+                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                                </button></td>
+                                <td><button className="delete-button" onClick={() => handleDelete(product.ProductID)}>
+                                    <FontAwesomeIcon icon={faTrash} /> Delete
+                                </button></td>
                             </tr>
                         ))}
                     </tbody>

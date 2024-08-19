@@ -1,7 +1,12 @@
-.Genders-table {
+.Gender-container {
     display: flex;
+}
+
+.Genders-table {
+    flex: 1;
     background-color: #f9f6f1;
     padding: 20px;
+    margin-left: 240px;
 }
 
 .Genders-table table {
@@ -39,25 +44,20 @@
     cursor: pointer;
     font-size: 14px;
     color: white;
-}
-.Genders-container td button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.Genders-container td button:hover {
+.edit-button {
     background-color: #2980b9;
 }
 
-.Genders-table button:hover {
-    opacity: 0.8;
+.delete-button {
+    background-color: #e74c3c;
 }
 
+.edit-button:hover, .delete-button:hover {
+    opacity: 0.8;
+}
 
 .Genders-table h1 {
     text-align: center;
@@ -96,11 +96,6 @@
     justify-content: center;
     padding: 20px 0;
     list-style-type: none;
-}
-.Categories-table h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #34495e;
 }
 
 .pagination li {

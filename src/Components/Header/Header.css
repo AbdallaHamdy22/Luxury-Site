@@ -7,13 +7,14 @@
     --body-font: 'Montserrat', sans-serif;
 }
 
+/* Upper Navbar */
 .navbar {
-    height: 80px;
+    height: 100px; /* Increased height for upper navbar */
     display: flex;
     align-items: center;
     padding: 0 2rem;
     background-color: var(--primary-color);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Increased shadow for more depth */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid var(--secondary-color);
     transition: background-color 0.3s, box-shadow 0.3s;
 }
@@ -29,8 +30,12 @@
 }
 
 .navbar-brand img {
-    width: 180px;
+    width: 230px; /* Increased width for brand image */
     transition: filter 0.3s;
+}
+
+.navbar-container .navbar {
+    height: 60px; /* Reduced height for lower navbar */
 }
 
 .navbar-brand img:hover {
@@ -215,6 +220,12 @@
 .navbar-buttons {
     display: flex;
     gap: 1rem;
+}
+
+.navbar-buttons .btn-common {
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    border-radius: 5px;
 }
 
 @media (max-width: 768px) {

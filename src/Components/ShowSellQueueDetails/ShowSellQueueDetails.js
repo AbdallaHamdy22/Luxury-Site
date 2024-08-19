@@ -6,10 +6,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../SideBar/SideBar";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './ShowOrderDetails.css';
+import './ShowSellQueueDetails.css';
 import MessageCard from '../AlertMessage/Message';
 
-const ShowOrderDetails = () => {
+const ShowSellQueueDetails = () => {
     const [showMessage, setShowMessage] = useState(false);
     const [selfType, setSelfType] = useState("");
     const [selfMessage, setSelfMessage] = useState("");
@@ -192,4 +192,4 @@ const ShowOrderDetails = () => {
     );
 };
 
-export default ShowOrderDetails;
+export default ShowSellQueueDetails;
