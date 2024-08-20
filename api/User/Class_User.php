@@ -13,7 +13,28 @@ class User
     {
         $this->conn = $db;
     }
+    public function Get_Total_User_Count()
+    {
+        $sql = "SELECT COUNT(*) as count FROM users";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        return $result['count'];
+    }
+    public function Get_User_Data_With_Pagination($start=0, $limit=6)
+    {
+        $sql = "SELECT * FROM users LIMIT :start, :limit";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
     public function registerUser($data)
     {
         try {
@@ -22,6 +43,33 @@ class User
             $this->Email = $data->Email;
             $this->ProfileImage = '';
             $roleID = 2;
+
+            $sql = "INSERT INTO users (UserName, Password, Email, ProfileImage, RoleID) VALUES (:UserName, :Password, :Email, :ProfileImage, :RoleID)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':UserName', $this->UserName);
+            $stmt->bindParam(':Password', $this->Password);
+            $stmt->bindParam(':Email', $this->Email);
+            $stmt->bindParam(':ProfileImage', $this->ProfileImage);
+            $stmt->bindParam(':RoleID', $roleID);
+
+            if ($stmt->execute()) {
+
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    public function createuser($data)
+    {
+        try {
+            $this->UserName = $data->fName . ' ' . $data->lName;
+            $this->Password = $data->Password;
+            $this->Email = $data->Email;
+            $this->ProfileImage = '';
+            $roleID = $data->roleid;
 
             $sql = "INSERT INTO users (UserName, Password, Email, ProfileImage, RoleID) VALUES (:UserName, :Password, :Email, :ProfileImage, :RoleID)";
             $stmt = $this->conn->prepare($sql);
