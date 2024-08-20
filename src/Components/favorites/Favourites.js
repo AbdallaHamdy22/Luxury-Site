@@ -12,9 +12,9 @@ const Favourites = () => {
         <div className="favourites-container container mt-4">
             <h2>Your Favourites</h2>
             {favorites.length > 0 ? (
-                <div className="row">
+                <div className="card-container">
                     {favorites.map(product => (
-                        <div className="col-md-4" key={product.ProductID}>
+                        <div className="product-card" key={product.ProductID}>
                             <ProductCard product={product} />
                             <button
                                 onClick={() => dispatch(removeFromFavorites({ id: product.ProductID }))}

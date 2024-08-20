@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, NavLink } from 'react-bootstrap';
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Button } from 'react-bootstrap';
+import { useNavigate, useParams } from "react-router-dom";
 import './Items_details.css';
 import axiosInstance from '../../axiosConfig/instance';
 import { addToCart, removeFromCart, updateQuantity } from '../Redux/RDXCart';
@@ -163,7 +163,7 @@ const ProductDetails = () => {
     };
 
     return (
-        <div className="container">
+        <div className="ItemDetailscontainer">
             {showMessage && (
                 <MessageCard
                     type={selfType}
@@ -188,7 +188,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
                 <div className="product-details">
-                    <h1>{item.Description}</h1>
+                    <h1>{item.Name}</h1>
                     <div className="price">{item.Price} AED</div>
                     <div className="options">
                         <div className="color-options">
@@ -227,12 +227,12 @@ const ProductDetails = () => {
                     <label>Discount Coupon</label>
                     <input type="text" placeholder='Enter the coupon for discount..'/>
                     <button className="apply-coupon">Apply Coupon</button>
-                    <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
                     <button className="add-to-cart" onClick={handleToggleCart}>
                         {isInCart ? 'Remove from Cart' : 'Add to Cart'}
                     </button>
                 </div>
             </div>
+            <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
         </div>
     );
 };
