@@ -23,8 +23,15 @@ error_log('Received POST data: ' . print_r($_POST, true));
 error_log('Received FILES data: ' . print_r($_FILES, true));
 
 $required_fields = [
-    'ProductName', 'description', 'price', 'quantity', 'offerPrice',
-    'CategoireID', 'BrandID', 'SexID', 'ColorID', 'UserID', 'Status'
+    'ProductName',
+    'description',
+    'quantity',
+    'CategoireID',
+    'BrandID',
+    'SexID',
+    'ColorID',
+    'UserID',
+    'Status'
 ];
 
 foreach ($required_fields as $field) {
@@ -40,9 +47,7 @@ try {
         isset(
             $data['ProductName'],
             $data['description'],
-            $data['price'],
             $data['quantity'],
-            $data['offerPrice'],
             $data['CategoireID'],
             $data['BrandID'],
             $data['SexID'],
@@ -53,9 +58,7 @@ try {
     ) {
         $ProductName = $data['ProductName'];
         $description = $data['description'];
-        $price = $data['price'];
         $quantity = $data['quantity'];
-        $offerPrice = $data['offerPrice'];
         $UserID = $data['UserID'];
         $Status = $data['Status'];
 
@@ -82,8 +85,6 @@ try {
 
             $queueDetails->setProductName($ProductName);
             $queueDetails->setProductDescription($description);
-            $queueDetails->setProductPrice($price);
-            $queueDetails->setProductOfferPrice($offerPrice);
             $queueDetails->setQuantity($quantity);
             $queueDetails->setUserID($UserID);
             $queueDetails->setStatus($Status);

@@ -47,9 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $product->setDescription($result['productDescription']);
                     $product->setProduction_year(0);
                     $product->setPrice($userPrice); // User-specified price
-                    $product->setUSerPrice($result['ProductPrice']);
+                    $product->setUSerPrice($userPrice);
                     $product->setQuantity($result['Quantity']);
-                    $product->setOfferPrice($result['OfferPrice']);
+                    $product->setOfferPrice(0);
                     $product->setCategoryID($result['CategoireID']);
                     $product->setBrandID($result['BrandID']);
                     $product->setSexID($result['SexID']);

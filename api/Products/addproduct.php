@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Debugging: Check file move operation
     if (move_uploaded_file($image["tmp_name"], $target_file)) {
         file_put_contents('php://stderr', print_r("File uploaded successfully to $target_file\n", TRUE));
-        $product->setImage("Images/" . $image["name"]);
+        $product->setImage("/Images/" . $image["name"]);
 
         // Set the ID
         $product->setID($product->GetLastID() + 1);
