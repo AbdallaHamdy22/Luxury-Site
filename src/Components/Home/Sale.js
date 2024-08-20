@@ -46,7 +46,7 @@ const SaleBanner = () => {
           </div>
         </div>
         <div className="col-12 col-lg-6">
-          <img src={"/Images/Sale Watch.png"} alt="Sale Image" className="img-fluid" />
+          <img src={"/Images/OfferWatch.jpg"} alt="Sale Image" className="img-fluid" />
         </div>
       </div>
     </div>

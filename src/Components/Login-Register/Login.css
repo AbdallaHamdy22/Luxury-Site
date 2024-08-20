@@ -11,50 +11,26 @@
 
 .login-form-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background-color: var(--accent-color); /* Consistent with home page */
+  min-height: fit-content;
+  max-height: 100vh; /* Prevents the form from exceeding the viewport height */
+  overflow-y: auto; /* Adds scroll if content exceeds the max height */
+  background-color: var(--accent-color); 
   color: var(--text-color);
 }
 
-.login-form-container .tab-buttons {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.login-form-container .tab-button {
-  background-color: var(--primary-color);
-  border: 1px solid var(--secondary-color);
-  border-radius: 5px 5px 0 0;
-  color: var(--secondary-color);
-  cursor: pointer;
-  font-size: 16px;
-  margin: 0 5px;
-  padding: 10px 20px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.login-form-container .tab-button.active {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-}
-
-.login-form-container .tab-button:hover {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-}
-
 .login-form-container .form-card {
-  background-color: #fff; /* Lighter background for form card */
+  background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 30px;
   width: 400px;
-  max-width: 90%;
+  max-width: 95%;
+  max-height: 90vh; /* Restrict form-card height */
+  overflow-y: auto; /* Enable scrolling within the form */
 }
+
 
 .login-form-container form h2 {
   color: var(--primary-color); /* Consistent with home page */
@@ -95,15 +71,6 @@
   background-color: #a88360; /* Slightly darker on hover */
 }
 
-.login-form-container .error-message {
-  background-color: var(--error-bg-color);
-  border-radius: 5px;
-  color: var(--error-text-color);
-  margin-top: 10px;
-  padding: 10px;
-  text-align: center;
-}
-
 .login-form-container .gender-selection {
   display: flex;
   justify-content: space-between;
@@ -112,4 +79,76 @@
 
 .login-form-container .gender-selection label {
   color: var(--input-text-color);
+}
+
+.login-form-container p {
+  color: var(--primary-color); /* Consistent with home page */
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+  text-align: center;
+  transition: color 0.3s;
+}
+
+.login-form-container p:hover {
+  color: var(--secondary-color); /* Slightly different color on hover */
+}
+
+.login-form-container .error-message {
+  background-color: var(--error-bg-color);
+  color: var(--error-text-color);
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  max-width: calc(100% - 22px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: shake 0.3s ease-in-out;
+  word-wrap: break-word; /* Ensures long words break to avoid overflow */
+  max-height: 60px; /* Set a maximum height for the error message */
+  overflow-y: hidden; /* Hide overflow if error message exceeds max height */
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+
+/* Keyframes for fade-in and fade-out animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Applying the fade animations to the form-card */
+.form-card {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+/* Optional fade out when switching between forms */
+.form-card.fade-out {
+  animation: fadeOut 0.5s ease-in-out forwards;
 }

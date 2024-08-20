@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../Redux/RDXUser';
-import axios from 'axios';
-import './Login.css';
 import axiosInstance from '../../axiosConfig/instance';
+import './Login.css';
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ Email: '', Password: '' });
@@ -14,8 +13,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLogin, setIsLogin] = useState(true);
+  const [isFadingOut, setIsFadingOut] = useState(false); // New state for managing fade-out
   const navigate = useNavigate();
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -28,17 +28,13 @@ const Login = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage('');
+    showError(''); // Reset error message
     try {
-      const response = await axiosInstance.post('User/UserLogin.php', loginData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axiosInstance.post('User/UserLogin.php', loginData);
       const data = response.data;
 
       if (data.status === 'error') {
-        setErrorMessage(data.message);
+        showError(data.message);
       } else {
         localStorage.setItem('user', JSON.stringify(data));
         const userData = {
@@ -56,7 +52,7 @@ const Login = () => {
       setLoading(false);
     } catch (error) {
       console.error('Error:', error);
-      setErrorMessage('An error occurred. Please try again later.');
+      showError('An error occurred. Please try again later.');
       setLoading(false);
     }
   };
@@ -64,27 +60,41 @@ const Login = () => {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage('');
+    showError(''); // Reset error message
     try {
-      const response = await axiosInstance.post('User/signup.php', signupData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axiosInstance.post('User/signup.php', signupData);
       const data = response.data;
-
+      
       if (data.status === 'error') {
-        setErrorMessage(data.message);
+        showError(data.message);
       } else {
-        navigate('/');
-        window.location.reload();
+        setIsFadingOut(true);
+        setTimeout(() => {
+          setIsLogin(true);
+          setIsFadingOut(false);
+        }, 500);
       }
       setLoading(false);
     } catch (error) {
       console.error('Error:', error);
-      setErrorMessage('An error occurred. Please try again later.');
+      showError('An error occurred. Please try again later.');
       setLoading(false);
     }
+  };
+
+  const showError = (message) => {
+    setErrorMessage(message);
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 4000);
+  };
+
+  const toggleForm = () => {
+    setIsFadingOut(true);
+    setTimeout(() => {
+      setIsLogin(!isLogin);
+      setIsFadingOut(false);
+    }, 500);
   };
 
   if (loading) {
@@ -93,12 +103,8 @@ const Login = () => {
 
   return (
     <div className="login-form-container">
-      <div className="tab-buttons">
-        <button className={`tab-button ${isLogin ? 'active' : ''}`} onClick={() => setIsLogin(true)}>Sign In</button>
-        <button className={`tab-button ${!isLogin ? 'active' : ''}`} onClick={() => setIsLogin(false)}>Sign Up</button>
-      </div>
       {isLogin ? (
-        <div className="form-card">
+        <div className={`form-card ${isFadingOut ? 'fade-out' : ''}`}>
           <form onSubmit={handleLoginSubmit} className="login-form">
             <h2>Sign In</h2>
             <input
@@ -119,10 +125,11 @@ const Login = () => {
             />
             <button type="submit">Log In</button>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <p onClick={toggleForm}>Don't have an account? Sign up</p>
           </form>
         </div>
       ) : (
-        <div className="form-card">
+        <div className={`form-card ${isFadingOut ? 'fade-out' : ''}`}>
           <form onSubmit={handleSignupSubmit} className="signup-form">
             <h2>Create a New Account</h2>
             <input
@@ -205,6 +212,7 @@ const Login = () => {
             </div>
             <button type="submit">Sign Up</button>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <p onClick={toggleForm}>Already have an account? Sign in</p>
           </form>
         </div>
       )}

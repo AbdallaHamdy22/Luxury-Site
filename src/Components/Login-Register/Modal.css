@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +25,18 @@
   right: 10px;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 28px;
   color: var(--secondary-color);
   cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
+
+.login-modal-close:hover {
+  color: var(--primary-color);
+  transform: scale(1.2);
+}
+
+.login-modal-close:focus {
+  outline: none;
+}
+
