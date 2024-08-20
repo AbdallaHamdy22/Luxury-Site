@@ -49,8 +49,8 @@ const DropdownMenus = () => {
               <NavLink to="/sell" className="nav-link">
                 <button className="btn btn-common">SELL NOW</button>
               </NavLink>
-              <NavLink to="/ShowOrders" className="nav-link">
-                <button className="btn btn-common">SHOW REQUESTS QUEUE</button>
+              <NavLink to="/ShowSellQueue" className="nav-link">
+                <button className="btn btn-common">Control Panel</button>
               </NavLink>
             </>
           ) : user && (
