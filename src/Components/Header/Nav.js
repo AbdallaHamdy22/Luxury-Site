@@ -6,6 +6,8 @@ import Modal from '../Login-Register/Modal';
 import Login from '../Login-Register/Login';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUser } from '../Redux/RDXUser';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
   const user = useSelector((state) => state.user.user);
@@ -62,8 +64,10 @@ const Navbar = () => {
             <li className="nav-item dropdown">
               <Dropdown className="custom-dropdown">
                 <Dropdown.Toggle id="dropdown-basic" className="btn btn-common">
-                  {user.ProfileImage && (
+                  {user.ProfileImage ? (
                     <img src={user.ProfileImage} alt="User" className="user-photo" />
+                  ):(
+                    <FontAwesomeIcon icon={faUser} />
                   )}
                   {user.UserName}
                 </Dropdown.Toggle>
