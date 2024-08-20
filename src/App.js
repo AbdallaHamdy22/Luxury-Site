@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -21,15 +21,17 @@ import ShowGenders from './Components/ShowGender/Genders';
 import ShowColors from './Components/ShowColor/Colors';
 import AccountSettings from './Components/AccountDetails/Account';
 import UserDetails from './Components/UserProducts/userDetails';
-import BuyNow from './Components/CashonDelivery/BuyNow'
+import BuyNow from './Components/CashonDelivery/BuyNow';
 import { setUser } from './Components/Redux/RDXUser';
 import ShowUsers from './Components/ShowUsers/users';
 import ShowSellQueue from './Components/ShowSell/ShowSellQueue';
 import ShowSellQueueDetails from './Components/ShowSellQueueDetails/ShowSellQueueDetails';
 import ShowOrder from './Components/ShowOrders/ShowOrder';
+import ScrollToTopButton from './Components/Upbtn/Upbtn';
 
 const App = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -62,6 +64,7 @@ const App = () => {
         <Route path="/ShowUsers" element={<ShowUsers />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ScrollToTopButton />
       <Footer />
     </>
   );
