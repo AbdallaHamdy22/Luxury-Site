@@ -207,10 +207,6 @@ const ProductDetails = () => {
                     <div className="description">
                         <p>{item.Description}</p>
                     </div>
-                    <div className="details">
-                        <p>Sent from <strong>New York, USA</strong></p>
-                        <p>Estimated Shipping <strong>{ item.Price } AED</strong></p>
-                    </div>
                 </div>
                 <div className="order-details">
                     <h2>Order Details</h2>
@@ -222,16 +218,14 @@ const ProductDetails = () => {
                     </div>
                     <label>Color</label>
                     <input type="text" readOnly value={selectedColor || ''} />
-                    <label>Item Price</label>
-                    <input type="text" readOnly value={`${item.Price || 0} AED`} />
                     <div className="subtotal">
                         <p>Sub Total</p>
                         <p>{(item.Price * userquantity).toFixed(2)} AED</p>
                     </div>
                     <label>Notes</label>
                     <textarea placeholder="Write a note..."></textarea>
-                    <label>Discount Size</label>
-                    <input type="text" readOnly value="-" />
+                    <label>Discount Coupon</label>
+                    <input type="text" placeholder='Enter the coupon for discount..'/>
                     <button className="apply-coupon">Apply Coupon</button>
                     <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
                     <button className="add-to-cart" onClick={handleToggleCart}>

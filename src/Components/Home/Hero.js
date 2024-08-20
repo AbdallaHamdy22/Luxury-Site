@@ -16,7 +16,8 @@ const Hero = () => {
 
   return (
     <div className="hero">
-      <h1>SELL YOUR LUXURY ITEMS WITH US</h1>
+      <h1>ELEVATE YOR STYLE..</h1>
+      <h1>BUY AND SELL YOUR LUXURY ITEMS WITH US! </h1>
       {user ? (
         <NavLink to="/Sell">
           <button className="btn btn-dark">SELL NOW</button>

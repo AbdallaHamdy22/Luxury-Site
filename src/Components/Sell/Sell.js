@@ -9,9 +9,7 @@ const Sell = () => {
     const [formData, setFormData] = useState({
         ProductName: '',
         description: '',
-        price: '',
         quantity: '',
-        offerPrice: '',
         CategoireID: '',
         BrandID: '',
         SexID: '',
@@ -60,7 +58,7 @@ const Sell = () => {
         let formattedValue = value;
     
         // Only format if the input is a number field and not empty
-        if (['price', 'quantity', 'offerPrice'].includes(name) && value !== '') {
+        if (['quantity'].includes(name) && value !== '') {
             // Remove any existing commas before formatting
             const cleanValue = value.replace(/\./g, '');
             formattedValue = new Intl.NumberFormat('de-DE').format(cleanValue);
@@ -103,9 +101,7 @@ const Sell = () => {
                 setFormData({
                     ProductName: '',
                     description: '',
-                    price: '',
                     quantity: '',
-                    offerPrice: '',
                     CategoireID: '',
                     BrandID: '',
                     SexID: '',
@@ -155,16 +151,6 @@ const Sell = () => {
                     placeholder='Enter your product description.. e.g., small black bag with unique bracelet material'
                     required
                 />
-                <label htmlFor='price'>Product Price</label>
-                <input
-                    name='price'
-                    type='number'
-                    value={formData.price}
-                    onChange={handleChange}
-                    onWheel={(e) => e.target.blur()}
-                    placeholder='Enter your product price'
-                    required
-                />
                 <label htmlFor='quantity'>Quantity</label>
                 <input
                     name='quantity'
@@ -183,16 +169,6 @@ const Sell = () => {
                     onChange={handleFileChange}
                     ref={fileInputRef}
                     required
-                />
-
-                <label htmlFor='offerPrice'>Offer Price</label>
-                <input
-                    name='offerPrice'
-                    type='number'
-                    value={formData.offerPrice}
-                    onWheel={(e) => e.target.blur()}
-                    placeholder='Enter your offer price.. e.g., 20 if you want 20%'
-                    onChange={handleChange}
                 />
                 <label htmlFor='CategoireID'>Categories</label>
                 <select name="CategoireID" id="CategoireID" value={formData.CategoireID} onChange={handleChange} required>
