@@ -1,3 +1,27 @@
+/* General Card Styling */
+.Itms .card {
+    position: relative;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    opacity: 1;
+}
+
+.Itms .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.Itms .card.sold-out {
+    opacity: 0.4;
+}
+
+/* Image Styling */
 .Itms .card-img-top {
     width: 100%;
     height: 300px;
@@ -6,77 +30,96 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.Itms .card {
-    position: relative;
-    border: none;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.Itms .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-.Itms .card-icons {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+/* Card Body Styling */
+.Itms .card-body {
+    padding: 15px;
+    background: var(--accent-color);
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    z-index: 1;
-}
-
-.Itms .favorite-button,
-.Itms .cart-button {
-    background: rgba(255, 255, 255, 0.8);
-    border: 2px solid var(--secondary-color); 
-    color: var(--primary-color);
-    padding: 8px;
-    border-radius: 50%;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 1.2rem;
-}
-
-.Itms .favorite-button:hover,
-.Itms .cart-button:hover {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-}
-
-.Itms .card-body {
-    padding: 20px;
-    text-align: center;
-    background: var(--accent-color);
+    justify-content: space-between;
 }
 
 .Itms .card-title {
-    font-size: 1.5rem; 
+    font-size: 1.3rem;
     font-weight: bold;
     color: var(--primary-color);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .Itms .card-text {
     color: var(--text-color);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    max-height: 50px;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.9rem;
 }
 
-.Itms .card-text.text-danger {
-    color: var(--secondary-color);
+/* Field-Value Pair Styling */
+.Itms .field-value {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* Badge Styling */
+.Itms .badge-container {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    /* transform: rotate(-45deg); */
+    transform-origin: left top;
 }
 
 .Itms .badge {
     display: inline-block;
-    padding: 0.5em 0.75em;
+    padding: 0.5em 1em;
     font-size: 0.9rem;
     font-weight: 700;
     text-align: center;
     border-radius: 0.5rem;
     background-color: #d4af37;
     color: white;
-    margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translate(-20%, -50%);
+}
+
+.Itms .badge.sold-out {
+    background-color: #ff0000;
+}
+
+.Itms .badge.recently-added {
+    background-color: #28a745;
+}
+
+/* Button Styling */
+.Itms .favorite-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid var(--secondary-color);
+    color: grey;
+    padding: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    font-size: 1.2rem;
+    z-index: 2;
+}
+
+.Itms .favorite-button.active {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.Itms .favorite-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
 }

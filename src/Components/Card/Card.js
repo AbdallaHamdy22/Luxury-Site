@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../Redux/RDXFav';
 import { addToCart, removeFromCart } from '../Redux/RDXCart';
-import { FaStar, FaShoppingCart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import './Card.css';
@@ -28,13 +28,13 @@ const ProductCard = ({ product }) => {
             dispatch(removeFromCart({ ProductID: id }));
             await axiosInstance.post('Products/updateProductQuantity.php', {
                 ProductID: product.ProductID,
-                quantity: product.Quantity + 1
+                quantity: product.Quantity + 1,
             });
         } else {
             dispatch(addToCart({ ...product, Quantity: 1 }));
             await axiosInstance.post('Products/updateProductQuantity.php', {
                 ProductID: product.ProductID,
-                quantity: product.Quantity - 1
+                quantity: product.Quantity - 1,
             });
         }
     };
@@ -54,26 +54,30 @@ const ProductCard = ({ product }) => {
     };
 
     const discountPrice = calculateDiscountPrice(product.Price, product.OfferPrice);
-    const hasOffer = product.OfferPrice && product.OfferPrice > 0;
+    const hasOffer = product.OfferPrice > 0 || null;
 
     const imageUrls = product.Image ? product.Image.split(',') : [];
+
     return (
         <div className="col-md-4 mb-4">
-            <div className="card h-100">
-                <div className="card-icons">
-                    <button
-                        onClick={() => handleToggleFavorites(product.ProductID)}
-                        className="favorite-button"
-                    >
-                        <FaStar color={isFavorite(product.ProductID) ? "gold" : "white"} />
-                    </button>
-                    <button
-                        onClick={() => handleToggleCart(product.ProductID)}
-                        className="cart-button"
-                    >
-                        <FaShoppingCart color={isInCart(product.ProductID) ? "blue" : "white"} />
-                    </button>
-                </div>
+            <div className={`card h-100 ${product.Quantity === 0 ? 'sold-out' : ''}`}>
+                <button
+                    onClick={() => handleToggleFavorites(product.ProductID)}
+                    className={`favorite-button ${isFavorite(product.ProductID) ? 'active' : ''}`}
+                >
+                    <FaHeart />
+                </button>
+                {product.Quantity === 0 ? (
+                    <div className="badge-container">
+                        <span className="badge sold-out">Sold Out</span>
+                    </div>
+                ) : (
+                    isRecentlyAdded(product.date) && (
+                        <div className="badge-container">
+                            <span className="badge recently-added">Newly added</span>
+                        </div>
+                    )
+                )}
                 <Link to={`/ItemDetails/${product.ProductID}`} style={{ textDecoration: 'none' }}>
                     {imageUrls.length > 0 ? (
                         <img src={imageUrls[0]} className="card-img-top" alt={product.Name} />
@@ -84,18 +88,21 @@ const ProductCard = ({ product }) => {
                 <div className="card-body">
                     <h5 className="card-title">{product.Name}</h5>
                     <p className="card-text text-muted">{product.Description}</p>
-                    {hasOffer ? (
-                        <>
-                            <p className="card-text text-danger">Discount {product.OfferPrice}%</p>
-                            <p className="card-text text-danger">
-                                <del>Price: {product.Price} AED</del> {discountPrice} AED
-                            </p>
-                        </>
-                    ) : (
-                        <p className="card-text text-muted">Price: {product.Price} AED</p>
-                    )}
-                    {isRecentlyAdded(product.date) && (
-                        <span className="badge">Recently Added</span>
+                    <div className="field-value">
+                        <span>Price:</span>
+                        <span>{hasOffer ? (
+                            <>
+                                <del>{product.Price}</del> {discountPrice}
+                            </>
+                        ) : (
+                            product.Price
+                        )}   AED</span>
+                    </div>
+                    {hasOffer && (
+                        <div className="field-value">
+                            <span>Discount:</span>
+                            <span>{product.OfferPrice}%</span>
+                        </div>
                     )}
                 </div>
             </div>
