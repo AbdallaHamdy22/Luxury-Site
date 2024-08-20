@@ -59,11 +59,15 @@
 }
 
 /* Field-Value Pair Styling */
-.Itms .field-value {
+.field-value {
     display: flex;
     justify-content: space-between;
-    font-size: 1rem;
-    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.field-value span:first-child {
+    font-weight: bold;
+    color: var(--primary-color);
 }
 
 /* Badge Styling */

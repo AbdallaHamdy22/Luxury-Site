@@ -20,8 +20,8 @@ const Items = () => {
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [sexes, setSexes] = useState([]);
+    const [showAllBrands, setShowAllBrands] = useState(false);
 
-    // Fetch initial data for products, categories, brands, and genders
     useEffect(() => {
         axiosInstance.get('Products/getproduct.php')
             .then(response => {
@@ -48,7 +48,6 @@ const Items = () => {
             .catch(error => console.error('Error fetching sexes:', error));
     }, []);
 
-    // Update selected filters based on URL query parameters
     useEffect(() => {
         const category = query.get("category");
         const sex = query.get("sex");
@@ -57,7 +56,6 @@ const Items = () => {
         if (sex) setSelectedSexes([sex]);
     }, [location.search]);
 
-    // Handle filter changes for categories
     const handleCategoryChange = (event) => {
         const { id, checked } = event.target;
         setSelectedCategories((prevCategories) => {
@@ -69,7 +67,6 @@ const Items = () => {
         });
     };
 
-    // Handle filter changes for brands
     const handleBrandChange = (event) => {
         const { id, checked } = event.target;
         setSelectedBrands((prevBrands) => {
@@ -81,7 +78,6 @@ const Items = () => {
         });
     };
 
-    // Handle filter changes for genders
     const handleSexChange = (event) => {
         const { id, checked } = event.target;
         setSelectedSexes((prevSexes) => {
@@ -93,7 +89,10 @@ const Items = () => {
         });
     };
 
-    // Filter products based on selected filters
+    const toggleShowAllBrands = () => {
+        setShowAllBrands(!showAllBrands);
+    };
+
     const filteredProducts = useMemo(() => products.filter((product) => {
         const categoryMatch = selectedCategories.length === 0 || 
             (product.CategoireID && selectedCategories.includes(product.CategoireID.toString()));
@@ -132,7 +131,23 @@ const Items = () => {
                     </div>
                     <div className="mb-3">
                         <h5>Brands</h5>
-                        {brands.map(brand => (
+                        {brands.slice(0, 5).map(brand => (
+                            <div className="form-check" key={brand.BrandID}>
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={brand.BrandID}
+                                    onChange={handleBrandChange}
+                                />
+                                <label className="form-check-label" htmlFor={brand.BrandID}>{brand.Name}</label>
+                            </div>
+                        ))}
+                        {brands.length > 5 && (
+                            <div className="show-more" onClick={toggleShowAllBrands}>
+                                {showAllBrands ? 'Show Less' : 'Show More'}
+                            </div>
+                        )}
+                        {showAllBrands && brands.slice(5).map(brand => (
                             <div className="form-check" key={brand.BrandID}>
                                 <input
                                     className="form-check-input"

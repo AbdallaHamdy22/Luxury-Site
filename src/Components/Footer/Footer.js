@@ -35,14 +35,22 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-          <div className="col-md-3">
+          {/* <div className="col-md-3">
             <h5>Top Brands</h5>
             <ul className="list-unstyled">
               {brands.map(brand => (
                 <li key={brand.BrandID}><a href="/">{brand.Name}</a></li>
               ))}
             </ul>
-          </div>
+          </div> */}
+          <div className="col-md-3">
+            <h5>Top Brands</h5>
+            <ul className="list-unstyled">
+                {brands.slice(0, 5).map(brand => (
+                    <li key={brand.BrandID}><a href="/">{brand.Name}</a></li>
+                ))}
+            </ul>
+        </div>
           <div className="col-md-3">
             <h5>About The Royal Luxury</h5>
             <ul className="list-unstyled">
