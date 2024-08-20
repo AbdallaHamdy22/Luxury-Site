@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $product->setID($product->GetLastID() + 1);
                     $product->setName($result['ProductName']);
                     $product->setDescription($result['productDescription']);
-                    $product->setProduction_year(0);
+                    $product->setProduction_year(date('Y-m-d'));
                     $product->setPrice($userPrice); // User-specified price
                     $product->setUSerPrice($userPrice);
                     $product->setQuantity($result['Quantity']);

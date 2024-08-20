@@ -72,7 +72,7 @@ const ProductCard = ({ product }) => {
                         <span className="badge sold-out">Sold Out</span>
                     </div>
                 ) : (
-                    isRecentlyAdded(product.date) && (
+                    isRecentlyAdded(product.Production_year) && (
                         <div className="badge-container">
                             <span className="badge recently-added">Newly added</span>
                         </div>

@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Read the raw POST data and handle files
     $name = isset($_POST['Name']) ? $_POST['Name'] : null;
     $description = isset($_POST['Description']) ? $_POST['Description'] : '';
-    $productionYear = isset($_POST['ProductionYear']) ? $_POST['ProductionYear'] : null;
     $price = isset($_POST['Price']) ? $_POST['Price'] : 0;
     $quantity = isset($_POST['Quantity']) ? $_POST['Quantity'] : 0;
     $offerPrice = isset($_POST['OfferPrice']) ? $_POST['OfferPrice'] : 0;
@@ -41,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $product->setName($name);
     $product->setDescription($description);
-    $product->setProduction_year($productionYear);
+    $product->setProduction_year(date('Y-m-d'));
     $product->setPrice($price);
     $product->setQuantity($quantity);
     $product->setOfferPrice($offerPrice);
