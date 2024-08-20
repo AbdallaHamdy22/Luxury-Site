@@ -156,6 +156,7 @@ const ShowUsers = () => {
                     setSelfMessage("User deleted successfully!");
                     setSelfType("success");
                     setShowMessage(true);
+                    window.location.reload();
                 })
                 .catch(error => {
                     setSelfMessage("There was an error deleting the user!");

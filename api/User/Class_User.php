@@ -18,19 +18,19 @@ class User
         $sql = "SELECT COUNT(*) as count FROM users";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-        
+
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $result['count'];
     }
-    public function Get_User_Data_With_Pagination($start=0, $limit=6)
+    public function Get_User_Data_With_Pagination($start = 0, $limit = 6)
     {
         $sql = "SELECT * FROM users LIMIT :start, :limit";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':start', $start, PDO::PARAM_INT);
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $results;
@@ -61,6 +61,14 @@ class User
         } catch (Exception $e) {
             return false;
         }
+    }
+    public function deleteuser()
+    {
+        $sql = "DELETE FROM users WHERE UserID = :userid";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':userid', $this->ID, PDO::PARAM_INT);
+
+        return $stmt->execute();
     }
     public function createuser($data)
     {
