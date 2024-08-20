@@ -49,3 +49,8 @@
     border-radius: 50%;
     border: 2px solid var(--secondary-color);
 }
+
+
+.Itms .show-more{
+    cursor: pointer;
+}

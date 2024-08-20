@@ -46,7 +46,7 @@ const Footer = () => {
           <div className="col-md-3">
             <h5>Top Brands</h5>
             <ul className="list-unstyled">
-                {brands.slice(0, 5).map(brand => (
+                {brands.slice(0, 7).map(brand => (
                     <li key={brand.BrandID}><a href="/">{brand.Name}</a></li>
                 ))}
             </ul>
