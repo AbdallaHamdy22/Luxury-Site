@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../Redux/RDXCart';
+import { removeFromFavorites } from '../Redux/RDXFav';
 
 const ProductCard = ({ product }) => {
     const dispatch = useDispatch();
@@ -10,9 +11,9 @@ const ProductCard = ({ product }) => {
 
     const handleCartClick = () => {
         if (isInCart) {
-            dispatch(removeFromCart({ id: product.ProductID }));
+            dispatch(removeFromCart({ ProductID: product.ProductID }));
         } else {
-            dispatch(addToCart(product));
+            dispatch(addToCart({ ...product, Quantity: 1 }));
         }
     };
 
@@ -25,12 +26,20 @@ const ProductCard = ({ product }) => {
                     <p className="price">${product.Price.toFixed(2)}</p>
                 </div>
             </Link>
-            <button
-                onClick={handleCartClick}
-                className={`btn ${isInCart ? 'btn-danger' : 'btn-primary'} mt-2 w-100`}
-            >
-                {isInCart ? 'Remove from Cart' : 'Add to Cart'}
-            </button>
+            <div className="button-group">
+                <button
+                    onClick={handleCartClick}
+                    className={`btn ${isInCart ? 'btn-danger' : 'btn-primary'}`}
+                >
+                    {isInCart ? 'Remove from Cart' : 'Add to Cart'}
+                </button>
+                <button
+                    onClick={() => dispatch(removeFromFavorites({ id: product.ProductID }))}
+                    className="btn btn-danger"
+                >
+                    Remove from Favorites
+                </button>
+            </div>
         </div>
     );
 };

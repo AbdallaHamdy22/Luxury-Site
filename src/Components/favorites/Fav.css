@@ -65,6 +65,7 @@
 .product-card .product-details {
     flex: 1; /* Allows details to expand and fill available space */
     margin-bottom: 10px;
+    background-color: var(--accent-color);
 }
 
 /* Product Name */
@@ -76,7 +77,7 @@
 }
 
 /* Product Price */
-.product-card p.price {
+.product-card p .price {
     font-size: 1.25rem;
     color: var(--secondary-color);
     margin-top: 5px;
@@ -107,20 +108,41 @@
     width: 100%;
 }
 
-/* Primary Button */
+
 .product-card .btn-primary {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
 }
 
 .product-card .btn-primary:hover {
     background-color: #a88360;
 }
 
-/* Danger Button */
+
 .product-card .btn-danger {
     background-color: #e74c3c;
 }
 
 .product-card .btn-danger:hover {
     background-color: #c0392b;
+}
+
+/* Button Group for Side-by-Side Layout */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.button-group .btn {
+    width: 50%; /* Ensure both buttons have equal width */
+    margin-right: 10px; /* Space between buttons */
+}
+
+.button-group .btn:last-child {
+    margin-right: 0; /* Remove margin for the last button */
+}
+
+/* Adjust padding for consistent height */
+.product-card .btn {
+    padding: 10px 0; /* Ensures consistent button height */
 }
