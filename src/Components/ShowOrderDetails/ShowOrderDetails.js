@@ -14,11 +14,13 @@ const ShowOrderDetails = () => {
     const [selfMessage, setSelfMessage] = useState("");
 
     useEffect(() => {
-        axiosInstance.get(`orders/getOrderdetails.php?QueueID=${id}`)
+        axiosInstance.get(`Orders/getOrderdetails.php?QueueID=${id}`)
             .then(response => {
                 setOrderDetails(response.data);
             })
             .catch(error => {
+                console.log(error);
+                
                 setSelfMessage('Error fetching order details.');
                 setSelfType("error");
                 setShowMessage(true);

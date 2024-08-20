@@ -17,7 +17,8 @@ header("Content-Type: application/json; charset=UTF-8");
 // Create a database connection
 $database = new Connection();
 $db = $database->connect();
-$product=new Products($db);
+
+$product = new Products($db);
 // Get the queue ID from the request
 $queueID = isset($_GET['QueueID']) ? intval($_GET['QueueID']) : 0;
 
@@ -26,17 +27,20 @@ if ($queueID > 0) {
     $queueDetails = new OrderDetails($db);
 
     // Fetch the queue details by ID
-    $results = $queueDetails->Get_OrderDetails_By_ID($queueID);    
+    $results = $queueDetails->Get_OrderDetails_By_ID($queueID);
     if ($results) {
         $details = [];
-        foreach ($results as $result) {            
+        foreach ($results as $result) {
             $productID = $result['ProductID'];
-            $product->Get_Product_Data_By_ID($productID);                       
-            $details[] = array_merge($result, $product->toArray()); 
+            $productData = $product->Get_Product_Data_By_ID($productID);
+            if ($productData) {
+                $details[] = array_merge($result, $productData);
+            } else {
+                $details[] = $result;
+            }
         }
 
         echo json_encode($details);
-
     } else {
         echo json_encode(["status" => "error", "message" => "Failed to fetch queue details."]);
     }
