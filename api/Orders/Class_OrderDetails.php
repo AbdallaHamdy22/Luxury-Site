@@ -63,11 +63,11 @@ class OrderDetails {
     }
 
     public function Get_OrderDetails_By_ID($id) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE OrderDetailsID = ?";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE OrderID = :queueid";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $id);
+        $stmt->bindParam(':queueid', $id);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function Create_OrderDetails() {
@@ -123,7 +123,7 @@ class OrderDetails {
     }
 
     public function Delete_OrderDetails() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE OrderDetailsID = ?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE OrderID = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->OrderDetailsID);
 

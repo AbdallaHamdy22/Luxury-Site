@@ -15,35 +15,36 @@ const ShowOrder = () => {
     const handleCloseMessage = () => {
         setShowMessage(false);
     };
-    useEffect(() => {
-        axiosInstance.get('WaitingList/getQueueList.php')
+    useEffect(() => {        
+        axiosInstance.get('orders/')        
             .then(response => {
-                setOrders(response.data);
-            })
+                setOrders(response.data);                
+            })            
             .catch(error => {
                 console.error("There was an error fetching the orders!", error);
             });
+            
     }, []);
-    const handleIgnore = (id) => {
-        const data = { QueueID: id };
-        axiosInstance.post('WaitingList/ignoreQueue.php', data)
-            .then(response => {
-                if (response.data.status === 'success') {
-                    setSelfMessage("Order deleted successfully!");
-                    setSelfType("success");
-                    setShowMessage(true);
-                } else {
-                    setSelfMessage('Failed to ignore the order: ' + response.data.message);
-                    setSelfType("error");
-                    setShowMessage(true);
-                }
-            })
-            .catch(error => {
-                setSelfMessage('An error occurred while ignoring the order.',error);
-                setSelfType("error");
-                setShowMessage(true);
-            });
-    };
+    // const handleIgnore = (id) => {
+    //     const data = { QueueID: id };
+    //     axiosInstance.post('WaitingList/ignoreQueue.php', data)
+    //         .then(response => {
+    //             if (response.data.status === 'success') {
+    //                 setSelfMessage("Order deleted successfully!");
+    //                 setSelfType("success");
+    //                 setShowMessage(true);
+    //             } else {
+    //                 setSelfMessage('Failed to ignore the order: ' + response.data.message);
+    //                 setSelfType("error");
+    //                 setShowMessage(true);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             setSelfMessage('An error occurred while ignoring the order.',error);
+    //             setSelfType("error");
+    //             setShowMessage(true);
+    //         });
+    // };
 
     return (
         <div className="orders-container">
@@ -61,18 +62,18 @@ const ShowOrder = () => {
                             <th>ID</th>
                             <th>User Name</th>
                             <th>Show Order details</th>
-                            <th>Delete order</th>
+                            {/* <th>Delete order</th> */}
                         </tr>
                     </thead>
                     <tbody>
                         {orders && orders.length > 0 ? orders.map(order => (
-                            <tr key={order.QueueID}>
-                                <td>{order.QueueID}</td>
+                            <tr key={order.OrderID}>
+                                <td>{order.OrderID}</td>
                                 <td>{order.UserName}</td>
-                                <td><Link to={`/ShowOrderDetails/${order.QueueID}`}><button>Show Order Details</button></Link></td>
-                                <td><button onClick={handleIgnore(order.QueueID)}className="delete-button">
+                                <td><Link to={`/ShowOrderDetails/${order.OrderID}`}><button>Show Order Details</button></Link></td>
+                                {/* <td><button onClick={handleIgnore(order.OrderID)}className="delete-button">
                                     <FontAwesomeIcon icon={faTrash} /> Delete
-                                </button></td>
+                                </button></td> */}
                             </tr>
                         )) : <tr><td colSpan="4">No pending orders</td></tr>}
                     </tbody>

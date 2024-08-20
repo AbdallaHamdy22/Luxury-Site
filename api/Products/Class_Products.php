@@ -27,6 +27,9 @@ class Products
         $this->Color = new Color($db);
         $this->Sex = new Sex($db);
     }
+    public function toArray() {
+        return get_object_vars($this);
+    }
 
     public function checkProductsByOtherID($brandID, $type)
     {

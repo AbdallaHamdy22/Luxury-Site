@@ -24,9 +24,10 @@ const ShowOrderDetails = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axiosInstance.get(`WaitingList/getQueueDetails.php?QueueID=${id}`)
+        axiosInstance.get(`orders/getOrderdetails.php?QueueID=${id}`)
             .then(response => {
                 let data = response.data[0];
+                console.log(response.data[0]);  
                 setItem(data);
             })
             .catch(error => {
@@ -120,13 +121,13 @@ const ShowOrderDetails = () => {
                 <Container className="product-detail-container mt-4">
                     <h1 className="text-center">{item.ProductName}</h1>
 
-                    <Slider {...settings}>
+                    {/* <Slider {...settings}>
                         {item.Image && item.Image.map((img, index) => (
                             <div key={index} className="image-slide">
                                 <Image src={img} fluid className="main-product-image" />
                             </div>
                         ))}
-                    </Slider>
+                    </Slider> */}
 
                     <Row className="mt-4">
                         <div className="description-container">

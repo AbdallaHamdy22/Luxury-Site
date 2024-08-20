@@ -28,7 +28,7 @@ import ShowSellQueue from './Components/ShowSell/ShowSellQueue';
 import ShowSellQueueDetails from './Components/ShowSellQueueDetails/ShowSellQueueDetails';
 import ShowOrder from './Components/ShowOrders/ShowOrder';
 import ScrollToTopButton from './Components/Upbtn/Upbtn';
-
+import ShowOrderDetails from './Components/ShowOrderDetails/ShowOrderDetails';
 const App = () => {
   const dispatch = useDispatch();
 
@@ -60,6 +60,7 @@ const App = () => {
         <Route path="/ShowColors" element={<ShowColors />} />
         <Route path="/ShowGenders" element={<ShowGenders />} />
         <Route path="/ShowOrders" element={<ShowOrder />} />
+        <Route path="/ShowOrderDetails/:id" element={<ShowOrderDetails />} />
         <Route path="/ShowProducts" element={<ShowProducts />} />
         <Route path="/ShowUsers" element={<ShowUsers />} />
         <Route path="*" element={<NotFound />} />
