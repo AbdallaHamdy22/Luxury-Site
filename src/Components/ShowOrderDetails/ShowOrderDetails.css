@@ -1,110 +1,53 @@
-/* Base Styles */
-.ShowSellQueueDetails {
+.show-order-details-container {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--accent-color);
     padding: 20px;
-    background-color: #f5f5f5;
-    min-height: 100vh;
 }
 
-.product-detail-container {
-    padding: 20px;
-    background: #fff;
+.order-details-content {
+    flex: 1;
+    background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-left: 250px; /* Adjust based on sidebar width */
 }
 
-.ShowSellQueueDetails h1, h3, h4 {
-    font-family: 'Playfair Display', serif;
-    color: #333;
-}
-
-.ShowSellQueueDetails h4 {
-    color: #666;
-}
-
-.description-container {
+.order-details-content h1 {
+    font-family: var(--heading-font);
+    text-align: center;
     margin-bottom: 20px;
+    color: var(--primary-color);
 }
 
-.ShowSellQueueDetails .image-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    height: 450px;
-    overflow: hidden;
+.order-detail {
+    margin-bottom: 20px;
+    font-family: var(--body-font);
+    color: var(--text-color);
 }
 
-.ShowSellQueueDetails .main-product-image {
-    max-width: 100%;
-    height: 400px;
-    object-fit: cover;
+.order-detail strong {
+    color: var(--primary-color);
 }
 
-.ShowSellQueueDetails .slick-slider .slick-prev, 
-.slick-slider .slick-next {
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.5);
+.order-details-content .back-button {
+    background-color: var(--secondary-color);
     color: white;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    font-size: 20px;
-    border: none; /* Remove default border */
-}
-
-.ShowSellQueueDetails .slick-slider .slick-prev {
-    left: 10px; /* Adjust position */
-}
-
-.ShowSellQueueDetails .slick-slider .slick-next {
-    right: 10px; /* Adjust position */
-}
-
-.ShowSellQueueDetails .slick-slider .slick-prev:hover, 
-.slick-slider .slick-next:hover {
-    background: rgba(0, 0, 0, 0.7);
-}
-
-/* Form Styles */
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    font-weight: bold;
-    color: #333;
-}
-
-.form-control {
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    padding: 10px;
-}
-
-.btn-success, .btn-danger {
-    font-size: 16px;
-    border-radius: 4px;
-}
-
-.btn-success {
-    background-color: #28a745;
     border: none;
-    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 20px auto 0;
 }
 
-.btn-success:hover {
-    background-color: #218838;
+.order-details-content .back-button:hover {
+    background-color: #a88360;
 }
 
-.btn-danger {
-    background-color: #dc3545;
-    border: none;
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
+.order-details-content hr {
+    border-top: 1px solid var(--primary-color);
+    margin: 15px 0;
 }

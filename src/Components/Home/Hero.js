@@ -7,23 +7,24 @@ import { useState } from 'react';
 const Hero = () => {
   const user = useSelector((state) => state.user.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleSellClick = () => {
     if (!user) {
       alert("Please login first.");
-      setIsModalOpen(true)
+      setIsModalOpen(true);
     }
   };
 
   return (
     <div className="hero">
-      <h1>ELEVATE YOR STYLE..</h1>
-      <h1>BUY AND SELL YOUR LUXURY ITEMS WITH US! </h1>
+      <h1>Elevate Your Style.</h1>
+      <h1>Buy and Sell Luxury Items with Confidence.</h1>
       {user ? (
         <NavLink to="/Sell">
-          <button className="btn btn-dark">SELL NOW</button>
+          <button className="btn btn-dark">Sell Now</button>
         </NavLink>
       ) : (
-          <button className="btn btn-dark" onClick={handleSellClick}>SELL NOW</button>
+        <button className="btn btn-dark" onClick={handleSellClick}>Sell Now</button>
       )}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <Login setUser={() => setIsModalOpen(false)} />
