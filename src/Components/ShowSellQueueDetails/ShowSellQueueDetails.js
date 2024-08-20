@@ -18,7 +18,7 @@ const ShowSellQueueDetails = () => {
     };
     const { id } = useParams();
     const [item, setItem] = useState({});
-    const [customerServicePrice, setCustomerServicePrice] = useState(0);
+    const [ProductPrice, setProductPrice] = useState(0);
     const [feesPrice, setFeesPrice] = useState(0);
     const [shippingPrice, setShippingPrice] = useState(0);
     const navigate = useNavigate();
@@ -27,6 +27,8 @@ const ShowSellQueueDetails = () => {
         axiosInstance.get(`WaitingList/getQueueDetails.php?QueueID=${id}`)
             .then(response => {
                 let data = response.data[0];
+                console.log(data.Image);
+                data.Image && data.Image.map((img, index) =>console.log(img));
                 setItem(data);
             })
             .catch(error => {
@@ -37,22 +39,24 @@ const ShowSellQueueDetails = () => {
     }, [id]);
 
     const handleApprove = () => {
-        const totalUserPrice = parseFloat(item.ProductPrice) + parseFloat(customerServicePrice) + parseFloat(feesPrice) + parseFloat(shippingPrice);
+        const totalUserPrice = parseFloat(ProductPrice) + parseFloat(feesPrice) + parseFloat(shippingPrice);
         const data = {
             QueueID: id,
             UserPrice: totalUserPrice
         };
 
         axiosInstance.post('WaitingList/approveQueue.php', data)
-            .then(response => {
+        .then(response => {
+                console.log(response);
                 if (response.data.status === 'success') {
                     setSelfMessage("Order approved and moved to products successfully!");
                     setSelfType("success");
                     setShowMessage(true);
                     setTimeout(() => {
-                        navigate('/ShowOrders');
+                        navigate('/ShowSellQueue');
                     },3000)
                 } else {
+                    
                     setSelfMessage('Failed to approve the order: ' + response.data.message);
                     setSelfType("error");
                     setShowMessage(true);
@@ -75,7 +79,7 @@ const ShowSellQueueDetails = () => {
                     setSelfType("success");
                     setShowMessage(true);
                     setTimeout(() => {
-                        navigate('/ShowOrders');
+                        navigate('/ShowSellQueue');
                     },3000)
                 } else {
                     setSelfMessage('Failed to ignore the order: ' + response.data.message);
@@ -90,11 +94,11 @@ const ShowSellQueueDetails = () => {
             });
     };
 
-    const handleCustomerServicePriceChange = (e) => setCustomerServicePrice(e.target.value);
+    const handleProductPriceChange = (e) => setProductPrice(e.target.value);
     const handleFeesPriceChange = (e) => setFeesPrice(e.target.value);
     const handleShippingPriceChange = (e) => setShippingPrice(e.target.value);
 
-    const totalUserPrice = parseFloat(item.ProductPrice) + parseFloat(customerServicePrice) + parseFloat(feesPrice) + parseFloat(shippingPrice);
+    const totalUserPrice = parseFloat(ProductPrice) + parseFloat(feesPrice) + parseFloat(shippingPrice);
     const settings = {
         dots: true,
         infinite: true,
@@ -123,7 +127,7 @@ const ShowSellQueueDetails = () => {
                     <Slider {...settings}>
                         {item.Image && item.Image.map((img, index) => (
                             <div key={index} className="image-slide">
-                                <Image src={img} fluid className="main-product-image" />
+                                <Image src={img} alt={`${item.ProductName}`} fluid className="main-product-image" />
                             </div>
                         ))}
                     </Slider>
@@ -137,7 +141,6 @@ const ShowSellQueueDetails = () => {
                                 <p>{item.ProductDescription}</p>
                             </Col>
                         </div>
-                        <h4>Price: {item.ProductPrice} AED</h4>
                     </Row>
                     <Row className="mt-4">
                         <Col md={6}>
@@ -149,14 +152,14 @@ const ShowSellQueueDetails = () => {
                     </Row>
                     <Row className="mt-4">
                         <Form onSubmit={(e) => e.preventDefault()} className="form-group">
-                            <Form.Group controlId="customerServicePrice">
-                                <Form.Label>Customer Service Price:</Form.Label>
+                            <Form.Group controlId="ProductPrice">
+                                <Form.Label>Product Price:</Form.Label>
                                 <Form.Control
                                     type="number"
                                     name="CustomerService"
-                                    value={customerServicePrice}
-                                    onChange={handleCustomerServicePriceChange}
-                                    placeholder="Enter the Customer Service price"
+                                    value={ProductPrice}
+                                    onChange={handleProductPriceChange}
+                                    placeholder="Enter the Product price"
                                 />
                             </Form.Group>
                             <Form.Group controlId="feesPrice">

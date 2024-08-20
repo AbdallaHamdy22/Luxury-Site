@@ -3,8 +3,6 @@ class QueueDetails
 {
     private string $ProductName = '';
     private string $ProductDescription = '';
-    private float $ProductPrice = 0;
-    private float $ProductOfferPrice = 0;
     private float $Quantity = 0;
     private int $CategoireID = 0;
     private int $BrandID = 0;
@@ -23,7 +21,7 @@ class QueueDetails
 
     public function Get_Queue_Details_By_QueueID($queueID)
     {
-        $sql = "SELECT * FROM QueueDetails WHERE QueueID = :queueid";
+        $sql = "SELECT * FROM queuedetails WHERE QueueID = :queueid";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':queueid', $queueID, PDO::PARAM_INT);
         $stmt->execute();
@@ -53,28 +51,6 @@ class QueueDetails
     public function setProductDescription(string $ProductDescription): void
     {
         $this->ProductDescription = $ProductDescription;
-    }
-
-    // Getter and Setter for ProductPrice
-    public function getProductPrice(): float
-    {
-        return $this->ProductPrice;
-    }
-
-    public function setProductPrice(float $ProductPrice): void
-    {
-        $this->ProductPrice = $ProductPrice;
-    }
-
-    // Getter and Setter for ProductOfferPrice
-    public function getProductOfferPrice(): float
-    {
-        return $this->ProductOfferPrice;
-    }
-
-    public function setProductOfferPrice(float $ProductOfferPrice): void
-    {
-        $this->ProductOfferPrice = $ProductOfferPrice;
     }
 
     // Getter and Setter for Quantity
@@ -175,16 +151,14 @@ class QueueDetails
 
     public function Create_QueueDetail()
     {
-        $sql = "INSERT INTO QueueDetails 
-                (ProductName, ProductDescription, ProductPrice, OfferPrice, Quantity, CategoireID, BrandID, SexID, Color_ID, QueueID, Image, UserID, Status) 
+        $sql = "INSERT INTO queuedetails 
+                (ProductName, ProductDescription, Quantity, CategoireID, BrandID, SexID, Color_ID, QueueID, Image, UserID, Status) 
                 VALUES 
-                (:productname, :productdescription, :productprice, :offerprice, :quantity, :categoireid, :brandid, :sexid, :colorid, :queueid, :image, :userid, :status)";
+                (:productname, :productdescription, :quantity, :categoireid, :brandid, :sexid, :colorid, :queueid, :image, :userid, :status)";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':productname', $this->ProductName);
         $stmt->bindParam(':productdescription', $this->ProductDescription);
-        $stmt->bindParam(':productprice', $this->ProductPrice);
-        $stmt->bindParam(':offerprice', $this->ProductOfferPrice);
         $stmt->bindParam(':quantity', $this->Quantity);
         $stmt->bindParam(':categoireid', $this->CategoireID);
         $stmt->bindParam(':brandid', $this->BrandID);
@@ -204,11 +178,9 @@ class QueueDetails
 
     public function Update_QueueDetail()
     {
-        $sql = "UPDATE QueueDetails SET 
+        $sql = "UPDATE queuedetails SET 
                 ProductName = :productname, 
-                ProductDescription = :productdescription, 
-                ProductPrice = :productprice, 
-                OfferPrice = :offerprice, 
+                ProductDescription = :productdescription,
                 Quantity = :quantity, 
                 CategoireID = :categoireid, 
                 BrandID = :brandid, 
@@ -222,8 +194,6 @@ class QueueDetails
 
         $stmt->bindParam(':productname', $this->ProductName);
         $stmt->bindParam(':productdescription', $this->ProductDescription);
-        $stmt->bindParam(':productprice', $this->ProductPrice);
-        $stmt->bindParam(':offerprice', $this->ProductOfferPrice);
         $stmt->bindParam(':quantity', $this->Quantity);
         $stmt->bindParam(':categoireid', $this->CategoireID);
         $stmt->bindParam(':brandid', $this->BrandID);
@@ -243,7 +213,7 @@ class QueueDetails
 
     public function Delete_QueueDetail()
     {
-        $sql = "DELETE FROM QueueDetails WHERE QueueID = :queueid";
+        $sql = "DELETE FROM queuedetails WHERE QueueID = :queueid";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':queueid', $this->QueueID, PDO::PARAM_INT);
 

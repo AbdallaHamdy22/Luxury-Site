@@ -82,7 +82,6 @@ try {
 
         if ($queueList->Create_QueueList()) {
             $QueueID = $queueList->getQueueID();
-
             $queueDetails->setProductName($ProductName);
             $queueDetails->setProductDescription($description);
             $queueDetails->setQuantity($quantity);

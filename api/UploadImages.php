@@ -20,7 +20,7 @@ function uploadImages($files)
         $image_type = pathinfo($files['name'][$index], PATHINFO_EXTENSION);
         $file_name = uniqid() . '.' . $image_type;
         $file = $upload_directory . $file_name;
-        $image_save_link = 'Images/' . $file_name;
+        $image_save_link = '/Images/' . $file_name;
 
         if (move_uploaded_file($tmp_name, $file)) {
             $imagePaths[] = $image_save_link;

@@ -4,7 +4,7 @@ class Products
     private int $ID;
     private string $Name;
     private string $Description = '';
-    private int $Productionyear;
+    private string $Productionyear;
     private float $Price;
     private float $UserPrice = 0;
     private float $Quantity = 0;

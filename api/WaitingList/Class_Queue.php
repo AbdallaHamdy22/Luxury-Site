@@ -11,7 +11,7 @@ class QueueList
     }
     public function Get_All_Queues()
     {
-        $sql = "SELECT * FROM QueueList";
+        $sql = "SELECT * FROM queuelist";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
 
@@ -22,7 +22,7 @@ class QueueList
 
     public function Get_QueueList_Data_By_ID($id)
     {
-        $sql = "SELECT * FROM QueueList WHERE QueueID = :id";
+        $sql = "SELECT * FROM queuelist WHERE QueueID = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -62,7 +62,7 @@ class QueueList
 
     public function Create_QueueList()
     {
-        $sql = "INSERT INTO QueueList (QueueID, UserID) VALUES (:queueid, :userid)";
+        $sql = "INSERT INTO queuelist (QueueID, UserID) VALUES (:queueid, :userid)";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':queueid', $this->QueueID);
@@ -76,7 +76,7 @@ class QueueList
     }
     public function GetLastID()
     {
-        $sql = "SELECT MAX(QueueID) as LastID FROM QueueList";
+        $sql = "SELECT MAX(QueueID) as LastID FROM queuelist";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
 
@@ -87,7 +87,7 @@ class QueueList
 
     public function Update_QueueList()
     {
-        $sql = "UPDATE QueueList SET UserID = :userid WHERE QueueID = :queueid";
+        $sql = "UPDATE queuelist SET UserID = :userid WHERE QueueID = :queueid";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':userid', $this->UserID);
@@ -102,7 +102,7 @@ class QueueList
 
     public function Delete_QueueList()
     {
-        $sql = "DELETE FROM QueueList WHERE QueueID = :queueid";
+        $sql = "DELETE FROM queuelist WHERE QueueID = :queueid";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':queueid', $this->QueueID, PDO::PARAM_INT);
 

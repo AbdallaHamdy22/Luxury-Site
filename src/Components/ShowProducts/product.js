@@ -222,7 +222,6 @@ const ShowProducts = () => {
             UserID: null,
             Name: '',
             Description: '',
-            ProductionYear: '',
             Price: '',
             Quantity: '',
             MainQuantity: '',
@@ -358,10 +357,6 @@ const ShowProducts = () => {
                     <label>
                         Description:
                         <textarea name="Description" value={currentProduct.Description || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Production Year:
-                        <input type="text" name="ProductionYear" value={currentProduct.ProductionYear || ''} onChange={handleChange} />
                     </label>
                     <label>
                         Price:

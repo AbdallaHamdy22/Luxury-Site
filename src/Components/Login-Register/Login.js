@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../Redux/RDXUser';
+import axios from 'axios';
 import './Login.css';
-
+import axiosInstance from '../../axiosConfig/instance';
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ Email: '', Password: '' });
@@ -29,66 +30,54 @@ const Login = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-        const response = await fetch('/api/User/UserLogin.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(loginData)
-        });
-        const text = await response.text();
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch (err) {
-            throw new Error('Invalid JSON response');
-        }
+      const response = await axiosInstance.post('User/UserLogin.php', loginData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = response.data;
 
-        if (data.status === 'error') {
-            setErrorMessage(data.message);
-        } else {
-          localStorage.setItem('user', JSON.stringify(data));
-          const userData = {
-            Email: data.Email,
-            ProfileImage: data.ProfileImage,
-            RoleID: data.Role.ID,
-            RoleName: data.Role.RoleName,
-            UserID: data.ID,
-            UserName: data.UserName
-          };
-            dispatch(setUser(userData));
-            navigate('/');
-            window.location.reload();
-        }
-        setLoading(false);
+      if (data.status === 'error') {
+        setErrorMessage(data.message);
+      } else {
+        localStorage.setItem('user', JSON.stringify(data));
+        const userData = {
+          Email: data.Email,
+          ProfileImage: data.ProfileImage,
+          RoleID: data.Role.ID,
+          RoleName: data.Role.RoleName,
+          UserID: data.ID,
+          UserName: data.UserName,
+        };
+        dispatch(setUser(userData));
+        navigate('/');
+        window.location.reload();
+      }
+      setLoading(false);
     } catch (error) {
-        console.error('Error:', error);
-        setErrorMessage('An error occurred. Please try again later.');
-        setLoading(false);
+      console.error('Error:', error);
+      setErrorMessage('An error occurred. Please try again later.');
+      setLoading(false);
     }
-};
-
-
+  };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
     try {
-      const response = await fetch('/api/User/signup.php', {
-        method: 'POST',
+      const response = await axiosInstance.post('User/signup.php', signupData, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(signupData)
       });
-      const data = await response.json();
+      const data = response.data;
+
       if (data.status === 'error') {
         setErrorMessage(data.message);
-      } else {        
+      } else {
         navigate('/');
         window.location.reload();
-        
       }
       setLoading(false);
     } catch (error) {

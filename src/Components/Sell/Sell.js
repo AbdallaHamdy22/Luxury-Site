@@ -15,7 +15,7 @@ const Sell = () => {
         SexID: '',
         ColorID: ''
     });
-    
+
     const [showMessage, setShowMessage] = useState(false);
     const [selfMessage, setSelfMessage] = useState('');
     const [selfType, setSelfType] = useState('');
@@ -54,74 +54,74 @@ const Sell = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         let formattedValue = value;
-    
+
         // Only format if the input is a number field and not empty
         if (['quantity'].includes(name) && value !== '') {
             // Remove any existing commas before formatting
             const cleanValue = value.replace(/\./g, '');
             formattedValue = new Intl.NumberFormat('de-DE').format(cleanValue);
         }
-    
+
         setFormData({
             ...formData,
             [name]: formattedValue
         });
     };
-    
-    
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
         let data = new FormData();
-        
+
         Object.keys(formData).forEach(key => {
             data.append(key, formData[key]);
         });
 
         data.append('UserID', user.UserID);
         data.append('Status', 'Submitted');
-    
+
         for (let i = 0; i < imageFiles.length; i++) {
             data.append('images[]', imageFiles[i]);
         }
-        
+
         axiosInstance.post('WaitingList/addqueue.php', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        .then(response => response.data)
-        .then(result => {
-            const message = result.message || 'Unknown error';
-            if (result.status === 'success') {
-                setSelfMessage(message);
-                setSelfType("success");
-                setShowMessage(true);
-                setFormData({
-                    ProductName: '',
-                    description: '',
-                    quantity: '',
-                    CategoireID: '',
-                    BrandID: '',
-                    SexID: '',
-                    ColorID: ''
-                });
-                setImageFiles([]);
-                fileInputRef.current.value = '';
-            } else {
-                setSelfMessage('Error: ' + message);
+            .then(response => response.data)
+            .then(result => {
+                const message = result.message || 'Unknown error';
+                if (result.status === 'success') {
+                    setSelfMessage(message);
+                    setSelfType("success");
+                    setShowMessage(true);
+                    setFormData({
+                        ProductName: '',
+                        description: '',
+                        quantity: '',
+                        CategoireID: '',
+                        BrandID: '',
+                        SexID: '',
+                        ColorID: ''
+                    });
+                    setImageFiles([]);
+                    fileInputRef.current.value = '';
+                } else {
+                    setSelfMessage('Error: ' + message);
+                    setSelfType("error");
+                    setShowMessage(true);
+                }
+            })
+            .catch(error => {
+                setSelfMessage('An error occurred while submitting the form');
                 setSelfType("error");
                 setShowMessage(true);
-            }
-        })
-        .catch(error => {
-            setSelfMessage('An error occurred while submitting the form');
-            setSelfType("error");
-            setShowMessage(true);
-        });
+            });
     };
-    
+
 
     return (
         <div className='sell-container'>

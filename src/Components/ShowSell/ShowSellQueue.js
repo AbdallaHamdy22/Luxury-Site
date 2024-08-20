@@ -69,10 +69,12 @@ const ShowSellQueue = () => {
                             <tr key={order.QueueID}>
                                 <td>{order.QueueID}</td>
                                 <td>{order.UserName}</td>
-                                <td><Link to={`/ShowOrderDetails/${order.QueueID}`}><button>Show Order Details</button></Link></td>
-                                <td><button onClick={handleIgnore(order.QueueID)} className="delete-button">
-                                    <FontAwesomeIcon icon={faTrash} /> Delete
-                                </button></td>
+                                <td><Link to={`/ShowSellQueueDetails/${order.QueueID}`}><button>Show Order Details</button></Link></td>
+                                <td>
+                                    <button onClick={() => handleIgnore(order.QueueID)} className="delete-button">
+                                        <FontAwesomeIcon icon={faTrash} /> Delete
+                                    </button>
+                                </td>
                             </tr>
                         )) : <tr><td colSpan="4">No pending orders</td></tr>}
                     </tbody>
