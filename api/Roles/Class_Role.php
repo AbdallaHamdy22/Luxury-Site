@@ -54,4 +54,23 @@ class Role
             return null; // Return null on error
         }
     }
+    public function Get_Role_Data()
+    {
+        try {
+            $sql = "SELECT * FROM roles";
+            $stmt = $this->conn->prepare($sql);           
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result) {                
+                return $result;
+            } else {
+                return null; // Explicitly return null if no data found
+            }
+        } catch (Exception $e) {
+            error_log("Error fetching role data: " . $e->getMessage());
+            return null; // Return null on error
+        }
+    }
 }

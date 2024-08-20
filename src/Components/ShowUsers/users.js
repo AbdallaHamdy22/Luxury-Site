@@ -38,9 +38,10 @@ const ShowUsers = () => {
     }, [currentPage]);
 
     const fetchusers = () => {
-        axiosInstance.get(`users/showuser_page.php?page=${currentPage + 1}&limit=${usersPerPage}`)
+        axiosInstance.get(`User/showuser_page.php?page=${currentPage + 1}&limit=${usersPerPage}`)
             .then(response => {
                 setUsers(response.data.data || []);
+                         
                 setPageCount(Math.ceil(response.data.total / usersPerPage));
             })
             .catch(error => {
@@ -49,9 +50,11 @@ const ShowUsers = () => {
     };
 
     const fetchAuxiliaryData = () => {
-        axiosInstance.get('Roles/getrole.php')
+        axiosInstance.get('Roles/')
             .then(response => {
                 setRoles(response.data || []);
+                
+                
             })
             .catch(error => {
                 console.error("There was an error fetching the roles!", error);
@@ -247,7 +250,7 @@ const ShowUsers = () => {
                                 <td>{User.UserName}</td>
                                 <td>{User.Email}</td>
                                 <td><img src={User.ProfileImage} alt={User.Name} className="User-ProfileImage" /></td>
-                                <td>{roles.find(role => role.RoleID === User.RoleID)?.Name}</td>
+                                <td>{roles.find(role => role.RoleID === User.RoleID)?.RoleName}</td>
                                 <td><button className="edit-button" onClick={() => handleEdit(User)}>
                                     <FontAwesomeIcon icon={faEdit} /> Edit
                                 </button></td>
@@ -295,7 +298,7 @@ const ShowUsers = () => {
                         <select name="RoleID" value={currentuser.RoleID || ''} onChange={handleChange}>
                             <option value="">Select Role</option>
                             {roles.map(role => (
-                                <option key={role.RoleID} value={role.RoleID}>{role.Name}</option>
+                                <option key={role.RoleID} value={role.RoleID}>{role.RoleName}</option>
                             ))}
                         </select>
                     </label>
