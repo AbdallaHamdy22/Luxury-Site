@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DropdownMenu from './DropDown';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import axiosInstance from '../../axiosConfig/instance';
 import { useSelector } from 'react-redux';
 
@@ -9,6 +9,7 @@ const DropdownMenus = () => {
   const [menuData, setMenuData] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
+  const location = useLocation(); 
 
   useEffect(() => {
     axiosInstance.get('Sex/')
@@ -21,6 +22,12 @@ const DropdownMenus = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (!location.pathname.startsWith('/items')) {
+      setSelectedItem(null);
+    }
+  }, [location]);
 
   if (loading) {
     return <div className="loading">Loading...</div>;

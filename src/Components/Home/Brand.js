@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../axiosConfig/instance';
+import { Link } from 'react-router-dom';
 
 const BrandSection = () => {
   const [brands, setBrands] = useState([]);
@@ -18,8 +19,10 @@ const BrandSection = () => {
       <div className="brand-container">
         {brands.map(brand => (
           <div key={brand.BrandID}>
+            <Link className='link' to={`/Items?brand=${brand.BrandID}`}>
             <img src={brand.Image} alt={brand.Name} />
-            <h5>{brand.Name.toUpperCase()}</h5>
+              <h5>{brand.Name.toUpperCase()}</h5>
+            </Link>
           </div>
         ))}
       </div>

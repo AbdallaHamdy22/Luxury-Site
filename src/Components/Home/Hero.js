@@ -17,14 +17,14 @@ const Hero = () => {
 
   return (
     <div className="hero">
-      <h1>Elevate Your Style.</h1>
-      <h1>Buy and Sell Luxury Items with Confidence.</h1>
+      <h1>ELEVATE YOUR STYLE!</h1>
+      <h1>BUY AND SELL YOUR LUXURY ITEMS WITH US.</h1>
       {user ? (
         <NavLink to="/Sell">
-          <button className="btn btn-dark">Sell Now</button>
+          <button className="btn btn-dark">SELL NOW</button>
         </NavLink>
       ) : (
-        <button className="btn btn-dark" onClick={handleSellClick}>Sell Now</button>
+        <button className="btn btn-dark" onClick={handleSellClick}>SELL NOW</button>
       )}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <Login setUser={() => setIsModalOpen(false)} />

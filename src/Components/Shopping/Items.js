@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from './../../axiosConfig/instance';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductCard from '../Card/Card';
 import './Items.css';
-import { useLocation } from 'react-router-dom';
 
-// Hook to parse query parameters from the URL
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 };
@@ -13,6 +12,7 @@ const useQuery = () => {
 const Items = () => {
     const query = useQuery();
     const location = useLocation();
+    const navigate = useNavigate();
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [selectedSexes, setSelectedSexes] = useState([]);
@@ -51,42 +51,59 @@ const Items = () => {
     useEffect(() => {
         const category = query.get("category");
         const sex = query.get("sex");
+        const brand = query.get("brand");
 
-        if (category) setSelectedCategories([category]);
-        if (sex) setSelectedSexes([sex]);
+        if (category) setSelectedCategories(category.split(","));
+        if (sex) setSelectedSexes(sex.split(",")); // Handle multiple sexes if needed
+        if (brand) setSelectedBrands(brand.split(","));
     }, [location.search]);
+
+    const updateURL = (newCategories, newBrands, newSexes) => {
+        const params = new URLSearchParams();
+
+        if (newCategories.length > 0) {
+            params.set("category", newCategories.join(","));
+        }
+
+        if (newBrands.length > 0) {
+            params.set("brand", newBrands.join(","));
+        }
+
+        if (newSexes.length > 0) {
+            params.set("sex", newSexes.join(","));
+        }
+
+        navigate({ search: params.toString() });
+    };
 
     const handleCategoryChange = (event) => {
         const { id, checked } = event.target;
-        setSelectedCategories((prevCategories) => {
-            if (checked) {
-                return [...prevCategories, id];
-            } else {
-                return prevCategories.filter((category) => category !== id);
-            }
-        });
+        const newCategories = checked
+            ? [...selectedCategories, id]
+            : selectedCategories.filter((category) => category !== id);
+
+        setSelectedCategories(newCategories);
+        updateURL(newCategories, selectedBrands, selectedSexes);
     };
 
     const handleBrandChange = (event) => {
         const { id, checked } = event.target;
-        setSelectedBrands((prevBrands) => {
-            if (checked) {
-                return [...prevBrands, id];
-            } else {
-                return prevBrands.filter((brand) => brand !== id);
-            }
-        });
+        const newBrands = checked
+            ? [...selectedBrands, id]
+            : selectedBrands.filter((brand) => brand !== id);
+
+        setSelectedBrands(newBrands);
+        updateURL(selectedCategories, newBrands, selectedSexes);
     };
 
     const handleSexChange = (event) => {
         const { id, checked } = event.target;
-        setSelectedSexes((prevSexes) => {
-            if (checked) {
-                return [...prevSexes, id];
-            } else {
-                return prevSexes.filter((sex) => sex !== id);
-            }
-        });
+        const newSexes = checked
+            ? [...selectedSexes, id]
+            : selectedSexes.filter((sex) => sex !== id);
+
+        setSelectedSexes(newSexes);
+        updateURL(selectedCategories, selectedBrands, newSexes);
     };
 
     const toggleShowAllBrands = () => {
@@ -138,6 +155,7 @@ const Items = () => {
                                     type="checkbox"
                                     id={brand.BrandID}
                                     onChange={handleBrandChange}
+                                    checked={selectedBrands.includes(brand.BrandID.toString())}
                                 />
                                 <label className="form-check-label" htmlFor={brand.BrandID}>{brand.Name}</label>
                             </div>
@@ -154,6 +172,7 @@ const Items = () => {
                                     type="checkbox"
                                     id={brand.BrandID}
                                     onChange={handleBrandChange}
+                                    checked={selectedBrands.includes(brand.BrandID.toString())}
                                 />
                                 <label className="form-check-label" htmlFor={brand.BrandID}>{brand.Name}</label>
                             </div>

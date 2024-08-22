@@ -31,23 +31,15 @@ const Footer = () => {
             <h5>Top Categories</h5>
             <ul className="list-unstyled">
               {categories.map(category => (
-                <li key={category.CategoireID}><a href="/">{category.Name}</a></li>
+                <li key={category.CategoireID}><a href={`/Items?category=${category.CategoireID}`}>{category.Name}</a></li>
               ))}
             </ul>
           </div>
-          {/* <div className="col-md-3">
-            <h5>Top Brands</h5>
-            <ul className="list-unstyled">
-              {brands.map(brand => (
-                <li key={brand.BrandID}><a href="/">{brand.Name}</a></li>
-              ))}
-            </ul>
-          </div> */}
           <div className="col-md-3">
             <h5>Top Brands</h5>
             <ul className="list-unstyled">
-                {brands.slice(0, 7).map(brand => (
-                    <li key={brand.BrandID}><a href="/">{brand.Name}</a></li>
+                {brands.slice(0, 8).map(brand => (
+                    <li key={brand.BrandID}><a href={`/Items?brand=${brand.BrandID}`}>{brand.Name}</a></li>
                 ))}
             </ul>
         </div>

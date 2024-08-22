@@ -13,14 +13,8 @@ $allSex = $Sex->Get_All_Sex_Data();
 $categories = new Categoire($db);
 $allCategories = $categories->Get_All_Categoire_Data();
 
-$menuData = [
-    "allDropdown" => [
-        "title" => "ALL",
-        "sections" => []
-    ]
-];
+$menuData = [];
 
-// تحويل الجنس إلى مصفوفة من العناصر مع إضافة "All " قبل كل جنس
 $allSexItems = [];
 foreach ($allSex as $sex) {
     $allSexItems[] = [
@@ -29,14 +23,19 @@ foreach ($allSex as $sex) {
     ];
 }
 
-$menuData['allDropdown']['sections'][0] = [
-    "link" => "/Items",
-    "header" => "All products",
-    "items" => $allSexItems
+$menuData['allDropdown'] = [
+    "title" => "ALL",
+    "sections" => [
+        [
+            "link" => "/Items",
+            "header" => "All products",
+            "items" => $allSexItems
+        ]
+    ]
 ];
 
+
 foreach ($allCategories as $category) {
-    // تحويل الجنس إلى مصفوفة من العناصر مع إضافة اسم الفئة قبل كل جنس
     $categorySexItems = [];
     foreach ($allSex as $sex) {
         $categorySexItems[] = [
@@ -49,7 +48,7 @@ foreach ($allCategories as $category) {
         "title" => $category['Name'],
         "sections" => [
             [
-                "link" => "/Items",
+                "link" => "/Items?category=" . $category['CategoireID'],
                 "header" => $category['Name'],
                 "items" => $categorySexItems
             ]
