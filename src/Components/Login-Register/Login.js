@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FaUser, FaEnvelope, FaLock, FaPhone, FaBirthdayCake, FaGoogle, FaFacebook } from 'react-icons/fa';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../Redux/RDXUser';
 import axiosInstance from '../../axiosConfig/instance';
 import './Login.css';
 
-const Login = () => {
+const LoginModal = ({ setIsModalOpen }) => {
   const [loginData, setLoginData] = useState({ Email: '', Password: '' });
   const [signupData, setSignupData] = useState({
     fName: '', lName: '', Email: '', Password: '', conf_Password: '', number: '', birthdate: '', gender: ''
@@ -13,9 +14,10 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLogin, setIsLogin] = useState(true);
-  const [isFadingOut, setIsFadingOut] = useState(false); // New state for managing fade-out
+  const [isFadingOut, setIsFadingOut] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -46,8 +48,8 @@ const Login = () => {
           UserName: data.UserName,
         };
         dispatch(setUser(userData));
-        navigate('/');
-        window.location.reload();
+        setIsModalOpen(false); // Close modal on successful login
+        navigate(location.pathname); // Stay on the same page
       }
       setLoading(false);
     } catch (error) {
@@ -64,7 +66,7 @@ const Login = () => {
     try {
       const response = await axiosInstance.post('User/signup.php', signupData);
       const data = response.data;
-      
+
       if (data.status === 'error') {
         showError(data.message);
       } else {
@@ -97,127 +99,177 @@ const Login = () => {
     }, 500);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleSocialLogin = (provider) => {
+    console.log(`Sign in with ${provider}`);
+    // Implement social login functionality here
+  };
 
   return (
-    <div className="login-form-container">
-      {isLogin ? (
-        <div className={`form-card ${isFadingOut ? 'fade-out' : ''}`}>
-          <form onSubmit={handleLoginSubmit} className="login-form">
-            <h2>Sign In</h2>
-            <input
-              placeholder="Email address"
-              type="text"
-              name="Email"
-              required
-              value={loginData.Email}
-              onChange={handleLoginChange}
-            />
-            <input
-              placeholder="Password"
-              type="password"
-              name="Password"
-              required
-              value={loginData.Password}
-              onChange={handleLoginChange}
-            />
-            <button type="submit">Log In</button>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <p onClick={toggleForm}>Don't have an account? Sign up</p>
-          </form>
-        </div>
-      ) : (
-        <div className={`form-card ${isFadingOut ? 'fade-out' : ''}`}>
-          <form onSubmit={handleSignupSubmit} className="signup-form">
-            <h2>Create a New Account</h2>
-            <input
-              type="text"
-              placeholder="First name"
-              name="fName"
-              required
-              value={signupData.fName}
-              onChange={handleSignupChange}
-            />
-            <input
-              type="text"
-              placeholder="Last name"
-              name="lName"
-              required
-              value={signupData.lName}
-              onChange={handleSignupChange}
-            />
-            <input
-              type="number"
-              placeholder="Phone number"
-              name="number"
-              required
-              value={signupData.number}
-              onChange={handleSignupChange}
-            />
-            <input
-              type="email"
-              placeholder="Email address"
-              name="Email"
-              required
-              value={signupData.Email}
-              onChange={handleSignupChange}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              name="Password"
-              required
-              value={signupData.Password}
-              onChange={handleSignupChange}
-            />
-            <input
-              type="password"
-              placeholder="Confirm password"
-              name="conf_Password"
-              required
-              value={signupData.conf_Password}
-              onChange={handleSignupChange}
-            />
-            <label htmlFor="birthdate">Date of Birth</label>
-            <input
-              type="date"
-              name="birthdate"
-              id="birthdate"
-              value={signupData.birthdate}
-              onChange={handleSignupChange}
-            />
-            <div className="gender-selection">
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Male"
-                  checked={signupData.gender === 'Male'}
-                  onChange={handleSignupChange}
-                />
-                Male
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Female"
-                  checked={signupData.gender === 'Female'}
-                  onChange={handleSignupChange}
-                />
-                Female
-              </label>
+    <div>
+      <div className="login-modal-overlay">
+        <div className={`form-content ${isFadingOut ? 'fade-out' : ''}`} onClick={(e) => e.stopPropagation()}>
+          <button className="login-modal-close" onClick={() => setIsModalOpen(false)}>&times;</button>
+          <div className="luxurious-sidebar">
+            {/* <img src="/Images/Logo.png" alt="Website Logo" className="website-logo" /> */}
+            <h1>Welcome Back</h1>
+            <p>{isLogin ? "Sign in to your account" : "Create a new account to get started"}</p>
+            <button onClick={toggleForm}>
+              {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
+            </button>
+            <div className="social-login-buttons">
+              <button onClick={() => handleSocialLogin('Google')} className="social-login google">
+                <FaGoogle className="social-icon" />
+                {isLogin ? "Sign in with Google" : "Sign up with Google"}
+              </button>
+              <button onClick={() => handleSocialLogin('Facebook')} className="social-login facebook">
+                <FaFacebook className="social-icon" />
+                {isLogin ? "Sign in with Facebook" : "Sign up with Facebook"}
+              </button>
             </div>
-            <button type="submit">Sign Up</button>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <p onClick={toggleForm}>Already have an account? Sign in</p>
-          </form>
+          </div>
+          {isLogin ? (
+            <form onSubmit={handleLoginSubmit} className="luxurious-form">
+              <h2>Sign In</h2>
+              <div className="input-group">
+                <FaEnvelope className="input-icon" />
+                <input
+                  placeholder="Email address"
+                  type="text"
+                  name="Email"
+                  required
+                  value={loginData.Email}
+                  onChange={handleLoginChange}
+                />
+              </div>
+              <div className="input-group">
+                <FaLock className="input-icon" />
+                <input
+                  placeholder="Password"
+                  type="password"
+                  name="Password"
+                  required
+                  value={loginData.Password}
+                  onChange={handleLoginChange}
+                />
+              </div>
+              <button type="submit">Log In</button>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+            </form>
+          ) : (
+            <form onSubmit={handleSignupSubmit} className="luxurious-form">
+              <h2>Create a New Account</h2>
+              <div className="form-row">
+                <div className="input-group">
+                  <FaUser className="input-icon" />
+                  <input
+                    type="text"
+                    placeholder="First name"
+                    name="fName"
+                    required
+                    value={signupData.fName}
+                    onChange={handleSignupChange}
+                  />
+                </div>
+                <div className="input-group">
+                  <FaUser className="input-icon" />
+                  <input
+                    type="text"
+                    placeholder="Last name"
+                    name="lName"
+                    required
+                    value={signupData.lName}
+                    onChange={handleSignupChange}
+                  />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="input-group">
+                  <FaEnvelope className="input-icon" />
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    name="Email"
+                    required
+                    value={signupData.Email}
+                    onChange={handleSignupChange}
+                  />
+                </div>
+                <div className="input-group">
+                  <FaPhone className="input-icon" />
+                  <input
+                    type="number"
+                    placeholder="Phone number"
+                    name="number"
+                    required
+                    value={signupData.number}
+                    onChange={handleSignupChange}
+                  />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="input-group">
+                  <FaLock className="input-icon" />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    name="Password"
+                    required
+                    value={signupData.Password}
+                    onChange={handleSignupChange}
+                  />
+                </div>
+                <div className="input-group">
+                  <FaLock className="input-icon" />
+                  <input
+                    type="password"
+                    placeholder="Confirm password"
+                    name="conf_Password"
+                    required
+                    value={signupData.conf_Password}
+                    onChange={handleSignupChange}
+                  />
+                </div>
+              </div>
+              <div className="input-group">
+                <FaBirthdayCake className="input-icon" />
+                <input
+                  type="date"
+                  name="birthdate"
+                  id="birthdate"
+                  value={signupData.birthdate}
+                  onChange={handleSignupChange}
+                />
+              </div>
+              <div className="gender-selection">
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Male"
+                    checked={signupData.gender === 'Male'}
+                    onChange={handleSignupChange}
+                  />
+                  Male
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Female"
+                    checked={signupData.gender === 'Female'}
+                    onChange={handleSignupChange}
+                  />
+                  Female
+                </label>
+              </div>
+              <button type="submit">Sign Up</button>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+            </form>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginModal;

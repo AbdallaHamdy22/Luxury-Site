@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { FaSearch, FaUser, FaHeart, FaShoppingBag, FaUserCircle, FaSignOutAlt, FaBox } from 'react-icons/fa';
 import { Dropdown } from 'react-bootstrap';
 import Modal from '../Login-Register/Modal';
-import Login from '../Login-Register/Login';
+import LoginModal from '../Login-Register/Login';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUser } from '../Redux/RDXUser';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -66,7 +66,7 @@ const Navbar = () => {
                 <Dropdown.Toggle id="dropdown-basic" className="btn btn-common">
                   {user.ProfileImage ? (
                     <img src={user.ProfileImage} alt="User" className="user-photo" />
-                  ):(
+                  ) : (
                     <FontAwesomeIcon icon={faUser} />
                   )}
                   {user.UserName}
@@ -94,11 +94,10 @@ const Navbar = () => {
         </ul>
       </div>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <Login setUser={() => setIsModalOpen(false)} />
+        <LoginModal setIsModalOpen={setIsModalOpen} />
       </Modal>
     </nav>
   );
 };
 
 export default Navbar;
-
