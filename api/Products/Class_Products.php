@@ -380,4 +380,15 @@ class Products
 
         return false;
     }
+
+    public function searchProducts($keyword)
+    {
+        $sql = "SELECT * FROM products WHERE Name LIKE :keyword";
+        $stmt = $this->conn->prepare($sql);
+        $likeKeyword = "%" . $keyword . "%";
+        $stmt->bindParam(':keyword', $likeKeyword, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

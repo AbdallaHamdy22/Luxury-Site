@@ -7,7 +7,6 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-
 // Create a database connection
 $database = new Connection();
 $db = $database->connect();
@@ -15,15 +14,18 @@ $db = $database->connect();
 $order = new Order($db);
 $orderDetails = new OrderDetails($db);
 
-$data = $_POST;
+// الحصول على البيانات الواردة من الطلب
+$data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price']) && isset($data['UserID'])) {
+// تحقق من صحة البيانات
+if (isset($data['Products']) && is_array($data['Products']) && !empty($data['Products']) && isset($data['UserID'])) {
     $order->setOrderDate(date("Y-m-d H:i:s"));
     $order->setStatus('pending');
     $order->setUserID($data['UserID']);
-    $order->setOrderID($order->GetLastID());
+    $orderID = $order->GetLastID();
+    $order->setOrderID($orderID);
 
-    // Set shipping details
+    // تعيين تفاصيل الشحن
     $order->setAddress($data['Address']);
     $order->setStreet($data['Street']);
     $order->setApartmentNumber($data['Apartment']);
@@ -35,15 +37,25 @@ if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price'
     $order->setNotes($data['Notes']);
 
     if ($order->Create_Order()) {
-        $orderDetails->setQuantity($data['Quantity']);
-        $orderDetails->setPrice($data['Price']);
-        $orderDetails->setOrderID($order->getOrderID());
-        $orderDetails->setProductID($data['ProductID']);
+        $allProductsInserted = true;
 
-        if ($orderDetails->Create_OrderDetails()) {
+        // تمر عبر قائمة المنتجات وإضافتها واحدة تلو الأخرى
+        foreach ($data['Products'] as $product) {
+            $orderDetails->setQuantity($product['Quantity']);
+            $orderDetails->setPrice($product['Price']);
+            $orderDetails->setOrderID($order->getOrderID());
+            $orderDetails->setProductID($product['ProductID']);
+
+            if (!$orderDetails->Create_OrderDetails()) {
+                $allProductsInserted = false;
+                break;
+            }
+        }
+
+        if ($allProductsInserted) {
             echo json_encode(["status" => "success", "message" => "Order placed successfully."]);
         } else {
-            echo json_encode(["status" => "error", "message" => "Failed to create order details."]);
+            echo json_encode(["status" => "error", "message" => "Failed to create order details for some products."]);
         }
     } else {
         echo json_encode(["status" => "error", "message" => "Failed to create order."]);
@@ -51,3 +63,4 @@ if (isset($data['ProductID']) && isset($data['Quantity']) && isset($data['Price'
 } else {
     echo json_encode(["status" => "error", "message" => "Invalid input."]);
 }
+?>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Search Example</title>
+    <style>
+        /* بعض التنسيقات الأساسية */
+        .search-results {
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 300px;
+        }
+        .search-results div {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .search-results div:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search for Brands and Products</h1>
+    <input type="text" id="searchInput" placeholder="Search for brands or products..." autocomplete="off">
+    <div id="resultsContainer" class="search-results"></div>
+
+    <script>
+        // عنصر إدخال البحث
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('resultsContainer');
+
+        // استدعاء وظيفة البحث عند الكتابة
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.trim();
+            if (query.length > 0) {
+                search(query);
+            } else {
+                resultsContainer.innerHTML = '';
+            }
+        });
+
+        // وظيفة البحث التي تستدعي ملفات PHP
+        function search(query) {
+            // استدعاء البحث للعلامات التجارية
+            fetch(`http://localhost/dashboard/luxury-site-last/api/Brand/searchbrand.php?query=${query}`)
+                .then(response => response.json())
+                .then(data => displayResults(data, 'Brand'))
+                .catch(error => console.error('Error:', error));
+
+            // استدعاء البحث للمنتجات
+            fetch(`http://localhost/dashboard/luxury-site-last/api/Products/searchproduct.php?query=${query}`)
+                .then(response => response.json())
+                .then(data => displayResults(data, 'Product'))
+                .catch(error => console.error('Error:', error));
+        }
+
+        // عرض النتائج
+        function displayResults(data, type) {
+            resultsContainer.innerHTML = ''; // تنظيف النتائج السابقة
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = `${type}: ${item.name}`;
+                resultsContainer.appendChild(div);
+            });
+        }
+    </script>
+</body>
+</html>
