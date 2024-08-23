@@ -43,6 +43,9 @@
 
         // وظيفة البحث التي تستدعي ملفات PHP
         function search(query) {
+            // تنظيف النتائج السابقة
+            resultsContainer.innerHTML = '';
+
             // استدعاء البحث للعلامات التجارية
             fetch(`http://localhost/dashboard/luxury-site-last/api/Brand/searchbrand.php?query=${query}`)
                 .then(response => response.json())
@@ -58,10 +61,10 @@
 
         // عرض النتائج
         function displayResults(data, type) {
-            resultsContainer.innerHTML = ''; // تنظيف النتائج السابقة
             data.forEach(item => {
                 const div = document.createElement('div');
-                div.textContent = `${type}: ${item.name}`;
+                // console.log(item);                
+                div.textContent = `${type}: ${item.Name}`;
                 resultsContainer.appendChild(div);
             });
         }
