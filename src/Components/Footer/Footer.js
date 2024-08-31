@@ -1,48 +1,79 @@
-import Image from '../Images/logo.jpg'
-const Footer = () => (
-  <footer className="footer mt-5">
-    <div className="container">
-      <div className="row">
-        {[
-          { title: 'Top Categories', items: ['Handbags', 'Women\'s Watches', 'Women\'s Shoes', 'Women\'s Clothes', 'Fine Jewelry', 'Women\'s Accessories', 'Men\'s Watches', 'Men\'s Bags', 'Men\'s Shoes', 'Men\'s Clothes', 'Men\'s Sneakers'] },
-          { title: 'Top Brands', items: ['Chanel', 'Rolex', 'Louis Vuitton', 'Hermès', 'Gucci', 'Dior', 'Hermes', 'Prada', 'Coach', 'Saint Laurent'] },
-          { title: 'About The Luxury Closet', items: ['About Us', 'How Does It Work?', 'Privacy Policy', 'Terms & Conditions', 'FAQs', 'Sell Now', 'Delivery & Returns', 'Warranty'] },
-          { title: 'Customer Service', items: ['Contact Us', 'FAQs', 'Student & Youth Discount', 'Essential Worker Discount'], help: true }
-        ].map(section => (
-          <div className="col-md-3" key={section.title}>
-            <h5>{section.title}</h5>
+import React, { useEffect, useState } from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import './Footer.css';
+import axiosInstance from './../../axiosConfig/instance';
+
+const Footer = () => {
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    axiosInstance.get('Categoire/')
+      .then(response => {
+        setCategories(response.data);
+      })
+      .catch(error => console.error('Error fetching categories:', error));
+  }, []);
+
+  useEffect(() => {
+    axiosInstance.get('Brand/')
+      .then(response => {
+        setBrands(response.data);
+      })
+      .catch(error => console.error('Error fetching brands:', error));
+  }, []);
+
+  return (
+    <footer className="footer mt-5">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-3">
+            <h5>Top Categories</h5>
             <ul className="list-unstyled">
-              {section.items.map(item => (
-                <li key={item}><a href="#">{item}</a></li>
+              {categories.map(category => (
+                <li key={category.CategoireID}><a href={`/Items?category=${category.CategoireID}`}>{category.Name}</a></li>
               ))}
             </ul>
-            {section.help && (
-              <>
-                <h5>We Are Here To Help You!</h5>
-                <ul className="list-unstyled">
-                  <li>800 LUX (800 589)</li>
-                  <li>Monday to Sunday</li>
-                  <li>9 am to 9 pm (GST)</li>
-                </ul>
-              </>
-            )}
           </div>
-        ))}
+          <div className="col-md-3">
+            <h5>Top Brands</h5>
+            <ul className="list-unstyled">
+                {brands.slice(0, 8).map(brand => (
+                    <li key={brand.BrandID}><a href={`/Items?brand=${brand.BrandID}`}>{brand.Name}</a></li>
+                ))}
+            </ul>
+        </div>
+          <div className="col-md-3">
+            <h5>About The Royal Luxury</h5>
+            <ul className="list-unstyled">
+              {['About Us', 'How Does It Work?', 'Privacy Policy', 'Terms & Conditions', 'FAQs', 'Sell Now', 'Delivery & Returns', 'Warranty'].map(item => (
+                <li key={item}><a href="/">{item}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div className="col-md-3">
+            <h5>Customer Service</h5>
+            <ul className="list-unstyled">
+              {['Contact Us', 'FAQs', 'Student & Youth Discount', 'Essential Worker Discount'].map(item => (
+                <li key={item}><a href="/">{item}</a></li>
+              ))}
+            </ul>
+            <h5>We Are Here To Help You!</h5>
+            <ul className="list-unstyled">
+              <li>800 LUX (800 589)</li>
+              <li>Monday to Sunday</li>
+              <li>9 am to 9 pm (GST)</li>
+            </ul>
+          </div>
+        </div>
+        <div className="text-center mt-3">
+          {['facebook-f', 'instagram', 'whatsapp'].map(icon => (
+            <a href="/" key={icon}><i className={`fab fa-${icon} icon-spacing`}></i></a>
+          ))}
+        </div>
       </div>
-      <div className="text-center mt-3">
-        {['facebook-f', 'instagram', 'twitter', 'youtube', 'whatsapp'].map(icon => (
-          <a href="#" key={icon}><i className={`fab fa-${icon}`}></i></a>
-        ))}
-      </div>
-      <div className="text-center mt-3">
-        <a href="#"><img src={Image} alt="Google Play" style={{ width: '150px' }} /></a>
-        <a href="#"><img src={Image} alt="App Store" style={{ width: '150px' }} /></a>
-      </div>
-      <div className="text-center mt-3">
-        <p>Novotel Dubai Al Barsha API Trio Tower Office 901 PO Box:502626</p>
-      </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 export default Footer;

@@ -1,16 +1,33 @@
-import Image from '../Images/logo.jpg'
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '../../axiosConfig/instance';
+import { Link } from 'react-router-dom';
 
-const BrandSection = () => (
-  <div className="container brand-section">
-    <h4>SHOP BY BRANDS</h4>
-    <div className="row">
-      {['Louis Vuitton', 'Hermès', 'Chanel', 'Cartier', 'Dior', 'Rolex', 'Gucci', 'All Brands'].map(brand => (
-        <div className="col-md-1 mb-4" key={brand}>
-          <img src={Image} alt={brand} />
-          <h5>{brand.toUpperCase()}</h5>
-        </div>
-      ))}
+const BrandSection = () => {
+  const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    axiosInstance.get('Brand/')
+      .then(response => {
+        setBrands(response.data);
+      })
+      .catch(error => console.error('Error fetching brands:', error));
+  }, []);
+
+  return (
+    <div className="container brand-section">
+      <h4>SHOP BY BRANDS</h4>
+      <div className="brand-container">
+        {brands.map(brand => (
+          <div key={brand.BrandID}>
+            <Link className='link' to={`/Items?brand=${brand.BrandID}`}>
+            <img src={brand.Image} alt={brand.Name} />
+              <h5>{brand.Name.toUpperCase()}</h5>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
 export default BrandSection;

@@ -1,0 +1,48 @@
+.brand-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.brand-section h4 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.brand-section .brand-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.brand-section img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin: 0 15px;
+    transition: transform 0.3s ease;
+}
+
+.brand-section img:hover {
+    transform: scale(1.1);
+}
+
+.brand-section h5 {
+    font-weight: 600;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .brand-section img {
+        width: 100px;
+        height: 100px;
+        margin: 0 10px;
+    }
+}
