@@ -39,11 +39,11 @@ const UserDetails = () => {
                 case 'Available':
                     return <Available items={items.filter(item => item.Status === 'Available')} toggleItem={toggleItem} openItem={openItem} />;
                 case 'Submitted':
-                    return <Submitted items={items.filter(item => item.Status === 'Submitted')} toggleItem={toggleItem} openItem={openItem} />;
+                    return <Submitted toggleItem={toggleItem} openItem={openItem} />;
                 case 'OnSale':
                     return <OnSale items={items.filter(item => item.Status === 'OnSale')} toggleItem={toggleItem} openItem={openItem} />;
                 case 'Sold':
-                    return <Sold items={items.filter(item => item.Status === 'Sold')} toggleItem={toggleItem} openItem={openItem} />;
+                    return <Sold items={items.filter(item => item.Status === 'SoldOut')} toggleItem={toggleItem} openItem={openItem} />;
                 case 'Archived':
                     return <Archived items={items.filter(item => item.Status === 'Archived')} toggleItem={toggleItem} openItem={openItem} />;
                 default:
@@ -59,7 +59,7 @@ const UserDetails = () => {
                 <button className={`tab ${category === 'Available' ? 'active' : ''}`} onClick={() => navigate('/userDetails/Available')}>Item(s) Available</button>
                 <button className={`tab ${category === 'Submitted' ? 'active' : ''}`} onClick={() => navigate('/userDetails/Submitted')}>Item(s) Submitted</button>
                 <button className={`tab ${category === 'OnSale' ? 'active' : ''}`} onClick={() => navigate('/userDetails/OnSale')}>Item(s) On Sale</button>
-                <button className={`tab ${category === 'Sold' ? 'active' : ''}`} onClick={() => navigate('/userDetails/Sold')}>Item(s) Sold</button>
+                <button className={`tab ${category === 'Sold' ? 'active' : ''}`} onClick={() => navigate('/userDetails/Sold')}>Item(s) Sold Out</button>
                 <button className={`tab ${category === 'Archived' ? 'active' : ''}`} onClick={() => navigate('/userDetails/Archived')}>Item(s) Archived</button>
             </div>
             {renderItems()}

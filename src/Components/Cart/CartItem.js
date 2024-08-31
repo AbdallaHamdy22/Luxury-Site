@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { removeFromCart, updateQuantity } from '../Redux/RDXCart';
-import axiosInstance from '../../axiosConfig/instance';
+import MessageCard from './../AlertMessage/Message';
 
 const CartItem = ({ item }) => {
     const dispatch = useDispatch();
     const [localQuantity, setLocalQuantity] = useState(item.Quantity);
     const [imageArray, setImageArray] = useState([]);
+    const [showMessage, setShowMessage] = useState(false);
+    const [selfMessage, setSelfMessage] = useState('');
+    const [selfType, setSelfType] = useState('');
 
     useEffect(() => {
         if (typeof item.Image === 'string') {
@@ -20,42 +23,42 @@ const CartItem = ({ item }) => {
         }
     }, [item]);
 
-    const handleIncrease = async () => {
+    const handleIncrease = () => {
         if (item.MainQuantity > localQuantity) {
             const newQuantity = localQuantity + 1;
             setLocalQuantity(newQuantity);
-            dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
-            await axiosInstance.post('Products/updateProductQuantity.php', {
-                ProductID: item.ProductID,
-                quantity: item.Quantity - 1
-            });
+            dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity, MainQuantity: item.MainQuantity - 1 }));
         } else {
-            alert(`Only ${item.MainQuantity} items available in stock`);
+            setSelfMessage(`Only ${item.MainQuantity} items available in stock`);
+            setSelfType("alert");
+            setShowMessage(true);
         }
     };
 
-    const handleDecrease = async () => {
+    const handleDecrease = () => {
         if (localQuantity > 1) {
             const newQuantity = localQuantity - 1;
             setLocalQuantity(newQuantity);
-            dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
-            await axiosInstance.post('Products/updateProductQuantity.php', {
-                ProductID: item.ProductID,
-                quantity: item.Quantity + 1
-            });
+            dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity, MainQuantity: item.MainQuantity + 1 }));
         }
     };
 
-    const handleRemove = async () => {
+    const handleRemove = () => {
         dispatch(removeFromCart({ ProductID: item.ProductID }));
-        await axiosInstance.post('Products/updateProductQuantity.php', {
-            ProductID: item.ProductID,
-            quantity: item.Quantity + localQuantity
-        });
     };
+
+    const formattedPrice = new Intl.NumberFormat().format(item.Price);
+    const formattedTotal = new Intl.NumberFormat().format(item.Price * localQuantity);
 
     return (
         <Row className="cart-item align-items-center py-4">
+            {showMessage && (
+                <MessageCard
+                    type={selfType}
+                    message={selfMessage}
+                    onClose={() => setShowMessage(false)}
+                />
+            )}
             <Col xs={12} md={5} className="col-item-info">
                 <div className="item-info">
                     <Image src={imageArray[0]} alt={item.Name} className="item-image" rounded />
@@ -63,7 +66,7 @@ const CartItem = ({ item }) => {
                 </div>
             </Col>
             <Col xs={4} md={2} className="col-item-price">
-                <span className="item-price">{parseFloat(item.Price).toFixed(2)} AED</span>
+                <span className="item-price">{formattedPrice} AED</span>
             </Col>
             <Col xs={4} md={3} className="col-item-quantity">
                 <div className="quantity-control">
@@ -73,7 +76,7 @@ const CartItem = ({ item }) => {
                 </div>
             </Col>
             <Col xs={4} md={2} className="col-item-total d-flex justify-content-between">
-                <span className="item-total">{(parseFloat(item.Price) * localQuantity).toFixed(2)} AED</span>
+                <span className="item-total">{formattedTotal} AED</span>
                 <Button variant="outline-danger" onClick={handleRemove} className="remove-button">
                     Remove
                 </Button>

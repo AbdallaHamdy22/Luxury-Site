@@ -33,6 +33,8 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 .form-content {
@@ -42,13 +44,20 @@
   width: 100%;
   max-width: 900px;
   display: flex;
+  flex-direction: column; /* Stack elements on top of each other */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   position: relative;
   animation: slideIn 0.5s ease;
 }
 
+@media (min-width: 768px) {
+  .form-content {
+    flex-direction: row; /* Side by side on larger screens */
+  }
+}
+
 .luxurious-sidebar {
-  width: 40%;
+  width: 100%;
   background-color: var(--luxury-primary);
   color: var(--luxury-button-text);
   padding: 40px 20px;
@@ -56,27 +65,44 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  border-radius: 10px 0 0 10px;
-  position: relative;
+  border-radius: 10px 10px 0 0;
+
+  /* Sidebar image/logo adjustments */
+  /* 
+  .website-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    max-width: 300px;
+    height: auto;
+  } */
+
+  /* Adjust for larger screens */
+  @media (min-width: 768px) {
+    width: 40%;
+    border-radius: 10px 0 0 10px;
+  }
 }
-/* 
-.website-logo {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  max-width: 300px;
-  height: auto;
-} */
 
 .luxurious-sidebar h1 {
-  font-size: 30px;
+  font-size: 24px;
   margin-bottom: 15px;
   font-weight: bold;
+
+  /* Adjust font size for larger screens */
+  @media (min-width: 768px) {
+    font-size: 30px;
+  }
 }
 
 .luxurious-sidebar p {
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 30px;
+
+  /* Adjust font size for larger screens */
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
 }
 
 .luxurious-sidebar button {
@@ -99,35 +125,53 @@
 
 .luxurious-form {
   background-color: var(--luxury-accent);
-  padding: 40px;
+  padding: 20px;
   border-radius: 10px;
-  width: 60%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  /* Adjust padding for larger screens */
+  @media (min-width: 768px) {
+    padding: 40px;
+    width: 60%;
+  }
 }
 
 .luxurious-form h2 {
   text-align: center;
   margin-bottom: 30px;
   color: var(--luxury-primary);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
+
+  /* Adjust font size for larger screens */
+  @media (min-width: 768px) {
+    font-size: 24px;
+  }
 }
 
 .luxurious-form .form-row {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   gap: 15px;
-  margin-bottom: 20px; /* Increase margin to add space between rows */
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .luxurious-form .form-row {
+    flex-direction: row;
+  }
 }
 
 .input-group {
   position: relative;
   width: 100%;
-  margin-bottom: 20px; /* Ensure proper spacing between input fields */
+  margin-bottom: 20px;
 }
 
 .input-icon {
@@ -144,9 +188,15 @@
   border: 1px solid var(--luxury-primary);
   border-radius: 8px;
   background-color: var(--luxury-bg);
-  font-size: 16px;
+  font-size: 14px;
   color: var(--luxury-text);
   transition: background-color 0.3s, box-shadow 0.3s;
+
+  /* Adjust padding and font size for larger screens */
+  @media (min-width: 768px) {
+    padding: 12px 10px 12px 40px;
+    font-size: 16px;
+  }
 }
 
 .luxurious-form input:focus {
@@ -160,11 +210,17 @@
   border-radius: 8px;
   background-color: var(--luxury-button-bg);
   color: var(--luxury-button-text);
-  font-size: 18px; /* Increase font size for better visibility */
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  width: 100%; /* Make the button as wide as the input fields */
+  width: 100%;
+
+  /* Adjust font size and padding for larger screens */
+  @media (min-width: 768px) {
+    font-size: 18px;
+    padding: 14px 12px;
+  }
 }
 
 .luxurious-form button:hover {
@@ -175,14 +231,25 @@
 
 .gender-selection {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
   margin-bottom: 20px;
   width: 100%;
+
+  /* Adjust layout for larger screens */
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 
 .gender-selection label {
-  font-size: 16px;
+  font-size: 14px;
   color: var(--luxury-text);
+
+  /* Adjust font size for larger screens */
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
 }
 
 .error-message {
@@ -213,13 +280,13 @@
   cursor: pointer;
   transition: transform 0.3s;
   width: 100%;
-  display: flex; /* Flexbox for icon and text alignment */
-  align-items: center; /* Vertically center items */
+  display: flex;
+  align-items: center;
 }
 
 .social-icon {
   margin-right: 10px;
-  font-size: 20px; /* Adjust the icon size */
+  font-size: 20px;
 }
 
 .social-login.google {
@@ -242,7 +309,6 @@
   transform: scale(1.05);
 }
 
-/* Close Button */
 .login-modal-close {
   position: absolute;
   top: 10px;
@@ -265,7 +331,6 @@
   outline: none;
 }
 
-/* Animations */
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }

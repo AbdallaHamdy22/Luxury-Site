@@ -4,13 +4,11 @@ import './users.css';
 import PopForm from '../popUpform/popForm';
 import ReactPaginate from 'react-paginate';
 import Sidebar from "../SideBar/SideBar";
-// import { useSelector } from 'react-redux';
 import MessageCard from '../AlertMessage/Message';
-import { faEdit, faPlus, faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ShowUsers = () => {
-    // const user = useSelector((state) => state.user.user);
     const [users, setUsers] = useState([]);
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -57,12 +55,6 @@ const ShowUsers = () => {
                 console.error("There was an error fetching the roles!", error);
             });
     };
-
-    // const handleEdit = (user) => {
-    //     setCurrentUser(user);
-    //     setProfileImagePreview(user.ProfileImage[0]);
-    //     setShow(true);
-    // };
 
     const handleClose = () => {
         if (!loading) {
@@ -179,21 +171,6 @@ const ShowUsers = () => {
             setUsers(filtered);
         }
     };
-
-    // const handleAddUser = () => {
-    //     const newUser = {
-    //         UserID: null,
-    //         UserName: '',
-    //         Password: '',
-    //         Email: '',
-    //         ProfileProfileImage: '',
-    //         RoleID: '',
-    //     };
-    //     setCurrentUser(newUser);
-    //     setProfileImagePreview('');
-    //     setShow(true);
-    // };
-
     const handlePageClick = (data) => {
         setCurrentPage(data.selected);
     };
@@ -223,11 +200,6 @@ const ShowUsers = () => {
                 onChange={handleSearch} 
                 className="search-input" 
             />
-            {/* <div className="button-container">
-                <button onClick={handleAddUser} className="add-button">
-                    <FontAwesomeIcon icon={faPlus} />Add User
-                </button>
-            </div> */}
             <div className="table-wrapper">
                 <table>
                     <thead>
@@ -237,7 +209,6 @@ const ShowUsers = () => {
                             <th>Email</th>
                             <th>Profile Image</th>
                             <th>Role</th>
-                            {/* <th>Edit</th> */}
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -256,9 +227,6 @@ const ShowUsers = () => {
                                     }
                                 </td>
                                 <td>{roles.find(role => role.RoleID === User.RoleID)?.RoleName}</td>
-                                {/* <td><button className="edit-button" onClick={() => handleEdit(User)}>
-                                    <FontAwesomeIcon icon={faEdit} /> Edit
-                                </button></td> */}
                                 <td><button className="delete-button" onClick={() => handleDelete(User.UserID)}>
                                 <FontAwesomeIcon icon={faTrash} /> Delete
                                 </button></td>

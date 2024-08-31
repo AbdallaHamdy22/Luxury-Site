@@ -27,7 +27,6 @@ const ShowProducts = () => {
         ProductionYear: '',
         Price: '',
         Quantity: '',
-        MainQuantity: '',
         Image: '',
         OfferPrice: '',
         BrandID: '',
@@ -108,8 +107,19 @@ const ShowProducts = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setCurrentProduct({ ...currentProduct, [name]: value });
+    
+        const updatedProduct = { ...currentProduct, [name]: value };
+    
+        // Update status based on the updated values
+        if (updatedProduct.Quantity > 0) {
+            updatedProduct.Status = updatedProduct.OfferPrice > 0 ? 'OnSale' : 'Available';
+        } else {
+            updatedProduct.Status = 'SoldOut';
+        }
+    
+        setCurrentProduct(updatedProduct);
     };
+    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -224,7 +234,6 @@ const ShowProducts = () => {
             Description: '',
             Price: '',
             Quantity: '',
-            MainQuantity: '',
             Image: '',
             OfferPrice: '',
             BrandID: '',
@@ -257,168 +266,168 @@ const ShowProducts = () => {
                     onClose={handleCloseMessage}
                 />
             )}
-        <Sidebar />
-        <div className="product-table">
-            <h1>Products List</h1>
-            <input
-                type="text" 
-                placeholder="Search by ID or Name" 
-                value={searchTerm} 
-                onChange={handleSearch} 
-                className="search-input" 
-            />
-            <div className="button-container">
-                <button onClick={handleAddProduct} className="add-button">
-                    <FontAwesomeIcon icon={faPlus} />Add Product
-                </button>
-            </div>
-            <div className="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Production Year</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>MainQuantity</th>
-                            <th>Image</th>
-                            <th>Offer Price</th>
-                            <th>Brand</th>
-                            <th>Category</th>
-                            <th>Color</th>
-                            <th>Sex</th>
-                            <th>User ID</th>
-                            <th>Status</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {displayedProducts.map(product => (
-                            <tr key={product.ProductID}>
-                                <td>{product.ProductID}</td>
-                                <td>{product.Name}</td>
-                                <td>{product.Description}</td>
-                                <td>{product.ProductionYear}</td>
-                                <td>{product.Price}</td>
-                                <td>{product.Quantity}</td>
-                                <td>{product.MainQuantity}</td>
-                                <td><img src={product.Image[0]} alt={product.Name} className="product-image" /></td>
-                                <td>{product.OfferPrice}</td>
-                                <td>{brands.find(brand => brand.BrandID === product.BrandID)?.Name}</td>
-                                <td>{categories.find(category => category.CategoireID === product.CategoireID)?.Name}</td>
-                                <td>{colors.find(color => color.ColorID === product.ColorID)?.Name}</td>
-                                <td>{sexes.find(sex => sex.SexID === product.SexID)?.Name}</td>
-                                <td>{product.UserID}</td>
-                                <td>{product.Status}</td>
-                                <td><button className="edit-button" onClick={() => handleEdit(product)}>
-                                    <FontAwesomeIcon icon={faEdit} /> Edit
-                                </button></td>
-                                <td><button className="delete-button" onClick={() => handleDelete(product.ProductID)}>
-                                    <FontAwesomeIcon icon={faTrash} /> Delete
-                                </button></td>
+            <Sidebar />
+            <div className="product-table">
+                <h1>Products List</h1>
+                <input
+                    type="text" 
+                    placeholder="Search by ID or Name" 
+                    value={searchTerm} 
+                    onChange={handleSearch} 
+                    className="search-input" 
+                />
+                <div className="button-container">
+                    <button onClick={handleAddProduct} className="add-button">
+                        <FontAwesomeIcon icon={faPlus} />Add Product
+                    </button>
+                </div>
+                <div className="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Production Year</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Image</th>
+                                <th>Offer Price</th>
+                                <th>Brand</th>
+                                <th>Category</th>
+                                <th>Color</th>
+                                <th>Sex</th>
+                                <th>User ID</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {displayedProducts.map(product => {
+                                const formattedPrice = new Intl.NumberFormat().format(product.Price);
+                                const formattedOfferPrice = new Intl.NumberFormat().format(product.OfferPrice);
+                                const formattedQuantity = new Intl.NumberFormat().format(product.Quantity);
+
+                                return (
+                                    <tr key={product.ProductID}>
+                                        <td>{product.ProductID}</td>
+                                        <td>{product.Name}</td>
+                                        <td>{product.Description}</td>
+                                        <td>{product.ProductionYear}</td>
+                                        <td>{formattedPrice}</td>
+                                        <td>{formattedQuantity}</td>
+                                        <td><img src={product.Image[0]} alt={product.Name} className="product-image" /></td>
+                                        <td>{formattedOfferPrice}</td>
+                                        <td>{brands.find(brand => brand.BrandID === product.BrandID)?.Name}</td>
+                                        <td>{categories.find(category => category.CategoireID === product.CategoireID)?.Name}</td>
+                                        <td>{colors.find(color => color.ColorID === product.ColorID)?.Name}</td>
+                                        <td>{sexes.find(sex => sex.SexID === product.SexID)?.Name}</td>
+                                        <td>{product.UserID}</td>
+                                        <td>{product.Status}</td>
+                                        <td><button className="edit-button" onClick={() => handleEdit(product)}>
+                                            <FontAwesomeIcon icon={faEdit} /> Edit
+                                        </button></td>
+                                        <td><button className="delete-button" onClick={() => handleDelete(product.ProductID)}>
+                                            <FontAwesomeIcon icon={faTrash} /> Delete
+                                        </button></td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+                <ReactPaginate
+                    previousLabel={'previous'}
+                    nextLabel={'next'}
+                    breakLabel={'...'}
+                    pageCount={pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                />
+                <PopForm name={'Product'} show={show} handleClose={handleClose} handleSave={handleSave}>
+                    <h2>{currentProduct.ProductID ? 'Edit Product' : 'Add Product'}</h2>
+                    <form>
+                        <label>
+                            ID:
+                            <input type="number" name="ProductID" value={currentProduct.ProductID || ''} onChange={handleChange} readOnly />
+                        </label>
+                        <label>
+                            User ID:
+                            <input type="number" name="UserID" value={currentProduct.UserID || ''} onChange={handleChange} readOnly />
+                        </label>
+                        <label>
+                            Status:
+                            <input type="text" name="Status" value={currentProduct.Status || ''} onChange={handleChange} readOnly />
+                        </label>
+                        <label>
+                            Name:
+                            <input type="text" name="Name" value={currentProduct.Name || ''} onChange={handleChange} />
+                        </label>
+                        <label>
+                            Description:
+                            <textarea name="Description" value={currentProduct.Description || ''} onChange={handleChange} />
+                        </label>
+                        <label>
+                            Price:
+                            <input type="number" name="Price" value={currentProduct.Price || ''} onChange={handleChange} />
+                        </label>
+                        <label>
+                            Quantity:
+                            <input type="number" name="Quantity" value={currentProduct.Quantity || ''} onChange={handleChange} />
+                        </label>
+                        <label>
+                            Image:
+                            <input type="file" name="Image" multiple onChange={handleImageChange} />
+                        </label>
+                        {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
+                        <label>
+                            Offer Price:
+                            <input type="number" name="OfferPrice" value={currentProduct.OfferPrice || ''} onChange={handleChange} />
+                        </label>
+                        <label>
+                            Brand:
+                            <select name="BrandID" value={currentProduct.BrandID || ''} onChange={handleChange}>
+                                <option value="">Select Brand</option>
+                                {brands.map(brand => (
+                                    <option key={brand.BrandID} value={brand.BrandID}>{brand.Name}</option>
+                                ))}
+                            </select>
+                        </label>
+                        <label>
+                            Category:
+                            <select name="CategoireID" value={currentProduct.CategoireID || ''} onChange={handleChange}>
+                                <option value="">Select Category</option>
+                                {categories.map(category => (
+                                    <option key={category.CategoireID} value={category.CategoireID}>{category.Name}</option>
+                                ))}
+                            </select>
+                        </label>
+                        <label>
+                            Color:
+                            <select name="Color_ID" value={currentProduct.Color_ID || ''} onChange={handleChange}>
+                                <option value="">Select Color</option>
+                                {colors.map(color => (
+                                    <option key={color.Color_ID} value={color.Color_ID}>{color.Name}</option>
+                                ))}
+                            </select>
+                        </label>
+                        <label>
+                            Gender:
+                            <select name="SexID" value={currentProduct.SexID || ''} onChange={handleChange}>
+                                <option value="">Select Gender</option>
+                                {sexes.map(sex => (
+                                    <option key={sex.SexID} value={sex.SexID}>{sex.Name}</option>
+                                ))}
+                            </select>
+                        </label>
+                    </form>
+                </PopForm>
             </div>
-            <ReactPaginate
-                previousLabel={'previous'}
-                nextLabel={'next'}
-                breakLabel={'...'}
-                pageCount={pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={handlePageClick}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
-            <PopForm name={'Product'} show={show} handleClose={handleClose} handleSave={handleSave}>
-                <h2>{currentProduct.ProductID ? 'Edit Product' : 'Add Product'}</h2>
-                <form>
-                    <label>
-                        ID:
-                        <input type="number" name="ProductID" value={currentProduct.ProductID || ''} onChange={handleChange} readOnly />
-                    </label>
-                    <label>
-                        User ID:
-                        <input type="number" name="UserID" value={currentProduct.UserID || ''} onChange={handleChange} readOnly />
-                    </label>
-                    <label>
-                        Status:
-                        <input type="text" name="Status" value={currentProduct.Status || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Name:
-                        <input type="text" name="Name" value={currentProduct.Name || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Description:
-                        <textarea name="Description" value={currentProduct.Description || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Price:
-                        <input type="number" name="Price" value={currentProduct.Price || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Quantity:
-                        <input type="number" name="Quantity" value={currentProduct.Quantity || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        MainQuantity:
-                        <input type="number" name="MainQuantity" value={currentProduct.MainQuantity || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Image:
-                        <input type="file" name="Image" multiple onChange={handleImageChange} />
-                    </label>
-                    {imagePreview && <img src={imagePreview} alt="Preview" className="image-preview" />}
-                    <label>
-                        Offer Price:
-                        <input type="number" name="OfferPrice" value={currentProduct.OfferPrice || ''} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Brand:
-                        <select name="BrandID" value={currentProduct.BrandID || ''} onChange={handleChange}>
-                            <option value="">Select Brand</option>
-                            {brands.map(brand => (
-                                <option key={brand.BrandID} value={brand.BrandID}>{brand.Name}</option>
-                            ))}
-                        </select>
-                    </label>
-                    <label>
-                        Category:
-                        <select name="CategoireID" value={currentProduct.CategoireID || ''} onChange={handleChange}>
-                            <option value="">Select Category</option>
-                            {categories.map(category => (
-                                <option key={category.CategoireID} value={category.CategoireID}>{category.Name}</option>
-                            ))}
-                        </select>
-                    </label>
-                    <label>
-                        Color:
-                        <select name="Color_ID" value={currentProduct.Color_ID || ''} onChange={handleChange}>
-                            <option value="">Select Color</option>
-                            {colors.map(color => (
-                                <option key={color.Color_ID} value={color.Color_ID}>{color.Name}</option>
-                            ))}
-                        </select>
-                    </label>
-                    <label>
-                        Gender:
-                        <select name="SexID" value={currentProduct.SexID || ''} onChange={handleChange}>
-                            <option value="">Select Gender</option>
-                            {sexes.map(sex => (
-                                <option key={sex.SexID} value={sex.SexID}>{sex.Name}</option>
-                            ))}
-                        </select>
-                    </label>
-                </form>
-            </PopForm>
-            </div>
-            </div>
+        </div>
     );
 };
 

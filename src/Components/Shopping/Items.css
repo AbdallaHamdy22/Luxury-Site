@@ -34,11 +34,15 @@
 .Itms h3 {
     font-family: var(--heading-font);
     color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
 }
 
 .Itms h5 {
     font-family: var(--body-font);
     color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
 }
 
 .Itms .form-check {
@@ -50,7 +54,39 @@
     border: 2px solid var(--secondary-color);
 }
 
-
-.Itms .show-more{
+.Itms .show-more {
     cursor: pointer;
+    color: var(--secondary-color);
+    margin-top: 10px;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .Itms .show-more {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .Itms {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .Itms .breadcrumb {
+        font-size: 0.875rem;
+    }
+
+    .Itms .form-check-label {
+        font-size: 0.75rem;
+    }
+
+    .Itms h3 {
+        font-size: 1.25rem;
+    }
+
+    .Itms h5 {
+        font-size: 1rem;
+    }
 }

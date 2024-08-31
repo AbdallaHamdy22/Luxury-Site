@@ -1,41 +1,21 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../Redux/RDXFav';
-import { addToCart, removeFromCart } from '../Redux/RDXCart';
 import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import './Card.css';
-import axiosInstance from '../../axiosConfig/instance';
 
 const ProductCard = ({ product }) => {
     const dispatch = useDispatch();
     const favorites = useSelector((state) => state.favorites.items);
-    const cart = useSelector((state) => state.cart.items);
     const isFavorite = (id) => favorites.some((item) => item.ProductID === id);
-    const isInCart = (id) => cart.some((item) => item.ProductID === id);
 
     const handleToggleFavorites = (id) => {
         if (isFavorite(id)) {
             dispatch(removeFromFavorites({ id }));
         } else {
             dispatch(addToFavorites(product));
-        }
-    };
-
-    const handleToggleCart = async (id) => {
-        if (isInCart(product.ProductID)) {
-            dispatch(removeFromCart({ ProductID: id }));
-            await axiosInstance.post('Products/updateProductQuantity.php', {
-                ProductID: product.ProductID,
-                quantity: product.Quantity + 1,
-            });
-        } else {
-            dispatch(addToCart({ ...product, Quantity: 1 }));
-            await axiosInstance.post('Products/updateProductQuantity.php', {
-                ProductID: product.ProductID,
-                quantity: product.Quantity - 1,
-            });
         }
     };
 
@@ -53,6 +33,11 @@ const ProductCard = ({ product }) => {
         return null;
     };
 
+    const changePriceInput = (price) => {
+        const formattedPrice = new Intl.NumberFormat().format(price);
+        return formattedPrice;
+    }
+
     const discountPrice = calculateDiscountPrice(product.Price, product.OfferPrice);
     const hasOffer = product.OfferPrice > 0 || null;
 
@@ -67,18 +52,20 @@ const ProductCard = ({ product }) => {
                 >
                     <FaHeart />
                 </button>
-                {product.Quantity === 0 ? (
-                    <div className="badge-container">
+
+                {isRecentlyAdded(product.ProductionYear) && (
+                    <div className="badge-container newly-added">
+                        <span className="badge recently-added">Newly added</span>
+                    </div>
+                )}
+
+                {product.Quantity === 0 && (
+                    <div className="badge-container sold-out">
                         <span className="badge sold-out">Sold Out</span>
                     </div>
-                ) : (
-                    isRecentlyAdded(product.Production_year) && (
-                        <div className="badge-container">
-                            <span className="badge recently-added">Newly added</span>
-                        </div>
-                    )
                 )}
-                <Link to={`/ItemDetails/${product.ProductID}`} style={{ textDecoration: 'none' }}>
+
+                <Link to={`/Items/${product.ProductID}`} className="card-link">
                     {imageUrls.length > 0 ? (
                         <img src={imageUrls[0]} className="card-img-top" alt={product.Name} />
                     ) : (
@@ -87,15 +74,15 @@ const ProductCard = ({ product }) => {
                 </Link>
                 <div className="card-body">
                     <h5 className="card-title">{product.Name}</h5>
-                    <p className="card-text text-muted">{product.Description}</p>
+                    <p className="card-text">{product.Description}</p>
                     <div className="field-value">
                         <span>Price:</span>
                         <span>{hasOffer ? (
                             <>
-                                <del>{product.Price}</del> {discountPrice}
+                                <del>{changePriceInput(product.Price)}</del> {changePriceInput(discountPrice)}
                             </>
                         ) : (
-                            product.Price
+                            changePriceInput(product.Price)
                         )}   AED</span>
                     </div>
                     {hasOffer && (

@@ -1,7 +1,7 @@
 .footer {
     background: var(--primary-color);
     color: var(--accent-color);
-    padding: 40px 0;
+    padding: 40px 20px;
     font-family: var(--body-font);
     position: relative;
 }
@@ -52,8 +52,15 @@
     padding: 0 15px;
 }
 
+.footer .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .footer .row > div {
     margin-bottom: 30px;
+    flex: 1 1 calc(25% - 40px); /* Default 4 columns layout with spacing */
+    min-width: 200px; /* Ensure that the columns don't shrink too much */
 }
 
 .footer .text-center {
@@ -68,5 +75,23 @@
 @media (max-width: 768px) {
     .footer h5 {
         font-size: 1rem;
+    }
+
+    .footer .row > div {
+        flex: 1 1 calc(50% - 40px); /* Switch to 2 columns on smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    .footer h5 {
+        font-size: 1rem;
+    }
+
+    .footer .row > div {
+        flex: 1 1 100%; /* Switch to single column on very small screens */
+    }
+
+    .footer .text-center a {
+        margin: 0 5px;
     }
 }

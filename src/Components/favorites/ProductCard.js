@@ -16,14 +16,14 @@ const ProductCard = ({ product }) => {
             dispatch(addToCart({ ...product, Quantity: 1 }));
         }
     };
-
+    const formattedPrice = new Intl.NumberFormat().format(product.Price);
     return (
         <div className="product-card">
-            <Link to={`/ItemDetails/${product.ProductID}`} className="product-card-link">
+            <Link to={`/Items/${product.ProductID}`} className="product-card-link">
                 <img src={product.Image} alt={product.Name} className="product-image"/>
                 <div className="product-details">
                     <h4>{product.Name}</h4>
-                    <p className="price">${product.Price.toFixed(2)}</p>
+                    <p className="price">{formattedPrice} AED</p>
                 </div>
             </Link>
             <div className="button-group">

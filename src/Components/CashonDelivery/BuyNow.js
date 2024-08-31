@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axiosConfig/instance';
-import './BuyNow.css';
 import MessageCard from '../AlertMessage/Message';
+import { clearCart } from '../Redux/RDXCart';
+import './BuyNow.css';
 
 const BuyForm = () => {
     const location = useLocation();
     const user = useSelector((state) => state.user.user);
     const cart = useSelector((state) => state.cart.items);
+    const dispatch = useDispatch();
     const [showMessage, setShowMessage] = useState(false);
     const [selfMessage, setSelfMessage] = useState('');
     const [selfType, setSelfType] = useState('');
     const navigate = useNavigate();
     const initialFormData = {
-        ProductID: '',
-        Quantity: '',
-        Price: '',
         UserID: user.UserID || '',
         Address: '',
         Street: '',
@@ -27,37 +26,44 @@ const BuyForm = () => {
         Country: '',
         Phone: '',
         Notes: '',
+        Products: [],
     };
+
+    const [formData, setFormData] = useState(initialFormData);
+
+    useEffect(() => {
+        let products = [];
+        let notes = "";
+        if (location.state && location.state.items) {
+            products = location.state.items;
+            notes = location.state.items[0]?.Notes || "";
+        } else if (cart.length > 0) {
+            products = cart.map(item => ({
+                ProductID: item.ProductID,
+                Quantity: item.Quantity,
+                Price: item.Price,
+            }));
+        }
+        setFormData({
+            ...initialFormData,
+            Products: products,
+            Notes: notes,
+        });
+    }, [location.state, cart]);
+
+    const handleProductChange = (index, e) => {
+        const updatedProducts = formData.Products.map((product, i) => (
+            i === index ? { ...product, [e.target.name]: e.target.value } : product
+        ));
+        setFormData({
+            ...formData,
+            Products: updatedProducts
+        });
+    };
+
     const handleCloseMessage = () => {
         setShowMessage(false);
     };
-
-    useEffect(() => {
-        if (location.state && location.state.items) {
-            // If navigating from product details or cart
-            const { items } = location.state;
-            const firstItem = items[0];  // Handle single item for now
-            setFormData({
-                ...initialFormData,
-                ProductID: firstItem.ProductID,
-                Quantity: firstItem.Quantity,
-                Price: firstItem.Price,
-            });
-        } else if (cart.length > 0) {
-            // If no specific item, populate from the cart
-            const firstItem = cart[0];
-            setFormData({
-                ...initialFormData,
-                ProductID: firstItem.ProductID,
-                Quantity: firstItem.Quantity,
-                Price: firstItem.Price,
-            });
-        } else {
-            setFormData(initialFormData);
-        }
-    }, [location.state, cart]);
-
-    const [formData, setFormData] = useState(initialFormData);
 
     const handleChange = (e) => {
         setFormData({
@@ -68,38 +74,32 @@ const BuyForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let data = new FormData();
-    
-        Object.keys(formData).forEach(key => {
-            data.append(key, formData[key]);
-        });
-    
-        axiosInstance.post('Orders/addOrder.php', data, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-        .then(response => {
-            const result = response.data;
-        
-            if (result.status === 'success') {
-                setSelfMessage('Order placed successfully!');
-                setSelfType("success");
-                setShowMessage(true);
-                setTimeout(() => {
-                navigate("/");
-                }, 2000);
-            } else {
-                setSelfMessage('Failed to place order!');
-                setSelfType("error");
-                setShowMessage(true);
-            }
-        })
-        .catch(error => {
-            console.error('Error during order submission:', error);
-        });        
+
+        axiosInstance.post('Orders/addOrder.php', formData)
+            .then(response => {
+                const result = response.data;
+
+                if (result.status === 'success') {
+                    setSelfMessage('Order placed successfully!');
+                    setSelfType("success");
+                    setShowMessage(true);
+                    
+                    dispatch(clearCart());
+                    
+                    setTimeout(() => {
+                        navigate("/Items");
+                    }, 2000);
+                } else {
+                    setSelfMessage('Failed to place order!');
+                    setSelfType("error");
+                    setShowMessage(true);
+                }
+            })
+            .catch(error => {
+                console.error('Error during order submission:', error);
+            });
     };
-    
+
     return (
         <div className="Buy-Form">
             {showMessage && (
@@ -111,26 +111,25 @@ const BuyForm = () => {
             )}
             <h1 className="form-heading">Place Your Order</h1>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="productID">Product ID:</label>
-                    <input type="text" id="productID" name="ProductID" value={formData.ProductID} onChange={handleChange} required readOnly/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="Quantity" value={formData.Quantity} onChange={handleChange} required />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="price">Price:</label>
-                    <input type="text" id="price" name="Price" value={formData.Price} onChange={handleChange} required readOnly/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="userID">User ID:</label>
-                    <input type="text" id="userID" name="UserID" value={formData.UserID} onChange={handleChange} required readOnly />
-                </div>
+                {formData.Products.map((product, index) => {
+                    const formattedPrice = new Intl.NumberFormat().format(product.Price);
+                    return (
+                        <fieldset key={index} className="form-group product-details">
+                            <legend>Product {index + 1}</legend>
+                            <label htmlFor={`productID-${index}`}>Product ID:</label>
+                            <input type="text" id={`productID-${index}`} name="ProductID" value={product.ProductID} readOnly/>
+
+                            <label htmlFor={`quantity-${index}`}>Quantity:</label>
+                            <input type="number" id={`quantity-${index}`} name="Quantity" value={product.Quantity} readOnly onChange={(e) => handleProductChange(index, e)} required />
+
+                            <label htmlFor={`price-${index}`}>Price:</label>
+                            <input type="text" id={`price-${index}`} name="Price" value={formattedPrice} readOnly/>
+                        </fieldset>
+                    );
+                })}
 
                 <fieldset className="form-group shipping-details">
                     <legend>Shipping Details</legend>
-
                     <label htmlFor="address">Address:</label>
                     <input type="text" id="address" name="Address" value={formData.Address} onChange={handleChange} required />
 

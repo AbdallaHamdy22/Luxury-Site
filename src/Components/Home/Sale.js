@@ -34,7 +34,7 @@ const SaleBanner = () => {
         <div className="col-12 col-lg-6">
           <div className="p-4">
             <h2>HOTTEST SALE OF THE YEAR</h2>
-            <h3>GET UP TO $500 OFF</h3>
+            <h3>GET UP TO 900 AED OFF</h3>
             <p>USE CODE: SALE</p>
             <NavLink to="/Items">
               <button className="btn btn-dark">SHOP NOW</button>

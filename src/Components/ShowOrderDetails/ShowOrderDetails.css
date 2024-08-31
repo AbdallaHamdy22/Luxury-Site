@@ -11,7 +11,7 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin-left: 250px; /* Adjust based on sidebar width */
+    margin-left: 250px;
 }
 
 .order-details-content h1 {

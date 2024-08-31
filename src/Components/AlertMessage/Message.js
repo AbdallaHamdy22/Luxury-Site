@@ -7,7 +7,7 @@ const MessageCard = ({ type, message, onClose = () => {} }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
-        }, 5000); // Message card will auto-hide after 5 seconds
+        }, 5000);
 
         return () => clearTimeout(timer);
     }, []);
@@ -15,8 +15,8 @@ const MessageCard = ({ type, message, onClose = () => {} }) => {
     const handleClose = () => {
         setIsVisible(false);
         setTimeout(() => {
-            onClose(); // Call onClose after animation ends
-        }, 500); // Duration matches the fadeOut animation
+            onClose();
+        }, 500);
     };
 
     return (

@@ -1,30 +1,34 @@
 import React from "react";
+import './userDetails.css';
 
-const onSale = ({ items, toggleItem, openItem }) => {
+const OnSale = ({ items, toggleItem, openItem }) => {
   return (
-    <div className="items-list">
+    <div className="luxury-items-list">
       {items.length > 0 ? (
-        items.map((item, index) => (
-          <div className="item" key={item.ProductID}>
-            <div className="item-header" onClick={() => toggleItem(index)}>
-              <h2>{item.Name}</h2>
-              <span>{openItem === index ? '-' : '+'}</span>
-            </div>
-            {openItem === index && (
-              <div className="item-content">
-                <p>{item.description}</p>
-                <p>Price: {item.Price} AED</p>
-                <p>Status: {item.Status}</p>
-                <p>Category: {item.Categoire_ID}</p>
+        items.map((item, index) => {
+          const formattedPrice = new Intl.NumberFormat().format(item.Price);
+          return(
+            <div className="luxury-item" key={item.ProductID}>
+              <div className="luxury-item-header" onClick={() => toggleItem(index)}>
+                <h2>{item.Name}</h2>
+                <span>{openItem === index ? '-' : '+'}</span>
               </div>
-            )}
-          </div>
-        ))
+              {openItem === index && (
+                <div className="luxury-item-content">
+                  <p><strong>Product ID:</strong> {item.ProductID}</p>
+                  <p><strong>Description:</strong> {item.Description}</p>
+                  <p><strong>Price:</strong> {formattedPrice} AED</p>
+                  <p><strong>Sale percentage:</strong> {item.OfferPrice}%</p>
+                </div>
+              )}
+            </div>
+          )
+        })
       ) : (
-        <p>No submitted items found.</p>
+        <p>No items on sale found.</p>
       )}
     </div>
   );
 };
 
-export default onSale;
+export default OnSale;

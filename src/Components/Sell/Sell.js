@@ -13,7 +13,8 @@ const Sell = () => {
         CategoireID: '',
         BrandID: '',
         SexID: '',
-        ColorID: ''
+        ColorID: '',
+        Status: '',
     });
 
     const [showMessage, setShowMessage] = useState(false);
@@ -60,7 +61,7 @@ const Sell = () => {
         // Only format if the input is a number field and not empty
         if (['quantity'].includes(name) && value !== '') {
             // Remove any existing commas before formatting
-            const cleanValue = value.replace(/\./g, '');
+            const cleanValue = value.replace(/,/g, '');
             formattedValue = new Intl.NumberFormat('de-DE').format(cleanValue);
         }
 
@@ -80,12 +81,13 @@ const Sell = () => {
         });
 
         data.append('UserID', user.UserID);
-        data.append('Status', 'Submitted');
+        const status = formData.quantity > 0 ? 'Submitted' : 'SoldOut';
+        data.append('Status', status);
 
         for (let i = 0; i < imageFiles.length; i++) {
             data.append('images[]', imageFiles[i]);
         }
-
+        
         axiosInstance.post('WaitingList/addqueue.php', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -105,7 +107,8 @@ const Sell = () => {
                         CategoireID: '',
                         BrandID: '',
                         SexID: '',
-                        ColorID: ''
+                        ColorID: '',
+                        Status: '',
                     });
                     setImageFiles([]);
                     fileInputRef.current.value = '';
@@ -121,7 +124,6 @@ const Sell = () => {
                 setShowMessage(true);
             });
     };
-
 
     return (
         <div className='sell-container'>

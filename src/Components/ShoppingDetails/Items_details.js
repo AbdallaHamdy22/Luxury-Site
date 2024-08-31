@@ -6,17 +6,20 @@ import axiosInstance from '../../axiosConfig/instance';
 import { addToCart, removeFromCart, updateQuantity } from '../Redux/RDXCart';
 import { useDispatch, useSelector } from 'react-redux';
 import MessageCard from '../AlertMessage/Message';
-
+import Modal from '../Login-Register/Modal';
+import LoginModal from '../Login-Register/Login';
 const ProductDetails = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const user = useSelector((state) => state.user.user);
     const { id } = useParams();
     const navigate = useNavigate(); 
     const [item, setItem] = useState({});
     const [colors, setColors] = useState([]);
     const [selectedImage, setSelectedImage] = useState('');
-    const [userquantity, setUserQuantity] = useState(0);
+    const [userquantity, setUserQuantity] = useState(1);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [selectedColor, setSelectedColor] = useState('');
+    const [notes, setNotes] = useState('');
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.items);
     const isInCart = cart.some(cartItem => cartItem.ProductID === Number(id));
@@ -26,7 +29,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         fetchData();
-    }, [userquantity]);
+    }, [id]);
 
     useEffect(() => {
         const cartItem = cart.find(cartItem => cartItem.ProductID === Number(id));
@@ -34,7 +37,7 @@ const ProductDetails = () => {
             setUserQuantity(cartItem.Quantity);
             setSelectedColor(cartItem.Color || '');
         }
-    }, [cart, id, selectedColor]);
+    }, [cart, id]);
 
     const fetchData = () => {
         Promise.all([
@@ -57,7 +60,7 @@ const ProductDetails = () => {
             }
         })
         .catch(error => console.error('Error fetching data:', error));
-    }
+    };
 
     const handleCloseMessage = () => {
         setShowMessage(false);
@@ -65,6 +68,7 @@ const ProductDetails = () => {
 
     const handleBuyNow = () => {
         if (!user) {
+            setIsModalOpen(true);
             setSelfMessage("Please log in to buy this product!");
             setSelfType("alert");
             setShowMessage(true);
@@ -76,13 +80,15 @@ const ProductDetails = () => {
                     ProductID: item.ProductID,
                     Quantity: userquantity,
                     Price: item.Price,
+                    Notes: notes,
                 }]
             }
         });
     };
-    
-    const handleToggleCart = async () => {
+
+    const handleToggleCart = () => {
         if (!user) {
+            setIsModalOpen(true);
             setSelfMessage("Please log in to buy this product!");
             setSelfType("alert");
             setShowMessage(true);
@@ -93,50 +99,31 @@ const ProductDetails = () => {
     
         if (isInCart) {
             dispatch(removeFromCart({ ProductID: item.ProductID }));
-            await axiosInstance.post('Products/updateProductQuantity.php', {
-                ProductID: item.ProductID,
-                quantity: item.Quantity + adjustedQuantity
-            });
-            setUserQuantity(0);
-            setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity + adjustedQuantity }));
+            setUserQuantity(1);
         } else {
             dispatch(addToCart({ ...item, Quantity: adjustedQuantity }));
-            await axiosInstance.post('Products/updateProductQuantity.php', {
-                ProductID: item.ProductID,
-                quantity: item.Quantity - adjustedQuantity
-            });
             setUserQuantity(adjustedQuantity);
-            setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity - adjustedQuantity }));
         }
     };
-    
-    const handleDecrease = async () => {
+
+    const handleDecrease = () => {
         if (userquantity > 1) {
             const newQuantity = userquantity - 1;
+            setUserQuantity(newQuantity);
+
             if (isInCart) {
-                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
-                await axiosInstance.post('Products/updateProductQuantity.php', {
-                    ProductID: item.ProductID,
-                    quantity: item.Quantity + 1
-                });
-                setUserQuantity(newQuantity);
-                setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity + 1 }));
+                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity, MainQuantity: item.Quantity + 1 }));
             }
         }
     };
-    
 
-    const handleIncrease = async () => {
-        if (item.Quantity > 0 && item.MainQuantity > userquantity) {
+    const handleIncrease = () => {
+        if (item.Quantity > userquantity) {
             const newQuantity = userquantity + 1;
+            setUserQuantity(newQuantity);
+
             if (isInCart) {
-                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity }));
-                await axiosInstance.post('Products/updateProductQuantity.php', {
-                    ProductID: item.ProductID,
-                    quantity: item.Quantity - 1
-                });
-                setUserQuantity(newQuantity);
-                setItem(prevItem => ({ ...prevItem, Quantity: prevItem.Quantity - 1 }));
+                dispatch(updateQuantity({ ProductID: item.ProductID, Quantity: newQuantity, MainQuantity: item.Quantity - 1 }));
             }
         } else {
             setSelfMessage(`Only ${item.Quantity} items available in stock`);
@@ -144,8 +131,7 @@ const ProductDetails = () => {
             setShowMessage(true);
         }
     };
-    
-    
+
     const handleImageClick = (img) => {
         setSelectedImage(img);
     };
@@ -162,6 +148,9 @@ const ProductDetails = () => {
         setSelectedImage(item.Image[newIndex]);
     };
 
+    const formattedPrice = new Intl.NumberFormat().format(item.Price);
+    const formattedSubtotal = new Intl.NumberFormat().format(item.Price * userquantity);
+
     return (
         <div className="ItemDetailscontainer">
             {showMessage && (
@@ -172,7 +161,7 @@ const ProductDetails = () => {
                 />
             )}
             <div className="breadcrumbs">
-                <a href="/">Home</a> &gt; <a href="/Items">Man</a> &gt; <a href={`/ItemDetails/${item.ProductID}`}>{item.Name}</a>
+                <a href="/">Home</a> &gt; <a href="/Items">Man</a> &gt; <a href={`/Items/${item.ProductID}`}>{item.Name}</a>
             </div>
             <div className="product-page">
                 <div className="product-images">
@@ -189,7 +178,7 @@ const ProductDetails = () => {
                 </div>
                 <div className="product-details">
                     <h1>{item.Name}</h1>
-                    <div className="price">{item.Price} AED</div>
+                    <div className="price">{formattedPrice} AED</div>
                     <div className="options">
                         <div className="color-options">
                             <label>Select Color</label>
@@ -220,10 +209,10 @@ const ProductDetails = () => {
                     <input type="text" readOnly value={selectedColor || ''} />
                     <div className="subtotal">
                         <p>Sub Total</p>
-                        <p>{(item.Price * userquantity).toFixed(2)} AED</p>
+                        <p>{formattedSubtotal} AED</p>
                     </div>
                     <label>Notes</label>
-                    <textarea placeholder="Write a note..."></textarea>
+                    <textarea placeholder="Write a note..." value={notes} onChange={(e) => setNotes(e.target.value)}></textarea>
                     <label>Discount Coupon</label>
                     <input type="text" placeholder='Enter the coupon for discount..'/>
                     <button className="apply-coupon">Apply Coupon</button>
@@ -233,6 +222,9 @@ const ProductDetails = () => {
                 </div>
             </div>
             <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <LoginModal setIsModalOpen={setIsModalOpen} />
+            </Modal>
         </div>
     );
 };

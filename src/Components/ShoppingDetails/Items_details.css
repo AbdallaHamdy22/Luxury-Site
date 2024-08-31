@@ -3,7 +3,7 @@
   margin-top: 3%;
   padding: 20px;
   max-width: 1200px;
-  background-color: var(--accent-color); /* Luxurious dark background */
+  background-color: var(--accent-color);
   color: var(--primary-color);
   border-radius: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -23,7 +23,7 @@
 
 .product-page {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -35,17 +35,18 @@
 .main-image-container {
   position: relative;
   width: 100%;
-  background-color: var(--accent-color); /* Light background for contrast */
+  background-color: var(--accent-color);
   padding: 10px;
   border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .main-image {
   width: 100%;
   object-fit: contain;
   border-radius: 10px;
-  height: 400px;
+  height: auto;
+  max-height: 400px;
 }
 
 .image-nav-button {
@@ -57,26 +58,26 @@
   border: none;
   padding: 10px;
   cursor: pointer;
-  z-index: 1; /* Ensure buttons are on top */
-  width: 40px; /* Adjust button width */
-  height: 40px; /* Adjust button height */
+  z-index: 1;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%; /* Round buttons for a luxurious feel */
+  border-radius: 50%;
 }
 
 .prev-button {
-  left: 10px; /* Adjust the distance from the left */
+  left: 10px;
 }
 
 .next-button {
-  right: 10px; /* Adjust the distance from the right */
+  right: 10px;
 }
 
 .image-nav-button:hover {
-  background: rgba(0, 0, 0, 0.7); /* Darker background on hover */
-  transform: translateY(-50%) scale(1.1); /* Slightly larger on hover */
+  background: rgba(0, 0, 0, 0.7);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .thumbnail-images {
@@ -92,29 +93,29 @@
   object-fit: cover;
   border-radius: 8px;
   cursor: pointer;
-  border: 2px solid var(--primary-color); /* Border to emphasize selection */
+  border: 2px solid var(--primary-color);
 }
 
 .product-details {
   flex: 1;
-  background-color: var(--accent-color); /* Consistent dark background */
+  background-color: var(--accent-color);
   padding: 20px;
   border-radius: 15px;
   color: var(--primary-color);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .product-details h1 {
-  font-size: 32px;
-  color: var(--primary-color); /* Luxurious highlight color */
+  font-size: 28px;
+  color: var(--primary-color);
   margin-bottom: 10px;
   font-weight: 700;
 }
 
 .product-details .price {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
-  color: var(--primary-color); /* Luxurious highlight color */
+  color: var(--primary-color);
   margin-bottom: 20px;
 }
 
@@ -140,29 +141,29 @@
 }
 
 .description {
-  font-size: 18px;
+  font-size: 16px;
   margin-top: 20px;
-  color: var(--primary-color); /* Light text for contrast */
+  color: var(--primary-color);
 }
 
 .order-details {
   flex: 1;
-  background-color: var(--accent-color); /* Consistent dark background */
+  background-color: var(--accent-color);
   padding: 20px;
   border-radius: 15px;
-  color: var(--accent-color); /* Light text for contrast */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+  color: var(--accent-color);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .order-details h2 {
-  font-size: 28px;
-  color: var(--primary-color); /* Luxurious highlight color */
+  font-size: 24px;
+  color: var(--primary-color);
   margin-bottom: 20px;
   font-weight: 700;
 }
 
-.order-details label{
-  color: var(--primary-color); /* Luxurious highlight color */
+.order-details label {
+  color: var(--primary-color);
 }
 
 .quantity-control {
@@ -198,24 +199,27 @@
   display: flex;
   justify-content: space-between;
   margin: 20px 0;
-  font-size: 20px;
-  color: var(--primary-color); /* Light text for contrast */
+  font-size: 18px;
+  color: var(--primary-color);
 }
 
-.ItemDetailscontainer textarea, .ItemDetailscontainer input[type="text"] {
+.ItemDetailscontainer textarea,
+.ItemDetailscontainer input[type="text"] {
   width: 100%;
   padding: 10px;
   border-radius: 10px;
   border: solid;
   margin-bottom: 20px;
-  background-color: var(--accent-color); /* Light background for input fields */
+  background-color: var(--accent-color);
   color: var(--text-color);
 }
 
-.apply-coupon {
+.apply-coupon,
+.add-to-cart,
+.buy-now {
   width: 100%;
   padding: 15px;
-  background-color: var(--secondary-color); /* Luxurious highlight color */
+  background-color: var(--secondary-color);
   border-radius: 15px;
   border: none;
   cursor: pointer;
@@ -226,41 +230,75 @@
   transition: background-color 0.3s ease;
 }
 
-.apply-coupon:hover {
-  background-color: #a88360; /* Slightly darker hover effect */
-}
-
-.add-to-cart {
-  width: 100%;
-  padding: 15px;
-  background-color: var(--secondary-color); /* Luxurious highlight color */
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--accent-color);
-  transition: background-color 0.3s ease;
-}
-
-.add-to-cart:hover {
-  background-color: #a88360; /* Slightly darker hover effect */
-}
-
-.buy-now {
-  width: 100%;
-  padding: 15px;
-  background-color: var(--secondary-color); /* Luxurious highlight color */
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--accent-color); /* Dark text for contrast */
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
-}
-
+.apply-coupon:hover,
+.add-to-cart:hover,
 .buy-now:hover {
-  background-color: #a88360; /* Slightly darker hover effect */
+  background-color: #a88360;
+}
+
+@media (min-width: 768px) {
+  .product-page {
+    flex-direction: row;
+  }
+
+  .main-image-container {
+    height: 500px;
+  }
+
+  .main-image {
+    height: 100%;
+  }
+
+  .product-details h1 {
+    font-size: 32px;
+  }
+
+  .product-details .price {
+    font-size: 24px;
+  }
+
+  .order-details h2 {
+    font-size: 28px;
+  }
+
+  .quantity {
+    font-size: 22px;
+  }
+
+  .subtotal {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .ItemDetailscontainer {
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  .product-details h1 {
+    font-size: 24px;
+  }
+
+  .product-details .price {
+    font-size: 20px;
+  }
+
+  .order-details h2 {
+    font-size: 22px;
+  }
+
+  .quantity {
+    font-size: 18px;
+  }
+
+  .subtotal {
+    font-size: 18px;
+  }
+
+  .apply-coupon,
+  .add-to-cart,
+  .buy-now {
+    font-size: 14px;
+  }
 }

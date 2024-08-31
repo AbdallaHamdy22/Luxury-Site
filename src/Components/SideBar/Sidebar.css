@@ -1,26 +1,22 @@
-/* Sidebar container styling */
 .sidebar-container {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
+  width: 60px;
   overflow: hidden;
   transition: width 0.3s ease-in-out;
-  width: 60px;
   z-index: 1000;
   background-color: var(--primary-color);
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Expands the sidebar on hover */
 .sidebar-container:hover {
   width: 250px;
 }
 
-/* Sidebar styling */
 .sidebar {
   width: 100%;
-  background-color: var(--primary-color);
   color: var(--accent-color);
   display: flex;
   flex-direction: column;
@@ -28,7 +24,6 @@
   font-family: var(--body-font);
 }
 
-/* Header of the sidebar */
 .sidebar-header {
   padding: 20px;
   background-color: var(--secondary-color);
@@ -39,19 +34,16 @@
   letter-spacing: 1.5px;
 }
 
-/* Content area of the sidebar */
 .sidebar-content {
   flex: 1;
   overflow-y: auto;
   padding-top: 20px;
 }
 
-/* Menu styling */
 .sidebar-menu {
   padding: 10px 20px;
 }
 
-/* Menu item and submenu title styling */
 .sidebar-menu-item, .sidebar-submenu-title {
   padding: 15px;
   display: flex;
@@ -66,52 +58,45 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Icon styling */
 .sidebar-menu-item .fa-icon, .sidebar-submenu-title .fa-icon {
-  margin-right: 10px; /* Space between icon and text */
-  font-size: 1.2em; /* Increase icon size */
-  transition: color 0.3s ease, transform 0.3s ease; /* Smooth color and size transition */
+  margin-right: 10px;
+  font-size: 1.2em;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Hover effect for menu items and submenu titles */
 .sidebar-menu-item:hover, .sidebar-submenu-title:hover {
   background-color: var(--secondary-color);
   color: #fff;
   border-radius: 8px;
 }
 
-/* Hover effect for icons */
 .sidebar-menu-item:hover .fa-icon, .sidebar-submenu-title:hover .fa-icon {
   color: #fff;
-  transform: scale(1.2); /* Slightly enlarge the icon */
+  transform: scale(1.2);
 }
 
-/* Submenu styling */
 .sidebar-submenu {
   margin-left: 20px;
 }
 
-/* Active link styling */
 .activeClicked {
   background-color: var(--secondary-color);
   color: #fff;
   border-radius: 8px;
+  text-decoration: none;
 }
 
-/* Navigation link styling */
 .sidebar-navlink {
   color: inherit;
   text-decoration: none;
 }
 
-/* Main content styling */
 .main-content {
-  margin-left: 50px;
+  margin-left: 60px;
   padding: 20px;
   transition: margin-left 0.3s ease-in-out;
 }
 
-/* Adjusts margin when sidebar expands */
 .sidebar-container:hover ~ .main-content {
   margin-left: 250px;
 }
@@ -124,4 +109,47 @@
 .sidebar-submenu-title:hover .fa-icon {
   color: #fff;
   transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 60px;
+    overflow: hidden;
+    transition: width 0.3s ease-in-out;
+    z-index: 1000;
+    background-color: var(--primary-color);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar-header {
+      padding: 10px;
+      font-size: 1.2em;
+  }
+
+  .sidebar-content {
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0;
+  }
+
+  .sidebar-container:hover {
+      height: 100vh;
+  }
+
+  .sidebar-container:hover .sidebar-content {
+      display: flex;
+      flex-direction: column;
+      padding-top: 60px;
+  }
+
+  .main-content {
+      margin-left: 0;
+      padding-top: 60px;
+  }
 }

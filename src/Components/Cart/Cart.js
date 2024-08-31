@@ -4,13 +4,15 @@ import { Row, Col, Button } from 'react-bootstrap';
 import CartItem from './CartItem';
 import './Cart.css';
 import axiosInstance from '../../axiosConfig/instance';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const cart = useSelector((state) => state.cart.items);
+    const user = useSelector((state) => state.user.user);
     const [subtotal, setSubtotal] = useState(0);
     const [items, setItems] = useState([]);
     const [cartItems, setCartItems] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchData();
@@ -19,7 +21,7 @@ const Cart = () => {
     useEffect(() => {
         const cartItemDetails = cart.map(cartItem => {
             const product = items.find(item => item.ProductID === cartItem.ProductID);
-            return product ? { ...product, Quantity: cartItem.Quantity } : null;
+            return product ? { ...cartItem, MainQuantity: product.Quantity } : null;
         }).filter(item => item !== null);
 
         const total = cartItemDetails.reduce((acc, item) => acc + item.Price * item.Quantity, 0);
@@ -37,6 +39,17 @@ const Cart = () => {
             console.error('Error fetching data:', error);
         }
     };
+
+    const handleCheckout = () => {
+        navigate('/buynow', {
+            state: {
+                user,
+                items: cartItems,
+            },
+        });
+    };
+
+    const formattedSubtotal = new Intl.NumberFormat().format(subtotal);
 
     return (
         <div className="shopping-cart container mt-5 p-5">
@@ -61,15 +74,11 @@ const Cart = () => {
                         <Col xs={12} md={5} className='col-item-info'><h3>Subtotal</h3></Col>
                         <Col xs={4} md={2} className='col-item-price'></Col>
                         <Col xs={4} md={3} className='col-item-quantity'></Col>
-                        <Col xs={4} md={2} className='col-item-total'><h3>{subtotal.toFixed(2)} AED</h3></Col>
+                        <Col xs={4} md={2} className='col-item-total'><h3>{formattedSubtotal} AED</h3></Col>
                     </Row>
-                    <NavLink 
-                        to={{
-                            pathname: '/buynow',
-                            state: { items: cartItems }
-                        }}>
-                        <Button className="checkout-button mt-5">Proceed to Checkout</Button>
-                    </NavLink>
+                    <Button onClick={handleCheckout} className="checkout-button mt-5">
+                        Proceed to Checkout
+                    </Button>
                 </div>
             )}
         </div>

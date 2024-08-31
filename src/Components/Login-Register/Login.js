@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaUser, FaEnvelope, FaLock, FaPhone, FaBirthdayCake, FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,6 @@ const LoginModal = ({ setIsModalOpen }) => {
   const [signupData, setSignupData] = useState({
     fName: '', lName: '', Email: '', Password: '', conf_Password: '', number: '', birthdate: '', gender: ''
   });
-  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLogin, setIsLogin] = useState(true);
   const [isFadingOut, setIsFadingOut] = useState(false);
@@ -29,7 +28,6 @@ const LoginModal = ({ setIsModalOpen }) => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     showError(''); // Reset error message
     try {
       const response = await axiosInstance.post('User/UserLogin.php', loginData);
@@ -51,17 +49,14 @@ const LoginModal = ({ setIsModalOpen }) => {
         setIsModalOpen(false); // Close modal on successful login
         navigate(location.pathname); // Stay on the same page
       }
-      setLoading(false);
     } catch (error) {
       console.error('Error:', error);
       showError('An error occurred. Please try again later.');
-      setLoading(false);
     }
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     showError(''); // Reset error message
     try {
       const response = await axiosInstance.post('User/signup.php', signupData);
@@ -76,11 +71,9 @@ const LoginModal = ({ setIsModalOpen }) => {
           setIsFadingOut(false);
         }, 500);
       }
-      setLoading(false);
     } catch (error) {
       console.error('Error:', error);
       showError('An error occurred. Please try again later.');
-      setLoading(false);
     }
   };
 
@@ -99,11 +92,6 @@ const LoginModal = ({ setIsModalOpen }) => {
     }, 500);
   };
 
-  const handleSocialLogin = (provider) => {
-    console.log(`Sign in with ${provider}`);
-    // Implement social login functionality here
-  };
-
   return (
     <div>
       <div className="login-modal-overlay">
@@ -111,20 +99,22 @@ const LoginModal = ({ setIsModalOpen }) => {
           <button className="login-modal-close" onClick={() => setIsModalOpen(false)}>&times;</button>
           <div className="luxurious-sidebar">
             {/* <img src="/Images/Logo.png" alt="Website Logo" className="website-logo" /> */}
-            <h1>Welcome Back</h1>
+            {isLogin? <h1>Welcome Back</h1>:<h1>Join us!</h1>}
             <p>{isLogin ? "Sign in to your account" : "Create a new account to get started"}</p>
+            <div className="social-login-buttons">
+              {/* <button onClick={() => handleSocialLogin('Google')} className="social-login google"> */}
+              {/* <button className="social-login google">
+                <FaGoogle className="social-icon" />
+                {isLogin ? "Sign in with Google" : "Sign up with Google"}
+              </button> */}
+              {/* <button onClick={() => handleSocialLogin('Facebook')} className="social-login facebook"> */}
+              {/* <button className="social-login facebook">
+                <FaFacebook className="social-icon" />
+                {isLogin ? "Sign in with Facebook" : "Sign up with Facebook"}
+              </button> */}
             <button onClick={toggleForm}>
               {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
             </button>
-            <div className="social-login-buttons">
-              <button onClick={() => handleSocialLogin('Google')} className="social-login google">
-                <FaGoogle className="social-icon" />
-                {isLogin ? "Sign in with Google" : "Sign up with Google"}
-              </button>
-              <button onClick={() => handleSocialLogin('Facebook')} className="social-login facebook">
-                <FaFacebook className="social-icon" />
-                {isLogin ? "Sign in with Facebook" : "Sign up with Facebook"}
-              </button>
             </div>
           </div>
           {isLogin ? (

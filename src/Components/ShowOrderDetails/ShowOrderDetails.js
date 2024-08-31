@@ -27,10 +27,14 @@ const ShowOrderDetails = () => {
             });
     }, [id]);
 
+    const changePriceInput = (price) => {
+        const formattedPrice = new Intl.NumberFormat().format(price);
+        return formattedPrice;
+    }
+
     const handleCloseMessage = () => {
         setShowMessage(false);
     };
-
     return (
         <div className="show-order-details-container">
             {showMessage && (
@@ -64,7 +68,7 @@ const ShowOrderDetails = () => {
                             </Row>
                             <Row>
                                 <Col md={3}><strong>Price:</strong></Col>
-                                <Col md={9}>${detail.Price}</Col>
+                                <Col md={9}>{changePriceInput(detail.Price)} AED</Col>
                             </Row>
                             <hr />
                         </div>

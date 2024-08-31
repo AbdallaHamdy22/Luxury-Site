@@ -1,12 +1,16 @@
 .Categories-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: #f9f6f1;
     padding: 20px;
 }
 
 .Categories-table {
     width: 80%;
-    margin: 0 auto;
+    margin-left: 240px;
+    margin-top: 30px;
+    max-width: 1200px;
     border-collapse: collapse;
     padding: 20px;
     border-radius: 12px;
@@ -18,13 +22,14 @@
 .Categories-table table {
     width: 100%;
     border-spacing: 0;
-    min-width: 1000px;
+    min-width: 1000px; /* Ensure the table is wide enough */
 }
 
 .Categories-table th, .Categories-table td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    font-size: 1rem;
 }
 
 .Categories-table th {
@@ -67,6 +72,7 @@
     font-size: 14px;
     color: white;
 }
+
 .Categories-container td button {
     background-color: #3498db;
     color: white;
@@ -111,6 +117,7 @@
 .add-button:hover {
     background-color: #16a085;
 }
+
 .edit-button {
     background-color: #2980b9;
 }
@@ -129,10 +136,12 @@
     padding: 20px 0;
     list-style-type: none;
 }
+
 .Categories-table h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #34495e;
+    font-size: 1.5rem;
 }
 
 .pagination li {
@@ -156,4 +165,30 @@
 
 .pagination a:hover {
     background-color: #ddd;
+}
+
+@media (max-width: 768px) {
+    .Categories-table th, .Categories-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .Categories-table h1 {
+        font-size: 20px;
+    }
+
+    .Categories-table button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .Categories-table img.category-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .image-preview {
+        width: 80px;
+        height: 80px;
+    }
 }
