@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Order</title>
+    <style>
+        .product-group {
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Place Your Order</h1>
+    <form id="orderForm">
+        <div id="productContainer">
+            <div class="product-group">
+                <label for="productID">Product ID:</label>
+                <input type="text" class="productID" name="ProductID[]" required><br><br>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" class="quantity" name="Quantity[]" required><br><br>
+
+                <label for="price">Price:</label>
+                <input type="text" class="price" name="Price[]" required><br><br>
+            </div>
+        </div>
+
+        <button type="button" id="addProduct">Add Another Product</button><br><br>
+
+        <label for="userID">User ID:</label>
+        <input type="text" id="userID" name="UserID" required><br><br>
+
+        <!-- Shipping Details -->
+        <fieldset>
+            <legend>Shipping Details</legend>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="Address" required><br><br>
+
+            <label for="street">Street:</label>
+            <input type="text" id="street" name="Street" required><br><br>
+
+            <label for="apartment">Apartment Number:</label>
+            <input type="text" id="apartment" name="Apartment"><br><br>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="City" required><br><br>
+
+            <label for="state">State:</label>
+            <input type="text" id="state" name="State" required><br><br>
+
+            <label for="zip">Zip Code:</label>
+            <input type="text" id="zip" name="Zip" required><br><br>
+
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="Country" required><br><br>
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="Phone" required><br><br>
+
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="Notes" rows="4" cols="50"></textarea><br><br>
+        </fieldset>
+
+        <button type="submit">Place Order</button>
+    </form>
+
+    <script>
+        document.getElementById('addProduct').addEventListener('click', function() {
+            const productContainer = document.getElementById('productContainer');
+            const newProductGroup = document.createElement('div');
+            newProductGroup.classList.add('product-group');
+            newProductGroup.innerHTML = `
+                <label for="productID">Product ID:</label>
+                <input type="text" class="productID" name="ProductID[]" required><br><br>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" class="quantity" name="Quantity[]" required><br><br>
+
+                <label for="price">Price:</label>
+                <input type="text" class="price" name="Price[]" required><br><br>
+            `;
+            productContainer.appendChild(newProductGroup);
+        });
+
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                Products: [],
+                UserID: formData.get('UserID'),
+                Address: formData.get('Address'),
+                Street: formData.get('Street'),
+                Apartment: formData.get('Apartment'),
+                City: formData.get('City'),
+                State: formData.get('State'),
+                Zip: formData.get('Zip'),
+                Country: formData.get('Country'),
+                Phone: formData.get('Phone'),
+                Notes: formData.get('Notes')
+            };
+
+            const productIDs = formData.getAll('ProductID[]');
+            const quantities = formData.getAll('Quantity[]');
+            const prices = formData.getAll('Price[]');
+
+            productIDs.forEach((productID, index) => {
+                data.Products.push({
+                    ProductID: productID,
+                    Quantity: quantities[index],
+                    Price: prices[index]
+                });
+            });
+
+            fetch('http://localhost/dashboard/luxury-site-last/api/Orders/addOrder.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    alert('Order placed successfully!');
+                } else {
+                    alert('Failed to place order: ' + result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
