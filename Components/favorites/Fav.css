@@ -1,0 +1,148 @@
+/* Fav.css */
+
+/* Favourites Container */
+.favourites-container {
+    padding: 40px;
+    background-color: var(--accent-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Favourites Heading */
+.favourites-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+}
+
+/* No Favorites Message */
+.favourites-container .no-favorites {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-top: 50px;
+}
+
+/* Card Container */
+.favourites-container .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; /* Space between cards */
+}
+
+/* Product Card */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    height: 100%; /* Adjusted to fit the parent grid cell */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure Cards Don't Overlap */
+.product-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Product Image */
+.product-card .product-image {
+    width: 100%;
+    height: 200px; /* Fixed height for image */
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+/* Product Details and Button Container */
+.product-card .product-details {
+    flex: 1; /* Allows details to expand and fill available space */
+    margin-bottom: 10px;
+    background-color: var(--accent-color);
+}
+
+/* Product Name */
+.product-card h4 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-family: var(--heading-font);
+}
+
+/* Product Price */
+.product-card p .price {
+    font-size: 1.25rem;
+    color: var(--secondary-color);
+    margin-top: 5px;
+}
+
+/* Product Card Link */
+.product-card-link {
+    text-decoration: none;
+    color: inherit; /* Ensures link text color inherits from parent */
+}
+
+/* Buttons Container */
+.product-card .button-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* Button Styling */
+.product-card .btn {
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: auto; /* Pushes button to the bottom */
+    width: 100%;
+}
+
+
+.product-card .btn-primary {
+    background-color: var(--primary-color);
+}
+
+.product-card .btn-primary:hover {
+    background-color: #a88360;
+}
+
+
+.product-card .btn-danger {
+    background-color: #e74c3c;
+}
+
+.product-card .btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* Button Group for Side-by-Side Layout */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.button-group .btn {
+    width: 50%; /* Ensure both buttons have equal width */
+    margin-right: 10px; /* Space between buttons */
+}
+
+.button-group .btn:last-child {
+    margin-right: 0; /* Remove margin for the last button */
+}
+
+/* Adjust padding for consistent height */
+.product-card .btn {
+    padding: 10px 0; /* Ensures consistent button height */
+}

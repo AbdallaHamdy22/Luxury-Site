@@ -1,0 +1,11 @@
+.new-arrivals-section {
+    margin-top: 30px;
+}
+.new-arrivals-section img {
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+}
+.new-arrivals-section h5, .new-arrivals-section p {
+    color: black;
+}

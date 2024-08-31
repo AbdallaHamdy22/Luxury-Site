@@ -1,0 +1,83 @@
+.Buy-Form {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 3%;
+    padding: 40px;
+    background-color: var(--accent-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.Buy-Form h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--secondary-color);
+    font-family: var(--body-font);
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.shipping-details {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.shipping-details legend {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    padding: 0 10px;
+}
+
+.shipping-details label {
+    margin-top: 10px;
+}
+
+.shipping-details input {
+    margin-bottom: 15px;
+}
+
+.btn-dark {
+    display: inline-block;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    background-color: var(--secondary-color);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-dark:hover {
+    background-color: #a88360;
+}

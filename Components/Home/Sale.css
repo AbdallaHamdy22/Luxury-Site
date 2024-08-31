@@ -1,0 +1,33 @@
+.sale-banner {
+    background: linear-gradient(135deg, #ff8a00, #e52e71);
+    color: white;
+    padding: 60px 0;
+    position: relative;
+}
+
+.sale-banner h2, .sale-banner h3 {
+    margin: 0;
+    padding: 5px 0;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.sale-banner img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.sale-banner .timer {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #fff;
+}
+
+.sale-banner .btn-dark {
+    background-color: #000;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+}
