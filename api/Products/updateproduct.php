@@ -21,9 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = isset($_POST['ProductID']) ? $_POST['ProductID'] : null;
     $name = isset($_POST['Name']) ? $_POST['Name'] : null;
     $description = isset($_POST['Description']) ? $_POST['Description'] : '';
-    $productionYear = isset($_POST['ProductionYear']) ? $_POST['ProductionYear'] : 0;
     $price = isset($_POST['Price']) ? $_POST['Price'] : 0;
-    $mainquantity = isset($_POST['MainQuantity']) ? $_POST['MainQuantity'] : 0;
     $quantity = isset($_POST['Quantity']) ? $_POST['Quantity'] : 0;
     $offerPrice = isset($_POST['OfferPrice']) ? $_POST['OfferPrice'] : 0;
     $brandID = isset($_POST['BrandID']) ? $_POST['BrandID'] : null;
@@ -39,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $Product->Get_Product_Data_By_ID($id);
         $Product->setName($name);
         $Product->setDescription($description);
-        $Product->setProduction_year($productionYear);
         $Product->setPrice($price);
         $Product->setQuantity($quantity);
         $Product->setOfferPrice($offerPrice);

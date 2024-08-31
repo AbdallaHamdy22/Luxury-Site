@@ -18,6 +18,10 @@ $Brand = new Brand($db);
 // استخدام دالة searchByName للبحث عن العلامات التجارية
 $results = $Brand->searchByName($query);
 
+// إضافة حقل link لكل عنصر في النتائج
+foreach ($results as &$result) {
+    $result['link'] = './Items?brand=' . $result['BrandID'];
+}
+
 // إرجاع النتائج في شكل JSON
 echo json_encode(array_values($results));
-?>

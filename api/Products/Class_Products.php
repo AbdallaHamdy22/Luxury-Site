@@ -27,7 +27,8 @@ class Products
         $this->Color = new Color($db);
         $this->Sex = new Sex($db);
     }
-    public function toArray() {
+    public function toArray()
+    {
         return get_object_vars($this);
     }
 
@@ -339,7 +340,6 @@ class Products
         $sql = "UPDATE products SET 
             Name = :name,
             Description = :description,
-            ProductionYear = :productionyear,
             Price = :price,
             Quantity = :quantity,
             Image = :image,
@@ -361,7 +361,6 @@ class Products
 
         $stmt->bindParam(':name', $this->Name);
         $stmt->bindParam(':description', $this->Description);
-        $stmt->bindParam(':productionyear', $this->Productionyear);
         $stmt->bindParam(':price', $this->Price);
         $stmt->bindParam(':quantity', $this->Quantity);
         $stmt->bindParam(':image', $this->Image);

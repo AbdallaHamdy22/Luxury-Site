@@ -56,7 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $product->setColorID($result['Color_ID']);
                     $product->setImage($result['Image']);
                     $product->setUserID($result['UserID']);
-                    $product->setStatus($result['Status']);
+                    if ($result['Quantity'] > 0) {
+                        $product->setStatus('Available');
+                    } else {
+                        $product->setStatus('SoldOut');
+                    }
                     $product->Create_Product();
                 }
 

@@ -22,6 +22,9 @@ $query = $_GET['query'] ?? '';
 // استخدام دالة searchProducts للبحث عن المنتجات
 $results = $products->searchProducts($query);
 
+foreach ($results as &$result) {
+    $result['link'] = './Items/' . $result['ProductID'];
+}
+
 // إرجاع النتائج في شكل JSON
 echo json_encode(array_values($results));
-?>

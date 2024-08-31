@@ -26,7 +26,7 @@ $formattedProducts = array_map(function ($product) {
         'Name' => $product['Name'],
         'Description' => $product['Description'],
         'Price' => $product['Price'] . ' AED',
-        'link' => "/ItemDetails/" . $product['ProductID'],
+        'link' => "/Items/" . $product['ProductID'],
         'img' =>   $imgs
     ];
 }, $latestProducts);
