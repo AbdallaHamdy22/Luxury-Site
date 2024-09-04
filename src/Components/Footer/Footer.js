@@ -10,7 +10,8 @@ const Footer = () => {
     { icon: 'facebook-f', link: 'https://www.facebook.com' },
     { icon: 'instagram', link: 'https://www.instagram.com' },
     { icon: 'whatsapp', link: 'https://wa.me/+971582150140' },
-  ]
+  ];
+
   useEffect(() => {
     axiosInstance.get('Categoire/')
       .then(response => {
@@ -42,20 +43,19 @@ const Footer = () => {
           <div className="col-md-3">
             <h5>Top Brands</h5>
             <ul className="list-unstyled">
-                {brands.slice(0, 8).map(brand => (
-                    <li key={brand.BrandID}><a href={`/Items?brand=${brand.BrandID}`}>{brand.Name}</a></li>
-                ))}
+              {brands.slice(0, 8).map(brand => (
+                <li key={brand.BrandID}><a href={`/Items?brand=${brand.BrandID}`}>{brand.Name}</a></li>
+              ))}
             </ul>
-        </div>
+          </div>
           <div className="col-md-3">
             <h5>About The Royal Luxury</h5>
             <ul className="list-unstyled">
               {['About Us', 'Privacy Policy', 'Terms & Conditions', 'FAQs', 'Sell Now'].map(item => {
-                const href =
-                item==='Sell Now'?'/sell':'/';
+                const href = item === 'Sell Now' ? '/sell' : '/';
                 return (
                   <li key={item}><a href={href}>{item}</a></li>
-                )
+                );
               })}
             </ul>
           </div>
@@ -68,20 +68,18 @@ const Footer = () => {
             </ul>
             <h5>We Are Here To Help You!</h5>
             <ul className="list-unstyled">
-              <li>800 LUX (800 589)</li>
+              <li><a href="tel:+971582150140">+971 58 215 0140</a></li>
               <li>Monday to Sunday</li>
               <li>9 am to 9 pm (GST)</li>
             </ul>
           </div>
         </div>
         <div className="text-center mt-3">
-          {social.map(app => {
-            return (
-              <a href={app.link} key={app.icon}>
-                <i className={`fab fa-${app.icon} icon-spacing`}></i>
-              </a>
-            );
-          })}
+          {social.map(app => (
+            <a href={app.link} key={app.icon} target="_blank" rel="noopener noreferrer">
+              <i className={`fab fa-${app.icon} icon-spacing`}></i>
+            </a>
+          ))}
         </div>
       </div>
     </footer>
