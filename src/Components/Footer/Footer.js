@@ -6,7 +6,11 @@ import axiosInstance from './../../axiosConfig/instance';
 const Footer = () => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
-
+  const social = [
+    { icon: 'facebook-f', link: 'https://www.facebook.com' },
+    { icon: 'instagram', link: 'https://www.instagram.com' },
+    { icon: 'whatsapp', link: 'https://wa.me/+971582150140' },
+  ]
   useEffect(() => {
     axiosInstance.get('Categoire/')
       .then(response => {
@@ -46,9 +50,13 @@ const Footer = () => {
           <div className="col-md-3">
             <h5>About The Royal Luxury</h5>
             <ul className="list-unstyled">
-              {['About Us', 'How Does It Work?', 'Privacy Policy', 'Terms & Conditions', 'FAQs', 'Sell Now', 'Delivery & Returns', 'Warranty'].map(item => (
-                <li key={item}><a href="/">{item}</a></li>
-              ))}
+              {['About Us', 'Privacy Policy', 'Terms & Conditions', 'FAQs', 'Sell Now'].map(item => {
+                const href =
+                item==='Sell Now'?'/sell':'/';
+                return (
+                  <li key={item}><a href={href}>{item}</a></li>
+                )
+              })}
             </ul>
           </div>
           <div className="col-md-3">
@@ -67,9 +75,13 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center mt-3">
-          {['facebook-f', 'instagram', 'whatsapp'].map(icon => (
-            <a href="/" key={icon}><i className={`fab fa-${icon} icon-spacing`}></i></a>
-          ))}
+          {social.map(app => {
+            return (
+              <a href={app.link} key={app.icon}>
+                <i className={`fab fa-${app.icon} icon-spacing`}></i>
+              </a>
+            );
+          })}
         </div>
       </div>
     </footer>
