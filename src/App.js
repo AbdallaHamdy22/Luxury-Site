@@ -7,7 +7,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import Footer from './Components/Footer/Footer';
 import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
-import Login from './Components/Login-Register/Login';
+import Login from './Components/Login-Register/LoginPage';
 import NotFound from './Components/NotFound/NotFound';
 import CartComponent from './Components/Cart/Cart';
 import Items from './Components/Shopping/Items';
@@ -30,6 +30,7 @@ import ShowOrder from './Components/ShowOrders/ShowOrder';
 import ScrollToTopButton from './Components/Upbtn/Upbtn';
 import ShowOrderDetails from './Components/ShowOrderDetails/ShowOrderDetails';
 import ScrollToTop from './Components/Upbtn/ScrolltoUp';
+import LoginSuccess from './Components/Login-Register/LoginSuccess';
 const App = () => {
   const dispatch = useDispatch();
 
@@ -47,7 +48,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sell" element={<Sell />} />
-        <Route path="/join" element={<Login />} />
+        {/* <Route path="/success" element={<LoginSuccess />} />
+        <Route path="/join" element={<Login />} /> */}
         <Route path="/accountDetails" element={<AccountSettings />} />
         <Route path="/userDetails/:category" element={<UserDetails />} />
         <Route path="/fav" element={<FavComponent />} />

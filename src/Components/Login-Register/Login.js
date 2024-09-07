@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaUser, FaEnvelope, FaLock, FaPhone, FaBirthdayCake, FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -14,6 +14,7 @@ const LoginModal = ({ setIsModalOpen }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLogin, setIsLogin] = useState(true);
   const [isFadingOut, setIsFadingOut] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -99,7 +100,7 @@ const LoginModal = ({ setIsModalOpen }) => {
           <button className="login-modal-close" onClick={() => setIsModalOpen(false)}>&times;</button>
           <div className="luxurious-sidebar">
             {/* <img src="/Images/Logo.png" alt="Website Logo" className="website-logo" /> */}
-            {isLogin? <h1>Welcome Back</h1>:<h1>Join us!</h1>}
+            {isLogin ? <h1>Welcome Back</h1> : <h1>Join us!</h1>}
             <p>{isLogin ? "Sign in to your account" : "Create a new account to get started"}</p>
             <div className="social-login-buttons">
               {/* <button onClick={() => handleSocialLogin('Google')} className="social-login google"> */}
@@ -112,9 +113,9 @@ const LoginModal = ({ setIsModalOpen }) => {
                 <FaFacebook className="social-icon" />
                 {isLogin ? "Sign in with Facebook" : "Sign up with Facebook"}
               </button> */}
-            <button onClick={toggleForm}>
-              {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
-            </button>
+              <button onClick={toggleForm}>
+                {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
+              </button>
             </div>
           </div>
           {isLogin ? (

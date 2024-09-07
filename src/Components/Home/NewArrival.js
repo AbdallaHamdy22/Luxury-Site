@@ -21,17 +21,14 @@ const NewArrivalsSection = () => {
   }, []);
 
   const changePriceInput = (price) => {
-    console.log("Raw price:", price); // Debugging log
 
     if (typeof price === 'string') {
       // If the price is a string, remove any non-numeric characters
       price = price.replace(/[^\d.-]/g, '');
-      console.log("Processed price (string):", price);
     }
 
     // Parse the price to a float
     const parsedPrice = parseFloat(price);
-    console.log("Parsed price:", parsedPrice);
 
     if (isNaN(parsedPrice)) {
       return 'N/A'; // Return 'N/A' if the price is not a valid number

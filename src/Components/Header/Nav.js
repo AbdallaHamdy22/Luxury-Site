@@ -116,7 +116,7 @@ const Navbar = () => {
                     {user.UserName}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item href="/userDetails/Submitted">
+                    <Dropdown.Item href="/userDetails/Available">
                       <FaBox /> My Items
                     </Dropdown.Item>
                     <Dropdown.Item href="/accountDetails">
@@ -138,7 +138,6 @@ const Navbar = () => {
           </div>
         </nav>
       )}
-
       {deviceType === 'desktop' && (
         <nav className="navbar navbar-expand-lg">
           <NavLink className="navbar-brand" to="/">
@@ -171,7 +170,7 @@ const Navbar = () => {
                       {user.UserName}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item href="/userDetails/Submitted">
+                      <Dropdown.Item href="/userDetails/Available">
                         <FaBox /> My Items
                       </Dropdown.Item>
                       <Dropdown.Item href="/accountDetails">
